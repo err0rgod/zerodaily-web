@@ -1,81 +1,139 @@
-# ZeroDaily
+# ZeroDaily Web (`zerodaily.in`)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Live Website](https://img.shields.io/badge/Live-zerodaily.in-blue)](https://zerodaily.in)
+[![Build & Deploy](https://github.com/err0rgod/zerodaily-web/actions/workflows/deploy.yml/badge.svg)](https://github.com/err0rgod/zerodaily-web/actions)
+[![Live Site](https://img.shields.io/badge/Live%20Site-zerodaily.in-06B6D4)](https://zerodaily.in)
+[![API](https://img.shields.io/badge/API-api.zerodaily.in-10B981)](https://api.zerodaily.in/docs)
+[![Edge](https://img.shields.io/badge/Edge-Cloudflare%20Pages-F38020)](https://pages.cloudflare.com)
 
-[![Tokens used](https://zerodaily.in/badge/tokens.svg)](https://zerodaily.in)
-[![Subscribers](https://zerodaily.in/badge/subscribers.svg)](https://zerodaily.in)
-[![Posts written](https://zerodaily.in/badge/posts.svg)](https://zerodaily.in)
+The modern, ultra-fast client-side web application and mobile app showcase for **ZeroDaily** — an automated, satirical tech intelligence platform delivering bite-sized 60-word roasted breakdowns across 6 technical domains.
 
-**ZeroDaily** is a high-performance, serverless, and automated cybersecurity newsletter platform that aggregates, summarizes, and broadcasts threat intelligence, CVEs, and security news. 
+---
 
-The live platform is accessible at: **[zerodaily.in](https://zerodaily.in)**
+## 1. Architecture Overview
 
-Badge labels and colors can be customized with `left_text`, `left_color`, and
-`right_color`, for example:
+ZeroDaily Web is an event-driven, serverless client running on **Cloudflare's global edge network**. It directly consumes the ZeroDaily serving API with sub-20ms edge latency and zero server runtime costs.
 
-```markdown
-[![Subscribers](https://zerodaily.in/badge/subscribers.svg?left_text=subscribers&left_color=BLACK&right_color=GREEN)](https://zerodaily.in)
+```
+[ Ingestion Pipeline (D:/bot1) ]
+         │
+         ▼
+[ AWS DynamoDB (us-east-1) ] ───► [ Cloudflare Edge CDN (api.zerodaily.in) ]
+         │                                       │
+         ▼                                       ▼
+[ AWS S3 Images (media.zerodaily.in) ]  [ ZeroDaily Web (zerodaily.in) ]
+                                                 │
+                                                 ▼
+                                     [ ZeroDaily Mobile App ]
 ```
 
 ---
 
-## Architectural Overview
+## 2. Key Features
 
-For a detailed breakdown of the serverless architecture, AWS infrastructure, and data flows, please refer to the [Architecture Documentation](ARCHITECTURE.md).
-
----
-
-## Key Features
-
-* **Automated Intelligence Ingestion**: Integrated parser utilities digest security feeds and employ Groq/OpenAI APIs to summarize technical CVEs into readable, engaging updates.
-* **Robust Double Opt-In Flow**: Protects against spam using cryptographic verification tokens. Generates unique verification and unsubscribe tokens per subscriber, with email deliverability managed through the Resend API.
-* **Analytics & Engagement Telemetry**: Custom JavaScript trackers log page-views and active reading session durations. The Flask endpoint logs session lengths and computes average read times to gauge content interest.
-* **Security Hardening**:
-  * Configurations loaded safely via environment variables.
-* **Continuous Integration**: Integrated GitHub Actions CI/CD pipeline automates syntax testing and verifies build dependencies on every push.
-* **Daily Hack Roasts**: Features a witty daily summary of recent hacks. Long security stories are neatly collapsed by default to keep the reading experience focused.
-* **SEO-Engine Ready**: Automatically updates an XML sitemap and a standard RSS feed dynamically. Includes a robots.txt configuration.
-* **Telemetry Dashboard**: An internal interface to monitor total/recent subscribers, database metrics, and system health status.
+- **Blazing Fast Global Delivery**: Static client-side bundle built with Vite, cached across 300+ Cloudflare edge locations with automatic Brotli/Gzip compression.
+- **Dynamic Chronological Feeds**: Real-time cursor-paginated feed queries to `https://api.zerodaily.in/api/v1/feed` with instant category filtering.
+- **6 Covered Tech Domains**:
+  - `cybersec`: Cybersecurity, active 0-days, and critical CVEs
+  - `ai`: Foundation models, benchmark battles, and autonomous agents
+  - `programming`: Software engineering, language updates, and runtimes
+  - `robotics`: Humanoids, industrial automation, and robotic systems
+  - `defense_aerospace`: Satellite swarms, hypersonics, and defense tech
+  - `hardware`: Semiconductors, GPUs, wafer fabrication, and quantum chips
+- **Full Story Reader Modal**: Clean deep-linking modal view (`/?id=...`) with satirical roast, factual breakdown, and direct original source links.
+- **Live Breaking News Ticker**: Dynamically polls recent breaking alerts from `/api/v1/notifications/history`.
+- **Mobile App Showcase**: Prominent hero banner and modals driving mobile downloads for Android (APK) and iOS (TestFlight).
+- **Resilient Offline Fallback**: Built-in cache fallback so the web UI renders gracefully even during network downtime.
 
 ---
 
-## Directory Structure
+## 3. Project Structure
 
 ```text
-├── D:\zeroday/
-│   ├── .github/                # GitHub Actions CI/CD workflows
-│   ├── web/                    # Flask Application & Web Layer
-│   │   ├── static/             # Local fallbacks for branding assets
-│   │   ├── templates/          # Jinja2 HTML templates
-│   │   └── main.py             # App entrypoint, routing, tracking, and dashboard endpoints
-│   ├── lib/                    # Core Business & Infrastructure Logic
-│   │   ├── blob_store.py       # Subscribers storage layer
-│   │   ├── content.py          # Issues content fetching, caching, and text search
-│   │   ├── db.py               # SQLAlchemy SQLite engine setup
-│   │   ├── health.py           # Multi-point system dependency diagnostic checks
-│   │   ├── notifications.py    # Resend email client integration
-│   │   └── validation.py       # Email normalization & parsing safety checks
-│   ├── data/                   # Local database storage volume directory
-│   ├── build_zip.py            # Deployment archiver that handles AWS Linux ZIP rules
-│   ├── handler.py              # WSGI adapter for Lambda invocation
-│   └── DEPLOYMENT_GUIDE.md     # Full step-by-step AWS Lambda deployment manual
+zerodaily-web/
+├── index.html                  # Single Page Application entrypoint
+├── vite.config.js              # Vite bundler configuration
+├── package.json                # Project dependencies and npm scripts
+├── public/
+│   ├── favicon.svg             # Vector brand icon
+│   └── _headers                # Cloudflare Pages edge cache & security headers
+├── src/
+│   ├── api.js                  # Typed API client for https://api.zerodaily.in
+│   ├── main.js                 # App state orchestrator, router, and event bus
+│   ├── styles.css              # Cyberpunk/terminal dark aesthetic & animations
+│   └── components/
+│       ├── header.js           # Navigation bar, search, and category pills
+│       ├── hero.js             # Mobile app showcase & download banner
+│       ├── feed.js             # Story card grid & cursor pagination
+│       ├── articleModal.js     # Full story reader modal
+│       └── footer.js           # Domain links, status pulse, and disclaimer
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # Automated CI/CD pipeline for Cloudflare Pages
+└── README.md                   # Technical documentation
 ```
 
 ---
 
-## Environment Variables Configuration
+## 4. Local Development
 
-Please refer to the `.env.example` file for a complete list of required environment variables. 
+### Prerequisites
+- Node.js >= 18.0.0
+- npm >= 9.0.0
+
+### Getting Started
+
+1. Clone or navigate to the repository:
+   ```bash
+   cd D:/zerodaily-web
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start local development server:
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:3000` in your browser.
+
+4. Build for production:
+   ```bash
+   npm run build
+   ```
+   Production assets will be emitted to `dist/`.
 
 ---
 
-## Content Aggregation & Scraper
+## 5. Configuration (`.env`)
 
-The web interface is decoupled from the content ingestion engine. To learn more about how security news is scraped, summarized via LLMs, and compiled into JSON issues, visit the [bot0 Scraper Repository](https://github.com/err0rgod/bot0).
+Create a `.env` file for local development overrides (optional):
+
+```bash
+# Base URL for the ZeroDaily serving API (defaults to production API)
+VITE_API_BASE_URL=https://api.zerodaily.in
+```
 
 ---
 
-## License
+## 6. CI/CD & Deployment
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project uses **GitHub Actions** (`.github/workflows/deploy.yml`) to automatically build and deploy `dist/` to **Cloudflare Pages** on every push to `main`.
+
+### Required GitHub Secrets
+
+To enable automated deployment, add these two secrets to your GitHub repository:
+- `CLOUDFLARE_API_TOKEN`: Cloudflare API token with `Cloudflare Pages: Edit` permissions.
+- `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare Account ID found in the Cloudflare dashboard URL or Workers/Pages overview.
+
+### Cloudflare Pages Setup
+
+1. In the Cloudflare Dashboard, go to **Workers & Pages > Create application > Pages > Connect to Git**.
+2. Select `zerodaily-web` repository.
+3. Configure build settings:
+   - **Framework preset**: `Vite`
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+4. Custom Domain:
+   - Attach your custom domain: `zerodaily.in` and `www.zerodaily.in`.
