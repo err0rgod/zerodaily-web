@@ -9,10 +9,14 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "bugs": {
-    "url": "https://github.com/err0rgod/zeroday/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/err0rgod/zerodaily-web.git"
   },
-  "homepage": "https://github.com/err0rgod/zeroday#readme",
+  "bugs": {
+    "url": "https://github.com/err0rgod/zerodaily-web/issues"
+  },
+  "homepage": "https://github.com/err0rgod/zerodaily-web#readme",
   "devDependencies": {
     "lucide": "^1.46.0",
     "vite": "^8.3.0"
