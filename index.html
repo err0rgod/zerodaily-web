@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZeroDaily - Satirical Tech Intelligence & Breaking 0-Day News</title>
+  <meta name="description" content="ZeroDaily roasts the tech industry with cynical, high-intelligence 60-word summaries across Cybersecurity, AI, Software Engineering, Robotics, and Hardware." />
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zerodaily.in" />
+  <meta property="og:title" content="ZeroDaily - Satirical Tech Intelligence" />
+  <meta property="og:description" content="Zero PR spin. We roast the facts in 60 words across 6 critical tech domains." />
+  <meta property="og:image" content="https://zerodaily.in/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07090E" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  
+  <!-- Preconnects -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://api.zerodaily.in" />
+  <link rel="preconnect" href="https://media.zerodaily.in" />
+
+  <!-- Tailwind CSS CDN for instant styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#07090E',
+              card: '#121927',
+              border: '#1E293B',
+              cyan: '#06B6D4',
+              emerald: '#10B981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#07090E] text-slate-100 min-h-screen selection:bg-cyan-500 selection:text-black">
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
