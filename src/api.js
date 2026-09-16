@@ -1,144 +1,111 @@
 /**
- * ZeroDaily Web API Client
- * Consumes the high-performance serving layer at https://api.zerodaily.in
+ * ZeroDaily Data & API Service
+ * High-signal, satirical 60-word tech intelligence.
  */
+
+export const CATEGORIES = [
+  { id: 'all', label: 'All Domains', tag: 'ALL', color: '#10b981' },
+  { id: 'cybersec', label: 'Cybersecurity', tag: 'CYBERSEC', color: '#f43f5e' },
+  { id: 'ai', label: 'AI & Models', tag: 'AI', color: '#8b5cf6' },
+  { id: 'programming', label: 'Software Eng', tag: 'SYSTEMS', color: '#06b6d4' },
+  { id: 'robotics', label: 'Robotics', tag: 'ROBOTICS', color: '#f59e0b' },
+  { id: 'defense_aerospace', label: 'Defense & Aero', tag: 'DEFENSE', color: '#3b82f6' },
+  { id: 'hardware', label: 'Silicon', tag: 'HARDWARE', color: '#ec4899' },
+];
+
+export const CURATED_ROASTS = [
+  {
+    category: 'cybersec',
+    badge: 'CVE-2026-KERNEL-PANIC',
+    heading: 'CrowdStrike Decides Computers Were A Mistake Anyway',
+    roast: 'A single null-pointer dereference in a routine sensor driver bricks 8.5 million Windows machines across airlines, hospitals, and emergency dispatch centers worldwide. IT administrators globally celebrate unexpected downtime before rediscovering the lost, forgotten art of physical USB thumb drives and handwritten paper logs in freezing server closets.',
+    wordCount: 52,
+    source: 'The Hacker News',
+    sourceUrl: 'https://thehackernews.com',
+    publishedAgo: '14m ago',
+  },
+  {
+    category: 'ai',
+    badge: 'BENCHMARK REALITY CHECK',
+    heading: 'Trillion-Parameter Reasoning Model Solves Quantum Physics, Stumbles on Strawberries',
+    roast: 'Silicon Valley celebrated the launch of another frontier reasoning model scoring 99.4% on graduate topology benchmarks. When prompted by enterprise clients paying $40/seat to identify how many letters "r" exist in the word "strawberry," the synthetic superintelligence hallucinated a 4-page academic defense asserting that letters are merely societal constructs.',
+    wordCount: 51,
+    source: 'Ars Technica',
+    sourceUrl: 'https://arstechnica.com',
+    publishedAgo: '42m ago',
+  },
+  {
+    category: 'programming',
+    badge: 'DEPENDENCY HELL',
+    heading: 'Developers Revolt as 19th Reactive State Library Drops Before Lunch',
+    roast: 'Engineers who spent the last three grueling sprint cycles migrating their entire production monorepo to the latest compile-time reactive signal architecture woke up to discover the library was officially deprecated by its 19-year-old creator, who pivoted to an all-new zero-runtime macro framework currently trending on Hacker News.',
+    wordCount: 51,
+    source: 'GitHub Releases',
+    sourceUrl: 'https://github.com',
+    publishedAgo: '1h ago',
+  },
+  {
+    category: 'robotics',
+    badge: 'HUMANOID MILESTONE',
+    heading: 'Bipedal Humanoid Opens Pantry Door After Only 800 Engineering Hours',
+    roast: 'Backed by $600 million in venture funding and 4 million GPU hours of reinforcement learning simulation, a domestic humanoid robot successfully turned a kitchen doorknob. The mechanical marvel celebrated by promptly losing gyro balance, tumbling backward, and violently executing an involuntary disassembly into a recycling bin.',
+    wordCount: 49,
+    source: 'IEEE Spectrum',
+    sourceUrl: 'https://spectrum.ieee.org',
+    publishedAgo: '3h ago',
+  },
+  {
+    category: 'defense_aerospace',
+    badge: 'ORBITAL TELEMETRY',
+    heading: 'Satellite Megaconstellation Briefly Mistaken for Alien Armada',
+    roast: 'Ground astronomers attempting deep-space cosmological observations were treated to three hundred identical streaks of reflective low-earth orbit debris. Defense telemetry confirmed the swarm was merely delivering 4K video streams to cruise ships, reminding the scientific community that commercial bandwidth will always trump the mysteries of the universe.',
+    wordCount: 48,
+    source: 'SpaceNews',
+    sourceUrl: 'https://spacenews.com',
+    publishedAgo: '5h ago',
+  },
+  {
+    category: 'hardware',
+    badge: 'LITHOGRAPHY CRUNCH',
+    heading: 'Fab Delays 2nm Chips Because Physics Refused To Sign NDA',
+    roast: 'Semiconductor executives held an emergency summit after extreme ultraviolet lithography scanners encountered unexpected quantum tunneling constraints at sub-3-nanometer scale. Engineers requested two more quarters to politely negotiate with the laws of thermodynamics, while graphics card scalpers preemptively doubled the prices of existing inventory.',
+    wordCount: 46,
+    source: 'Tom’s Hardware',
+    sourceUrl: 'https://tomshardware.com',
+    publishedAgo: '8h ago',
+  }
+];
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.zerodaily.in';
 
-export const CATEGORIES = [
-  { key: 'all', name: 'All Domains', color: '#06B6D4', icon: 'zap' },
-  { key: 'cybersec', name: 'Cybersecurity', color: '#EF4444', icon: 'shield-alert' },
-  { key: 'ai', name: 'Artificial Intelligence', color: '#8B5CF6', icon: 'cpu' },
-  { key: 'programming', name: 'Software Eng', color: '#10B981', icon: 'code-2' },
-  { key: 'robotics', name: 'Robotics', color: '#F59E0B', icon: 'bot' },
-  { key: 'defense_aerospace', name: 'Defense & Aero', color: '#3B82F6', icon: 'plane' },
-  { key: 'hardware', name: 'Silicon & Hardware', color: '#EC4899', icon: 'microchip' }
-];
-
-export async function fetchFeed(category = 'all', cursor = null, limit = 18) {
+export async function fetchLiveRoasts() {
   try {
-    const isGlobal = !category || category === 'all';
-    const endpoint = isGlobal
-      ? `${API_BASE_URL}/api/v1/feed`
-      : `${API_BASE_URL}/api/v1/feed/${encodeURIComponent(category)}`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
 
-    const params = new URLSearchParams({ limit: limit.toString() });
-    if (cursor) {
-      params.append('cursor', cursor);
-    }
-
-    const res = await fetch(`${endpoint}?${params.toString()}`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/feed?limit=6`, {
       method: 'GET',
-      headers: {
-        'Accept': 'application/json'
-      }
+      headers: { 'Accept': 'application/json' },
+      signal: controller.signal
     });
+    clearTimeout(timeoutId);
 
-    if (!res.ok) {
-      throw new Error(`API responded with status ${res.status}`);
-    }
-
-    const json = await res.json();
-    return {
-      success: true,
-      articles: json.data || [],
-      hasMore: json.pagination?.has_more || false,
-      nextCursor: json.pagination?.next_cursor || null
-    };
-  } catch (err) {
-    console.warn('[API Warning] Failed fetching live feed from', API_BASE_URL, err);
-    // Fallback gracefully to demo articles if backend is unreachable
-    return getFallbackFeed(category);
-  }
-}
-
-export async function fetchRecentAlerts(limit = 5) {
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/notifications/history?limit=${limit}`, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' }
-    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    return json.data || [];
-  } catch (err) {
-    console.warn('[API Warning] Failed fetching breaking alerts:', err);
-    return [];
-  }
-}
-
-export async function fetchArticle(articleId) {
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/article?id=${encodeURIComponent(articleId)}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    return json.data || null;
-  } catch (err) {
-    console.warn('[API Warning] Failed fetching article detail:', err);
-    return null;
-  }
-}
-
-function getFallbackFeed(category) {
-  const sampleArticles = [
-    {
-      id: 'https://example.com/crowdstrike-update',
-      category: 'cybersec',
-      heading: 'CrowdStrike Decides Computers Were A Mistake Anyway',
-      shortSummary: 'A single null-pointer dereference in a routine sensor driver bricks 8.5 million Windows machines across airlines, banks, and 911 dispatch centers. IT admins globally rediscover the lost art of physical thumb drives.',
-      fullSummary: 'In what cybersecurity historians are already calling the most comprehensive self-inflicted blackout in computing history, a routine channel file update shipped by CrowdStrike bypassed standard regression testing and immediately triggered kernel panics across millions of enterprise endpoints. Ground stop orders were issued at major international airports, hospital surgeries were rescheduled onto paper charts, and thousands of sysadmins were observed crying softly in server closets across five continents.',
-      published_at: new Date().toISOString(),
-      link: 'https://thehackernews.com',
-      image_url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
-      is_breaking: true,
-      push_punchline: 'Faulty CrowdStrike driver grounds flights worldwide'
-    },
-    {
-      id: 'https://example.com/frontier-model-hype',
-      category: 'ai',
-      heading: 'AI Startup Valued at $10 Billion For Solving Problems That Do Not Exist',
-      shortSummary: 'The latest trillion-parameter reasoning model scores 99.4% on graduate-level quantum physics benchmarks, yet repeatedly struggles to count the number of letter "r"s in strawberry.',
-      fullSummary: 'Venture capitalists poured another record round into autonomous cognitive orchestration architectures this morning. Benchmarks show staggering breakthroughs in theoretical algebraic topology, but enterprise customers deploying the model to automate customer support reported it offered entire inventory catalogs for seventy-five cents after polite persuasion.',
-      published_at: new Date(Date.now() - 3600000 * 3).toISOString(),
-      link: 'https://techcrunch.com',
-      image_url: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80',
-      is_breaking: false,
-      push_punchline: null
-    },
-    {
-      id: 'https://example.com/javascript-framework-73',
-      category: 'programming',
-      heading: 'Developers Revolt as 14th State Management Library of the Week Released',
-      shortSummary: 'Engineers who spent the last three months migrating their production codebase to the latest syntax discover it was officially deprecated twenty minutes before lunch.',
-      fullSummary: 'The JavaScript ecosystem achieved peak velocity today as yet another zero-runtime compile-time reactive signals framework launched with 10,000 GitHub stars within four hours of publication. Senior engineers tasked with maintaining mission-critical payroll software confirmed they will continue running Node 14 until retirement.',
-      published_at: new Date(Date.now() - 3600000 * 7).toISOString(),
-      link: 'https://arstechnica.com',
-      image_url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
-      is_breaking: false,
-      push_punchline: null
-    },
-    {
-      id: 'https://example.com/humanoid-robot-walk',
-      category: 'robotics',
-      heading: 'Humanoid Robot Successfully Opens Door After Only 400 Engineering Hours',
-      shortSummary: 'Trained on 4 million GPU hours of reinforcement learning simulation, the bipedal marvel opens a standard pantry door before triumphantly falling backward into a recycling bin.',
-      fullSummary: 'Robotics researchers unveiled their latest generation of general-purpose domestic automation units today. Equipped with hydraulic actuators and stereoscopic vision, the machine completed a laundry folding routine in just four and a half hours, tearing only three expensive shirts in the process.',
-      published_at: new Date(Date.now() - 3600000 * 12).toISOString(),
-      link: 'https://wired.com',
-      image_url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
-      is_breaking: false,
-      push_punchline: null
+    if (Array.isArray(json.data) && json.data.length > 0) {
+      return json.data.map(item => ({
+        category: item.category || 'cybersec',
+        badge: item.category?.toUpperCase() || 'BREAKING',
+        heading: item.heading || 'ZeroDaily Intelligence Report',
+        roast: item.shortSummary || item.fullSummary || 'No summary available.',
+        wordCount: (item.shortSummary || item.fullSummary || '').split(/\s+/).filter(Boolean).length || 60,
+        source: item.source_name || 'Original Source',
+        sourceUrl: item.link || 'https://zerodaily.in',
+        publishedAgo: 'Live',
+      }));
     }
-  ];
-
-  const filtered = (category && category !== 'all')
-    ? sampleArticles.filter(a => a.category === category)
-    : sampleArticles;
-
-  return {
-    success: true,
-    articles: filtered,
-    hasMore: false,
-    nextCursor: null
-  };
+  } catch {
+    // Gracefully fallback
+  }
+  return CURATED_ROASTS;
 }
