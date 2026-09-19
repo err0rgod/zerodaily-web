@@ -3,6 +3,11 @@
  * High-signal, satirical 60-word tech intelligence.
  */
 
+export const APP_REPO = 'err0rgod/zerodaily-app';
+export const DIRECT_APK_URL = `https://github.com/${APP_REPO}/releases/latest/download/ZeroDaily.apk`;
+export const RELEASES_URL = `https://github.com/${APP_REPO}/releases`;
+export const REPO_URL = `https://github.com/${APP_REPO}`;
+
 export const CATEGORIES = [
   { id: 'all', label: 'All Domains', tag: 'ALL', color: '#10b981' },
   { id: 'cybersec', label: 'Cybersecurity', tag: 'CYBERSEC', color: '#f43f5e' },
@@ -108,4 +113,50 @@ export async function fetchLiveRoasts() {
     // Gracefully fallback
   }
   return CURATED_ROASTS;
+}
+
+/**
+ * Dynamically queries GitHub Releases API for err0rgod/zerodaily-app
+ * to get the latest APK download asset, release tag, and file size.
+ */
+export async function fetchLatestAppRelease() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+    const res = await fetch(`https://api.github.com/repos/${APP_REPO}/releases/latest`, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' },
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
+    if (!res.ok) throw new Error(`GitHub API HTTP ${res.status}`);
+    const data = await res.json();
+
+    const apkAsset = data.assets?.find(a => a.name.endsWith('.apk'));
+    const shaAsset = data.assets?.find(a => a.name.includes('SHA256') || a.name.endsWith('.txt'));
+
+    const sizeMb = apkAsset?.size ? (apkAsset.size / (1024 * 1024)).toFixed(1) + ' MB' : null;
+
+    return {
+      version: data.tag_name || 'Latest',
+      name: data.name || `ZeroDaily Release ${data.tag_name || ''}`,
+      apkUrl: apkAsset?.browser_download_url || DIRECT_APK_URL,
+      apkSize: sizeMb,
+      releaseUrl: data.html_url || RELEASES_URL,
+      shaUrl: shaAsset?.browser_download_url || null,
+      publishedAt: data.published_at ? new Date(data.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : null
+    };
+  } catch (err) {
+    console.debug('[Release Service] Using fallback direct APK URL:', err);
+    return {
+      version: 'Latest',
+      name: 'ZeroDaily Android Release',
+      apkUrl: DIRECT_APK_URL,
+      apkSize: null,
+      releaseUrl: RELEASES_URL,
+      shaUrl: null,
+      publishedAt: null
+    };
+  }
 }

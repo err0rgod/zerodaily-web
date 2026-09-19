@@ -1,3 +1,5 @@
+import { DIRECT_APK_URL, RELEASES_URL, REPO_URL } from '../api.js';
+
 export function renderDownloads() {
   const section = document.createElement('section');
   section.id = 'access';
@@ -11,7 +13,7 @@ export function renderDownloads() {
         <span class="font-mono text-xs font-semibold text-emerald-400 uppercase tracking-widest">[ 04 / Access ]</span>
         <h2 class="text-2xl sm:text-3xl font-bold text-white mt-2 mb-3">Get ZeroDaily.</h2>
         <p class="text-slate-400 text-sm">
-          No mandatory accounts. No tracking. Free, fast, and open source.
+          No mandatory accounts. No telemetry tracking. Free, fast, and open source.
         </p>
       </div>
 
@@ -22,27 +24,45 @@ export function renderDownloads() {
         <div class="p-6 rounded-xl bg-[#0e121a] border border-[#1e2638] flex flex-col justify-between hover-card">
           <div>
             <div class="flex items-center justify-between mb-4">
-              <span class="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                AVAILABLE NOW
+              <span id="downloads-badge" class="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                v0.1.3 AVAILABLE
               </span>
               <svg class="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M3.609 1.814L13.792 12 3.61 22.186a1.986 1.986 0 0 1-.61-.924V2.738c.11-.343.32-.66.61-.924zm11.59 11.59l2.42-2.42a1.39 1.39 0 0 0 0-1.968l-2.42-2.42-7.58 7.58 7.58-7.58zm1.406-3.376l-2.185-1.261-3.648 3.648 3.648 3.648 2.185-1.261a1.442 1.442 0 0 0 0-2.398l-.001-.001zM4.995 1.428l8.016 8.016-8.016 8.016a.48.48 0 0 1-.386-.145L4.61 17.3a1.41 1.41 0 0 0 0-1.996l3.99-3.99-3.99-3.99a1.41 1.41 0 0 0 0-1.996L4.61 5.313a.478.478 0 0 1 .385-.145z"/>
               </svg>
             </div>
-            <h3 class="text-base font-semibold text-white mb-2">Android App (APK)</h3>
+            <h3 class="text-base font-semibold text-white mb-1">Android App (APK)</h3>
+            <div id="downloads-apk-info" class="font-mono text-[11px] text-slate-400 mb-3">
+              Standalone Release &bull; 71.2 MB
+            </div>
             <p class="text-xs text-slate-400 leading-relaxed mb-6">
-              Swipe-based 60-word feed with offline caching, category filtering, and instant breaking 0-day push alerts.
+              Swipe-based 60-word feed with offline caching, domain filtering, and real-time breaking 0-day alerts.
             </p>
           </div>
-          <a
-            href="https://github.com/err0rgod/zerodaily/releases"
-            target="_blank"
-            rel="noopener"
-            class="w-full py-2.5 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs text-center transition-all flex items-center justify-center gap-1.5"
-          >
-            <span>Download APK</span>
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-          </a>
+
+          <div class="space-y-3">
+            <a
+              id="downloads-apk-btn"
+              href="${DIRECT_APK_URL}"
+              data-apk-link="true"
+              download
+              class="w-full py-2.5 px-4 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs text-center transition-all flex items-center justify-center gap-1.5 shadow-sm"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span id="downloads-btn-text">Download ZeroDaily.apk</span>
+            </a>
+
+            <div class="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 px-1">
+              <a id="downloads-sha-link" href="${RELEASES_URL}" target="_blank" rel="noopener" class="hover:text-slate-300 transition-colors flex items-center gap-1">
+                <span>SHA-256 Checksum</span>
+                <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
+              <a id="downloads-release-link" href="${RELEASES_URL}" target="_blank" rel="noopener" class="text-emerald-400 hover:underline flex items-center gap-1">
+                <span>All Releases</span>
+                <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
+            </div>
+          </div>
         </div>
 
         <!-- iOS Card -->
@@ -58,11 +78,11 @@ export function renderDownloads() {
             </div>
             <h3 class="text-base font-semibold text-white mb-2">iOS TestFlight</h3>
             <p class="text-xs text-slate-400 leading-relaxed mb-6">
-              Apple App Store review is currently in progress. Watch GitHub releases or star the project for release updates.
+              Apple App Store / TestFlight review is currently pending. Track repo releases or star the project on GitHub for updates.
             </p>
           </div>
           <a
-            href="https://github.com/err0rgod/zerodaily"
+            href="${REPO_URL}"
             target="_blank"
             rel="noopener"
             class="w-full py-2.5 px-4 rounded-lg bg-[#121722] hover:bg-[#161e2c] border border-[#1e2638] text-slate-300 font-medium text-xs text-center transition-all flex items-center justify-center gap-1.5"
@@ -104,6 +124,11 @@ export function renderDownloads() {
           </a>
         </div>
 
+      </div>
+
+      <!-- Helper tip -->
+      <div class="mt-6 text-center text-xs font-mono text-slate-500">
+        Direct link: <a href="/apk" class="text-emerald-400 hover:underline">zerodaily.in/apk</a> always redirects to the newest Android APK.
       </div>
 
     </div>

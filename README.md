@@ -4,6 +4,7 @@
 [![Live Site](https://img.shields.io/badge/Live%20Site-zerodaily.in-10B981)](https://zerodaily.in)
 [![API](https://img.shields.io/badge/API-api.zerodaily.in-06B6D4)](https://api.zerodaily.in/docs)
 [![Edge](https://img.shields.io/badge/Edge-Cloudflare%20Pages-F38020)](https://pages.cloudflare.com)
+[![Latest APK](https://img.shields.io/badge/Android%20APK-Download-emerald)](https://zerodaily.in/apk)
 
 The ultra-fast, minimal intro website and app showcase for **ZeroDaily** — an automated, satirical tech intelligence platform delivering bite-sized 60-word roasted breakdowns across 6 technical domains.
 
@@ -18,13 +19,14 @@ zerodaily-web/
 ├── package.json                # Project dependencies and npm scripts
 ├── public/
 │   ├── favicon.svg             # Vector brand icon
-│   └── _headers                # Cloudflare Pages edge cache & security headers
+│   ├── _headers                # Cloudflare Pages edge cache & security headers
+│   └── _redirects              # Direct dynamic redirects (/apk, /download -> latest APK)
 ├── src/
-│   ├── api.js                  # Data service with curated 60-word roasts & live fallback
-│   ├── main.js                 # App orchestrator mounting clean modular sections
+│   ├── api.js                  # Data service & dynamic GitHub Releases resolver
+│   ├── main.js                 # App orchestrator & client-side release hydrator
 │   ├── styles.css              # Minimal dark aesthetic & typography
 │   └── components/
-│       ├── header.js           # Minimal navbar with brand mark & download CTA
+│       ├── header.js           # Minimal navbar with dynamic APK CTA
 │       ├── hero.js             # High-impact typography, copy, and key metrics
 │       ├── roastPreview.js     # Interactive 60-word roast viewer with domain switcher
 │       ├── domains.js          # The 6 core engineering domains
@@ -41,6 +43,9 @@ zerodaily-web/
 
 ## 2. Key Highlights
 
+- **Dynamic Latest APK Resolution**:
+  - `https://zerodaily.in/apk` and `https://zerodaily.in/download` natively redirect (HTTP 302) to the newest release APK from [`err0rgod/zerodaily-app`](https://github.com/err0rgod/zerodaily-app).
+  - Web UI dynamically queries the GitHub Releases API on load to display the live version tag (e.g., `v0.1.3`), file size (~71.2 MB), and direct download asset link.
 - **Zero Fluff**: Minimalist, distraction-free intro website built with clean dark aesthetic and crisp typography (Inter + JetBrains Mono).
 - **Interactive Roast Preview**: Instant showcase of ZeroDaily's 60-word cynical summaries with domain filters and one-click copy.
 - **6 Covered Tech Domains**:

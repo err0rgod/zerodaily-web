@@ -1,3 +1,5 @@
+import { DIRECT_APK_URL, REPO_URL } from '../api.js';
+
 export function renderHero() {
   const section = document.createElement('section');
   section.className = 'relative pt-20 pb-16 md:pt-28 md:pb-24 overflow-hidden';
@@ -11,7 +13,7 @@ export function renderHero() {
       <!-- Eyebrow Pill -->
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121722] border border-[#1e2638] text-[11px] font-mono font-medium text-slate-300 mb-6 hover:border-emerald-500/40 transition-colors">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 status-dot"></span>
-        <span>SATIRICAL TECH INTELLIGENCE IN 60 WORDS</span>
+        <span id="hero-status-pill">STANDALONE ANDROID APK RELEASE READY</span>
       </div>
 
       <!-- Main Headline -->
@@ -31,17 +33,19 @@ export function renderHero() {
       <!-- Primary Action Buttons -->
       <div class="flex flex-wrap items-center justify-center gap-3.5 mb-14">
         <a
-          href="https://github.com/err0rgod/zerodaily/releases"
-          target="_blank"
-          rel="noopener"
+          id="hero-download-btn"
+          href="${DIRECT_APK_URL}"
+          data-apk-link="true"
+          download
           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-sm shadow-lg shadow-emerald-950/40 hover:shadow-emerald-900/60 transition-all hover:scale-[1.02]"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span>Download Android APK</span>
+          <span id="hero-btn-text">Download Android APK</span>
+          <span id="hero-version-pill" class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-slate-950/20 text-slate-900 font-bold hidden sm:inline">v0.1.3</span>
         </a>
 
         <a
-          href="https://github.com/err0rgod/zerodaily"
+          href="${REPO_URL}"
           target="_blank"
           rel="noopener"
           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#121722] hover:bg-[#161e2c] border border-[#1e2638] hover:border-slate-600 text-slate-200 font-medium text-sm transition-all"
@@ -77,7 +81,7 @@ export function renderHero() {
         </div>
         <div class="p-3 rounded-lg bg-[#0e121a]/60 border border-[#1e2638]/60">
           <div class="font-mono text-lg font-bold text-white">&lt;20ms</div>
-          <div class="text-[11px] text-slate-400">Edge edge delivery</div>
+          <div class="text-[11px] text-slate-400">Edge delivery</div>
         </div>
       </div>
 

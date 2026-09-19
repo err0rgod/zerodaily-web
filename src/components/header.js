@@ -1,3 +1,5 @@
+import { DIRECT_APK_URL, REPO_URL } from '../api.js';
+
 export function renderHeader() {
   const nav = document.createElement('header');
   nav.className = 'sticky top-0 z-50 w-full border-b border-[#1e2638] bg-[#090a0f]/80 backdrop-blur-md transition-all';
@@ -12,7 +14,7 @@ export function renderHeader() {
         </div>
         <div class="flex items-baseline gap-1.5">
           <span class="font-bold tracking-tight text-white text-base">ZeroDaily</span>
-          <span class="font-mono text-[10px] text-emerald-400 uppercase tracking-wider font-semibold">v1.0</span>
+          <span id="nav-version-badge" class="font-mono text-[10px] text-emerald-400 uppercase tracking-wider font-semibold">APK READY</span>
         </div>
       </a>
 
@@ -31,7 +33,7 @@ export function renderHeader() {
       <!-- Action Buttons -->
       <div class="hidden sm:flex items-center gap-3">
         <a
-          href="https://github.com/err0rgod/zerodaily"
+          href="${REPO_URL}"
           target="_blank"
           rel="noopener"
           class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#1e2638] bg-[#121722] hover:bg-[#161e2c] hover:border-slate-600 text-xs font-medium text-slate-300 transition-all"
@@ -43,13 +45,14 @@ export function renderHeader() {
         </a>
 
         <a
-          href="https://github.com/err0rgod/zerodaily/releases"
-          target="_blank"
-          rel="noopener"
+          id="nav-download-btn"
+          href="${DIRECT_APK_URL}"
+          data-apk-link="true"
+          download
           class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-semibold shadow-sm transition-all"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span>Download APK</span>
+          <span class="btn-text">Download APK</span>
         </a>
       </div>
 
@@ -68,10 +71,16 @@ export function renderHeader() {
       <a href="#access" class="block text-sm font-medium text-slate-300 hover:text-white py-1">Get App</a>
       <a href="https://api.zerodaily.in/docs" target="_blank" rel="noopener" class="block text-sm font-medium text-slate-300 hover:text-white py-1">API Docs ↗</a>
       <div class="pt-2 flex gap-3">
-        <a href="https://github.com/err0rgod/zerodaily/releases" target="_blank" rel="noopener" class="w-full text-center px-4 py-2 rounded-lg bg-emerald-500 text-slate-950 text-xs font-semibold">
+        <a
+          id="mobile-download-btn"
+          href="${DIRECT_APK_URL}"
+          data-apk-link="true"
+          download
+          class="w-full text-center px-4 py-2 rounded-lg bg-emerald-500 text-slate-950 text-xs font-semibold"
+        >
           Download APK
         </a>
-        <a href="https://github.com/err0rgod/zerodaily" target="_blank" rel="noopener" class="w-full text-center px-4 py-2 rounded-lg border border-[#1e2638] bg-[#121722] text-slate-300 text-xs font-medium">
+        <a href="${REPO_URL}" target="_blank" rel="noopener" class="w-full text-center px-4 py-2 rounded-lg border border-[#1e2638] bg-[#121722] text-slate-300 text-xs font-medium">
           GitHub
         </a>
       </div>

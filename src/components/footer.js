@@ -1,3 +1,5 @@
+import { RELEASES_URL, REPO_URL } from '../api.js';
+
 export function renderFooter() {
   const footer = document.createElement('footer');
   footer.className = 'border-t border-[#1e2638] bg-[#090a0f] py-12';
@@ -21,10 +23,10 @@ export function renderFooter() {
 
         <!-- Center / Right: Links -->
         <div class="flex items-center gap-6 text-xs text-slate-400 font-medium">
-          <a href="https://github.com/err0rgod/zerodaily/releases" target="_blank" rel="noopener" class="hover:text-white transition-colors">
+          <a href="${RELEASES_URL}" target="_blank" rel="noopener" class="hover:text-white transition-colors">
             Releases
           </a>
-          <a href="https://github.com/err0rgod/zerodaily" target="_blank" rel="noopener" class="hover:text-white transition-colors">
+          <a href="${REPO_URL}" target="_blank" rel="noopener" class="hover:text-white transition-colors">
             GitHub
           </a>
           <a href="https://api.zerodaily.in/docs" target="_blank" rel="noopener" class="hover:text-white transition-colors">
