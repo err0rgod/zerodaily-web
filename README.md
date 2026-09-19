@@ -2,7 +2,6 @@
 
 [![Build & Deploy](https://github.com/err0rgod/zerodaily-web/actions/workflows/deploy.yml/badge.svg)](https://github.com/err0rgod/zerodaily-web/actions)
 [![Live Site](https://img.shields.io/badge/Live%20Site-zerodaily.in-10B981)](https://zerodaily.in)
-[![API](https://img.shields.io/badge/API-api.zerodaily.in-06B6D4)](https://api.zerodaily.in/docs)
 [![Edge](https://img.shields.io/badge/Edge-Cloudflare%20Pages-F38020)](https://pages.cloudflare.com)
 [![Latest APK](https://img.shields.io/badge/Android%20APK-Download-emerald)](https://zerodaily.in/apk)
 
@@ -31,7 +30,7 @@ zerodaily-web/
 │       ├── roastPreview.js     # Interactive 60-word roast viewer with domain switcher
 │       ├── domains.js          # The 6 core engineering domains
 │       ├── howItWorks.js       # 3-step automated pipeline breakdown
-│       ├── downloads.js        # Android APK, iOS TestFlight & API curl snippet
+│       ├── downloads.js        # Android APK & iOS TestFlight download cards
 │       └── footer.js           # Status pulse, links, and MIT license
 ├── .github/
 │   └── workflows/

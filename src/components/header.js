@@ -24,10 +24,6 @@ export function renderHeader() {
         <a href="#domains" class="hover:text-white transition-colors">Domains</a>
         <a href="#pipeline" class="hover:text-white transition-colors">Architecture</a>
         <a href="#access" class="hover:text-white transition-colors">Get App</a>
-        <a href="https://api.zerodaily.in/docs" target="_blank" rel="noopener" class="hover:text-white transition-colors flex items-center gap-1">
-          API
-          <svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-        </a>
       </nav>
 
       <!-- Action Buttons -->
@@ -69,7 +65,6 @@ export function renderHeader() {
       <a href="#domains" class="block text-sm font-medium text-slate-300 hover:text-white py-1">Domains</a>
       <a href="#pipeline" class="block text-sm font-medium text-slate-300 hover:text-white py-1">Architecture</a>
       <a href="#access" class="block text-sm font-medium text-slate-300 hover:text-white py-1">Get App</a>
-      <a href="https://api.zerodaily.in/docs" target="_blank" rel="noopener" class="block text-sm font-medium text-slate-300 hover:text-white py-1">API Docs ↗</a>
       <div class="pt-2 flex gap-3">
         <a
           id="mobile-download-btn"

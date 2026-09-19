@@ -81,40 +81,6 @@ export const CURATED_ROASTS = [
   }
 ];
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.zerodaily.in';
-
-export async function fetchLiveRoasts() {
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
-
-    const res = await fetch(`${API_BASE_URL}/api/v1/feed?limit=6`, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' },
-      signal: controller.signal
-    });
-    clearTimeout(timeoutId);
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    if (Array.isArray(json.data) && json.data.length > 0) {
-      return json.data.map(item => ({
-        category: item.category || 'cybersec',
-        badge: item.category?.toUpperCase() || 'BREAKING',
-        heading: item.heading || 'ZeroDaily Intelligence Report',
-        roast: item.shortSummary || item.fullSummary || 'No summary available.',
-        wordCount: (item.shortSummary || item.fullSummary || '').split(/\s+/).filter(Boolean).length || 60,
-        source: item.source_name || 'Original Source',
-        sourceUrl: item.link || 'https://zerodaily.in',
-        publishedAgo: 'Live',
-      }));
-    }
-  } catch {
-    // Gracefully fallback
-  }
-  return CURATED_ROASTS;
-}
-
 /**
  * Dynamically queries GitHub Releases API for err0rgod/zerodaily-app
  * to get the latest APK download asset, release tag, and file size.

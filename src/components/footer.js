@@ -29,8 +29,8 @@ export function renderFooter() {
           <a href="${REPO_URL}" target="_blank" rel="noopener" class="hover:text-white transition-colors">
             GitHub
           </a>
-          <a href="https://api.zerodaily.in/docs" target="_blank" rel="noopener" class="hover:text-white transition-colors">
-            API Docs
+          <a href="#preview" class="hover:text-white transition-colors">
+            Format Preview
           </a>
           <div class="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400/90 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
