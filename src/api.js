@@ -16,6 +16,7 @@ export const CATEGORIES = [
   { id: 'robotics', label: 'Robotics', tag: 'ROBOTICS', color: '#f59e0b' },
   { id: 'defense_aerospace', label: 'Defense & Aero', tag: 'DEFENSE', color: '#3b82f6' },
   { id: 'hardware', label: 'Silicon', tag: 'HARDWARE', color: '#ec4899' },
+  { id: 'finance', label: 'Finance', tag: 'FINANCE', color: '#10b981' },
 ];
 
 export const CURATED_ROASTS = [
@@ -78,6 +79,16 @@ export const CURATED_ROASTS = [
     source: 'Tom’s Hardware',
     sourceUrl: 'https://tomshardware.com',
     publishedAgo: '8h ago',
+  },
+  {
+    category: 'finance',
+    badge: 'FLASH CRASH & FINTECH',
+    heading: 'High-Frequency Algo Liquidates $400M Because Fiber Cable Was 2 Inches Too Long',
+    roast: 'A Wall Street quantitative fund suffered an unexpected cascade liquidation after microwave latency between Chicago and New Jersey drifted by three nanoseconds. Meanwhile, a venture-backed neobank celebrating its Series C accidentally credited negative overdraft balances as taxable dividends, prompting retail degens to furiously arbitrage breakfast burritos.',
+    wordCount: 49,
+    source: 'Bloomberg Markets',
+    sourceUrl: 'https://bloomberg.com',
+    publishedAgo: '10h ago',
   }
 ];
 

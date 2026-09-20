@@ -25,7 +25,7 @@ export function renderDownloads() {
           <div>
             <div class="flex items-center justify-between mb-4">
               <span id="downloads-badge" class="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                v0.1.3 AVAILABLE
+                LATEST APK READY
               </span>
               <svg class="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M3.609 1.814L13.792 12 3.61 22.186a1.986 1.986 0 0 1-.61-.924V2.738c.11-.343.32-.66.61-.924zm11.59 11.59l2.42-2.42a1.39 1.39 0 0 0 0-1.968l-2.42-2.42-7.58 7.58 7.58-7.58zm1.406-3.376l-2.185-1.261-3.648 3.648 3.648 3.648 2.185-1.261a1.442 1.442 0 0 0 0-2.398l-.001-.001zM4.995 1.428l8.016 8.016-8.016 8.016a.48.48 0 0 1-.386-.145L4.61 17.3a1.41 1.41 0 0 0 0-1.996l3.99-3.99-3.99-3.99a1.41 1.41 0 0 0 0-1.996L4.61 5.313a.478.478 0 0 1 .385-.145z"/>
@@ -33,7 +33,7 @@ export function renderDownloads() {
             </div>
             <h3 class="text-base font-semibold text-white mb-1">Android Mobile App</h3>
             <div id="downloads-apk-info" class="font-mono text-[11px] text-slate-400 mb-3">
-              Standalone Release &bull; 71.2 MB
+              Standalone Release &bull; Direct APK
             </div>
             <p class="text-xs text-slate-400 leading-relaxed mb-6">
               Swipe-based 60-word feed with offline caching, domain filtering, and real-time breaking 0-day alerts. Built natively for Android.

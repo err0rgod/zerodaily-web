@@ -27,7 +27,7 @@ export function renderHero() {
       <!-- Subtitle -->
       <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed mb-9">
         ZeroDaily cuts through corporate hype, venture capital buzzwords, and marketing spin. 
-        Raw, cynical, high-signal breakdowns across cybersecurity, AI, software engineering, defense, and silicon.
+        Raw, cynical, high-signal breakdowns across cybersecurity, AI, software engineering, defense, silicon, and high-frequency finance.
       </p>
 
       <!-- Primary Action Buttons -->
@@ -41,7 +41,7 @@ export function renderHero() {
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
           <span id="hero-btn-text">Download Android APK</span>
-          <span id="hero-version-pill" class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-slate-950/20 text-slate-900 font-bold hidden sm:inline">v0.1.3</span>
+          <span id="hero-version-pill" class="text-[11px] font-mono px-1.5 py-0.5 rounded bg-slate-950/20 text-slate-900 font-bold hidden sm:inline">LATEST</span>
         </a>
 
         <a
@@ -72,7 +72,7 @@ export function renderHero() {
           <div class="text-[11px] text-slate-400">Strict story ceiling</div>
         </div>
         <div class="p-3 rounded-lg bg-[#0e121a]/60 border border-[#1e2638]/60">
-          <div class="font-mono text-lg font-bold text-white">6 domains</div>
+          <div class="font-mono text-lg font-bold text-white">7 domains</div>
           <div class="text-[11px] text-slate-400">Deep technical focus</div>
         </div>
         <div class="p-3 rounded-lg bg-[#0e121a]/60 border border-[#1e2638]/60">

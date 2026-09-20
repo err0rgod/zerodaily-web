@@ -5,7 +5,7 @@
 [![Edge](https://img.shields.io/badge/Edge-Cloudflare%20Pages-F38020)](https://pages.cloudflare.com)
 [![Latest APK](https://img.shields.io/badge/Android%20APK-Download-emerald)](https://zerodaily.in/apk)
 
-The ultra-fast, minimal intro website and app showcase for **ZeroDaily** — an automated, satirical tech intelligence platform delivering bite-sized 60-word roasted breakdowns across 6 technical domains.
+The ultra-fast, minimal intro website and app showcase for **ZeroDaily** — an automated, satirical tech intelligence platform delivering bite-sized 60-word roasted breakdowns across 7 technical & financial domains.
 
 ---
 
@@ -28,7 +28,7 @@ zerodaily-web/
 │       ├── header.js           # Minimal navbar with dynamic APK CTA
 │       ├── hero.js             # High-impact typography, copy, and key metrics
 │       ├── roastPreview.js     # Interactive 60-word roast viewer with domain switcher
-│       ├── domains.js          # The 6 core engineering domains
+│       ├── domains.js          # The 7 core engineering & market domains
 │       ├── howItWorks.js       # 3-step automated pipeline breakdown
 │       ├── downloads.js        # Android APK & iOS TestFlight download cards
 │       └── footer.js           # Status pulse, links, and MIT license
@@ -44,16 +44,17 @@ zerodaily-web/
 
 - **Dynamic Latest APK Resolution**:
   - `https://zerodaily.in/apk` and `https://zerodaily.in/download` natively redirect (HTTP 302) to the newest release APK from [`err0rgod/zerodaily-app`](https://github.com/err0rgod/zerodaily-app).
-  - Web UI dynamically queries the GitHub Releases API on load to display the live version tag (e.g., `v0.1.3`), file size (~71.2 MB), and direct download asset link.
+  - Web UI dynamically queries the GitHub Releases API on load to display the live version tag (e.g., `v0.1.4`), file size (~71.2 MB), and direct download asset link.
 - **Zero Fluff**: Minimalist, distraction-free intro website built with clean dark aesthetic and crisp typography (Inter + JetBrains Mono).
 - **Interactive Roast Preview**: Instant showcase of ZeroDaily's 60-word cynical summaries with domain filters and one-click copy.
-- **6 Covered Tech Domains**:
+- **7 Covered Technical & Market Domains**:
   - `cybersec`: Active 0-days, ransomware, and critical CVEs
   - `ai`: Foundation models, benchmark reality checks, and agent economics
   - `programming`: Software engineering, language churn, and distributed systems outages
   - `robotics`: Humanoids, industrial automation, and kinematics failure cases
   - `defense_aerospace`: Satellite swarms, hypersonics, and defense telemetry
   - `hardware`: Semiconductors, wafer fabs, GPU supply chain, and quantum architectures
+  - `finance`: High-frequency trading, DeFi smart contract collapses, market glitches, and fintech realities
 - **Sub-20ms Global Edge**: Static client-side bundle built with Vite, deployed to Cloudflare Pages edge network.
 
 ---

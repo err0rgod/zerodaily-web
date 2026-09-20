@@ -51,6 +51,14 @@ export function renderDomains() {
       accent: 'text-emerald-400',
       border: 'hover:border-emerald-500/40',
       icon: `<svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m14-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>`
+    },
+    {
+      code: 'FINANCE',
+      title: 'Finance & Fintech',
+      desc: 'High-frequency trading latency arbitrage, DeFi smart-contract collapses, algorithmic flash crashes, and neobank hallucinations.',
+      accent: 'text-emerald-400',
+      border: 'hover:border-emerald-500/40',
+      icon: `<svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`
     }
   ];
 
@@ -60,9 +68,9 @@ export function renderDomains() {
       <!-- Section Header -->
       <div class="text-center max-w-2xl mx-auto mb-12">
         <span class="font-mono text-xs font-semibold text-emerald-400 uppercase tracking-widest">[ 02 / Coverage ]</span>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-2 mb-3">Six critical technical domains.</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-2 mb-3">Seven critical technical domains.</h2>
         <p class="text-slate-400 text-sm">
-          No lifestyle puff pieces. No generic startup gossip. Only core engineering, computing infrastructure, and physical systems.
+          No lifestyle puff pieces. No generic startup gossip. Only core engineering, computing infrastructure, market plumbing, and physical systems.
         </p>
       </div>
 
