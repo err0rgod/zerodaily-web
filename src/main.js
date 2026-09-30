@@ -7,40 +7,35 @@ import { renderAppDock } from './components/appDock.js';
 import { renderFooter } from './components/footer.js';
 import { fetchLatestAppRelease, setBreakingEndpoint } from './api.js';
 
-// Application State
 const state = {
   activeCategory: 'all',
 };
+
+const TAB_ACTIVE = 'whitespace-nowrap px-2.5 py-1 text-[13px] font-sans transition-colors border-b-2 -mb-px border-brand dark:border-brand-dark text-ink dark:text-paper-ink font-semibold';
+const TAB_IDLE = 'whitespace-nowrap px-2.5 py-1 text-[13px] font-sans transition-colors border-b-2 -mb-px border-transparent text-ink-faint dark:text-paper-faint hover:text-ink dark:hover:text-paper-ink';
 
 async function hydrateReleaseData() {
   const release = await fetchLatestAppRelease();
   if (!release) return;
 
-  // 1. Update all APK download links dynamically
+  // Point every download link at the freshest asset.
   document.querySelectorAll('[data-apk-link="true"]').forEach(el => {
     el.href = release.apkUrl;
   });
 
-  // 2. Update Masthead APK button text
   const mastheadApkText = document.getElementById('masthead-apk-text');
   if (mastheadApkText && release.version !== 'Latest') {
-    mastheadApkText.textContent = `APK ${release.version}`;
-  }
-
-  // 3. Update App Dock badge and buttons
-  const appBadgeVersion = document.getElementById('app-badge-version');
-  if (appBadgeVersion && release.version !== 'Latest') {
-    appBadgeVersion.textContent = `STANDALONE ${release.version} AVAILABLE`;
+    mastheadApkText.textContent = `Get the app (${release.version})`;
   }
 
   const appBtnText = document.getElementById('app-btn-text');
   if (appBtnText && release.version !== 'Latest') {
-    appBtnText.textContent = `Download APK (${release.version}${release.apkSize ? ' • ' + release.apkSize : ''})`;
+    appBtnText.textContent = `Download for Android (${release.version}${release.apkSize ? ' · ' + release.apkSize : ''})`;
   }
 
   const appSpecsTag = document.getElementById('app-specs-tag');
   if (appSpecsTag && release.version !== 'Latest') {
-    appSpecsTag.textContent = `Active ${release.version}`;
+    appSpecsTag.textContent = `${release.version} · released ${release.publishedAt || 'recently'}`;
   }
 
   const appShaLink = document.getElementById('app-sha-link');
@@ -61,66 +56,45 @@ function initApp() {
   function switchCategory(newCategory) {
     state.activeCategory = newCategory;
 
-    // Update Masthead Pills
     document.querySelectorAll('[data-category-tab]').forEach(tab => {
       const cat = tab.getAttribute('data-category-tab');
-      if (cat === newCategory) {
-        tab.className = 'masthead-cat-pill whitespace-nowrap px-3 py-1.5 rounded text-xs font-mono font-bold bg-white text-slate-950 shadow-sm transition-all';
-      } else {
-        tab.className = 'masthead-cat-pill whitespace-nowrap px-3 py-1.5 rounded text-xs font-mono font-medium bg-[#131720] hover:bg-[#181e2b] text-slate-300 hover:text-white border border-[#1d2330] transition-all';
-      }
+      tab.className = cat === newCategory ? TAB_ACTIVE : TAB_IDLE;
     });
 
-    if (breakingWireComp) {
-      breakingWireComp.setCategory(newCategory);
-    }
-    if (editorialBriefingComp) {
-      editorialBriefingComp.setCategory(newCategory);
-    }
+    breakingWireComp?.setCategory(newCategory);
+    editorialBriefingComp?.setCategory(newCategory);
   }
 
   function handleSelectStory(story, shouldScroll = true) {
-    if (editorialBriefingComp) {
-      editorialBriefingComp.setStory(story, shouldScroll);
-    }
+    editorialBriefingComp?.setStory(story, shouldScroll);
   }
 
-  // 1. Render Editorial Masthead
-  const masthead = renderEditorialMasthead(state.activeCategory, (cat) => switchCategory(cat));
+  const masthead = renderEditorialMasthead(state.activeCategory, switchCategory);
   appRoot.appendChild(masthead);
 
-  // 2. Render Live Breaking Wire (Top 10)
-  breakingWireComp = renderBreakingWire((story, shouldScroll) => handleSelectStory(story, shouldScroll), state.activeCategory);
+  breakingWireComp = renderBreakingWire(handleSelectStory, state.activeCategory);
   appRoot.appendChild(breakingWireComp.element);
 
-  // 3. Render The Editorial Briefing (Lead + Wire Rail)
   editorialBriefingComp = renderEditorialBriefing(state.activeCategory);
   appRoot.appendChild(editorialBriefingComp.element);
 
-  // 4. Render The 7 Domains Directory
-  const coverageDir = renderCoverageDirectory((cat) => {
+  const desks = renderCoverageDirectory((cat) => {
     switchCategory(cat);
     document.getElementById('briefing')?.scrollIntoView({ behavior: 'smooth' });
   });
-  appRoot.appendChild(coverageDir);
+  appRoot.appendChild(desks);
 
-  // 5. Render App Dock
-  const appDock = renderAppDock();
-  appRoot.appendChild(appDock);
+  appRoot.appendChild(renderAppDock());
+  appRoot.appendChild(renderFooter());
 
-  // 6. Render Footer
-  const footer = renderFooter();
-  appRoot.appendChild(footer);
-
-  // Hydrate release info from GitHub
   hydrateReleaseData();
 
-  // Allow setting live breaking endpoint via window helper for quick testing
+  // Handy for testing against a staging feed:
+  // __setZeroDailyBreakingEndpoint('https://staging.example.com/feed')
   window.__setZeroDailyBreakingEndpoint = (url) => {
     setBreakingEndpoint(url);
-    if (breakingWireComp) breakingWireComp.reload();
+    breakingWireComp?.reload();
   };
 }
 
-// Start application
 initApp();

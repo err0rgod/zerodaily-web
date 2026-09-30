@@ -1,7 +1,33 @@
 /**
- * ZeroDaily Data & Telemetry Service
- * Editorial tech & market intelligence dispatches.
+ * ZeroDaily Data Service
+ * Fetches live dispatches and app releases, with curated fallbacks.
  */
+
+/**
+ * Escape a string for safe interpolation into innerHTML.
+ * All API-provided strings must pass through this before rendering.
+ */
+export function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
+ * Only allow http(s) URLs to be used as link targets.
+ */
+export function safeUrl(value, fallback = '#') {
+  try {
+    const url = new URL(String(value), 'https://zerodaily.in');
+    if (url.protocol === 'https:' || url.protocol === 'http:') return url.href;
+  } catch {
+    /* fall through */
+  }
+  return fallback;
+}
 
 export const APP_REPO = 'err0rgod/zerodaily-app';
 export const DIRECT_APK_URL = `https://github.com/${APP_REPO}/releases/latest/download/ZeroDaily.apk`;
@@ -11,14 +37,14 @@ export const REPO_URL = `https://github.com/${APP_REPO}`;
 export const BREAKING_ENDPOINT = 'https://api.zerodaily.in/api/v1/notifications/history?limit=10';
 
 export const CATEGORIES = [
-  { id: 'all', label: 'All Wire', tag: 'ALL', color: '#10b981' },
-  { id: 'cybersec', label: 'Cybersecurity', tag: 'CYBERSEC', color: '#f43f5e' },
-  { id: 'ai', label: 'AI & Models', tag: 'AI', color: '#8b5cf6' },
-  { id: 'programming', label: 'Software Eng', tag: 'SYSTEMS', color: '#06b6d4' },
-  { id: 'robotics', label: 'Robotics', tag: 'ROBOTICS', color: '#f59e0b' },
-  { id: 'defense_aerospace', label: 'Defense & Aero', tag: 'DEFENSE', color: '#3b82f6' },
-  { id: 'hardware', label: 'Silicon & HW', tag: 'HARDWARE', color: '#ec4899' },
-  { id: 'finance', label: 'Finance', tag: 'FINANCE', color: '#10b981' },
+  { id: 'all', label: 'All' },
+  { id: 'cybersec', label: 'Cybersecurity' },
+  { id: 'ai', label: 'AI' },
+  { id: 'programming', label: 'Software' },
+  { id: 'robotics', label: 'Robotics' },
+  { id: 'defense_aerospace', label: 'Defense' },
+  { id: 'hardware', label: 'Silicon' },
+  { id: 'finance', label: 'Finance' },
 ];
 
 /**
@@ -223,15 +249,15 @@ export async function fetchTopBreakingNews() {
           const roastText = item.push_punchline || item.heading || '';
           return {
             id: item.article_id || `live-breaking-${idx}`,
-            category: item.category || 'cybersec',
+            category: CATEGORIES.some(c => c.id === item.category) ? item.category : 'cybersec',
             badge: 'LIVE BREAKING',
-            heading: item.heading || 'ZeroDaily Breaking Telemetry',
+            heading: item.heading || 'ZeroDaily Breaking',
             roast: roastText,
             wordCount: roastText.split(/\s+/).filter(Boolean).length || 45,
             source: extractSourceFromUrl(item.article_id || ''),
-            sourceUrl: item.article_id || 'https://zerodaily.in',
+            sourceUrl: safeUrl(item.article_id, 'https://zerodaily.in'),
             publishedAgo: formatTimeAgo(item.published_at),
-            imageUrl: item.image_url || null,
+            imageUrl: null,
             urgency: 'CRITICAL',
             isLive: true,
           };

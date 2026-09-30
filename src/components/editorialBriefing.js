@@ -1,9 +1,9 @@
-import { EDITORIAL_BRIEFINGS, CATEGORIES, fetchArticleDetail } from '../api.js';
+import { EDITORIAL_BRIEFINGS, fetchArticleDetail, safeUrl } from '../api.js';
 
 export function renderEditorialBriefing(activeCategory = 'all', initialStory = null) {
   const section = document.createElement('section');
   section.id = 'briefing';
-  section.className = 'w-full bg-[#08090d] py-12 border-b border-[#1d2330]';
+  section.className = 'w-full bg-paper dark:bg-night border-b border-rule dark:border-night-rule';
 
   let currentCategory = activeCategory;
   let activeStories = getFilteredStories(currentCategory);
@@ -16,112 +16,65 @@ export function renderEditorialBriefing(activeCategory = 'all', initialStory = n
   }
 
   section.innerHTML = `
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      
-      <!-- Section Header -->
-      <div class="flex items-center justify-between pb-6 mb-8 border-b border-[#1d2330]">
-        <div>
-          <span class="font-mono text-xs font-semibold text-emerald-400 uppercase tracking-widest">[ The Editorial Briefing ]</span>
-          <h2 class="text-xl sm:text-2xl font-bold text-white mt-1">Deep Intelligence. Roasted in 60 Words.</h2>
-        </div>
-        <div class="hidden sm:flex items-center gap-2 text-xs font-mono text-slate-500">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-          <span>Zero PR Spin Guarantee</span>
-        </div>
-      </div>
+    <div class="max-w-3xl mx-auto px-5 py-12">
 
-      <!-- Main Editorial Layout: Lead Story (Left 65%) + Wire Rail (Right 35%) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- Left: Lead Featured Briefing -->
-        <div class="lg:col-span-8 p-6 sm:p-8 rounded-xl bg-[#0e1117] border border-[#1d2330] space-y-6">
-          
-          <!-- Story Header Pill & Metadata -->
-          <div class="flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-            <div class="flex items-center gap-2">
-              <span id="lead-category-badge" class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold uppercase tracking-wider text-[11px]">
-                CYBERSEC
-              </span>
-              <span id="lead-urgency-badge" class="text-slate-500 font-medium">
-                CVE-2026-KERNEL-PANIC
-              </span>
-            </div>
+      <p class="font-mono text-[11px] uppercase tracking-widest text-ink-faint dark:text-paper-faint pb-6">
+        Today's briefing
+      </p>
 
-            <div class="flex items-center gap-3 text-slate-500">
-              <span id="lead-wordcount" class="px-2 py-0.5 rounded bg-[#131720] text-slate-300">
-                52 / 60 words
-              </span>
-              <span id="lead-timestamp">
-                14m ago
-              </span>
-            </div>
-          </div>
-
-          <!-- Headline -->
-          <h3 id="lead-heading" class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
-            CrowdStrike Decides Computers Were A Mistake Anyway
-          </h3>
-
-          <!-- The Roast Paragraph -->
-          <div class="p-4 sm:p-5 rounded-lg bg-[#131720]/80 border-l-2 border-emerald-500">
-            <p id="lead-roast" class="text-slate-200 text-base sm:text-lg leading-relaxed font-sans font-normal">
-              A single null-pointer dereference in a routine sensor driver bricks 8.5 million enterprise Windows machines worldwide. Sysadmins celebrate unexpected downtime before rediscovering the lost art of physical thumb drives and paper logs in freezing server closets.
-            </p>
-          </div>
-
-          <!-- Footer Actions & Attribution -->
-          <div class="pt-4 border-t border-[#1d2330] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-            
-            <div class="flex items-center gap-1.5 text-slate-400">
-              <span>Primary Source:</span>
-              <a
-                id="lead-source-link"
-                href="https://thehackernews.com"
-                target="_blank"
-                rel="noopener"
-                class="text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
-              >
-                <span id="lead-source-name">The Hacker News</span>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-              </a>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <button
-                id="copy-roast-btn"
-                type="button"
-                class="px-3 py-1.5 rounded-lg border border-[#1d2330] bg-[#131720] hover:bg-[#181e2b] text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-mono"
-              >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-                <span id="copy-btn-label">Copy Roast</span>
-              </button>
-
-              <button
-                id="next-dispatch-btn"
-                type="button"
-                class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold transition-all flex items-center gap-1 text-xs"
-              >
-                <span>Next Dispatch</span>
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-              </button>
-            </div>
-
-          </div>
-
+      <article>
+        <!-- Kicker -->
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] text-ink-faint dark:text-paper-faint mb-4">
+          <span id="lead-category-badge" class="uppercase tracking-wide text-brand dark:text-brand-dark font-semibold"></span>
+          <span aria-hidden="true">&middot;</span>
+          <span id="lead-urgency-badge"></span>
+          <span aria-hidden="true">&middot;</span>
+          <span id="lead-timestamp"></span>
+          <span aria-hidden="true">&middot;</span>
+          <span id="lead-wordcount"></span>
         </div>
 
-        <!-- Right: The Briefing Wire Rail -->
-        <div class="lg:col-span-4 space-y-3">
-          <div class="flex items-center justify-between pb-2 border-b border-[#1d2330] text-xs font-mono text-slate-400">
-            <span class="uppercase tracking-wider font-semibold text-slate-300">Wire Dispatches</span>
-            <span id="wire-count" class="text-emerald-400">${activeStories.length} Stories</span>
-          </div>
+        <!-- Headline -->
+        <h3 id="lead-heading" class="font-serif text-3xl sm:text-4xl font-bold text-ink dark:text-paper-ink tracking-tight leading-tight text-balance"></h3>
 
-          <div id="briefing-wire-list" class="space-y-2.5 max-h-[580px] overflow-y-auto pr-1">
-            <!-- Hydrated dynamically -->
+        <!-- Roast -->
+        <p id="lead-roast" class="dropcap mt-6 font-serif text-lg sm:text-xl text-ink dark:text-paper-ink leading-relaxed"></p>
+
+        <!-- Byline & actions -->
+        <div class="mt-8 pt-5 border-t border-rule dark:border-night-rule flex flex-wrap items-center justify-between gap-3">
+          <p class="text-sm text-ink-soft dark:text-paper-soft">
+            Source:
+            <a id="lead-source-link" href="#" target="_blank" rel="noopener" class="font-medium text-ink dark:text-paper-ink underline decoration-rule-dark dark:decoration-night-rule-dark underline-offset-4 hover:text-brand dark:hover:text-brand-dark transition-colors">
+              <span id="lead-source-name"></span>
+            </a>
+          </p>
+
+          <div class="flex items-center gap-4 text-sm">
+            <button
+              id="copy-roast-btn"
+              type="button"
+              class="text-ink-faint dark:text-paper-faint hover:text-brand dark:hover:text-brand-dark transition-colors"
+            >
+              <span id="copy-btn-label">Copy</span>
+            </button>
+            <button
+              id="next-dispatch-btn"
+              type="button"
+              class="font-medium text-brand dark:text-brand-dark hover:underline underline-offset-4"
+            >
+              Next story &rarr;
+            </button>
           </div>
         </div>
+      </article>
 
+      <!-- More from the desk -->
+      <div class="mt-14">
+        <div class="flex items-baseline justify-between pb-3 border-b border-rule dark:border-night-rule">
+          <h4 class="font-serif text-lg font-semibold text-ink dark:text-paper-ink">More from the desk</h4>
+          <span id="wire-count" class="font-mono text-[11px] text-ink-faint dark:text-paper-faint"></span>
+        </div>
+        <ol id="briefing-wire-list" class="divide-y divide-rule dark:divide-night-rule"></ol>
       </div>
 
     </div>
@@ -142,34 +95,31 @@ export function renderEditorialBriefing(activeCategory = 'all', initialStory = n
 
     if (heading) heading.textContent = story.heading;
     if (roast) roast.textContent = story.roast;
-    if (catBadge) catBadge.textContent = (story.category || 'INTEL').toUpperCase();
-    if (urgencyBadge) urgencyBadge.textContent = story.badge || story.urgency || 'DISPATCH';
-    if (wordcount) wordcount.textContent = `${story.wordCount || 50} / 60w`;
-    if (timestamp) timestamp.textContent = story.publishedAgo || 'Recent';
-    if (sourceName) sourceName.textContent = story.source || 'Original Source';
-    if (sourceLink) sourceLink.href = story.sourceUrl || '#';
+    if (catBadge) catBadge.textContent = String(story.category || 'briefing').replace(/_/g, ' ');
+    if (urgencyBadge) urgencyBadge.textContent = story.badge || 'dispatch';
+    if (wordcount) wordcount.textContent = `${story.wordCount || 60} words`;
+    if (timestamp) timestamp.textContent = story.publishedAgo || 'recently';
+    if (sourceName) sourceName.textContent = story.source || 'Original source';
+    if (sourceLink) sourceLink.href = safeUrl(story.sourceUrl);
 
-    // If this is a live pipeline story ID with full URL, fetch full 60-word roast
+    // Live stories carry a full article behind the API — fetch the complete roast.
     if (story.id && String(story.id).startsWith('http')) {
       fetchArticleDetail(story.id).then(detail => {
-        if (detail && (detail.shortSummary || detail.fullSummary) && activeStory.id === story.id) {
-          const fullText = detail.shortSummary || detail.fullSummary;
+        if (!detail || !activeStory || activeStory.id !== story.id) return;
+        const fullText = detail.shortSummary || detail.fullSummary;
+        if (fullText) {
           if (roast) roast.textContent = fullText;
           const wc = fullText.split(/\s+/).filter(Boolean).length;
-          if (wordcount) wordcount.textContent = `${wc} / 60w`;
+          if (wordcount) wordcount.textContent = `${wc} words`;
         }
       });
     }
 
-    // Highlight active item in wire list
-    section.querySelectorAll('.wire-list-item').forEach(item => {
-      if (item.getAttribute('data-story-id') === story.id) {
-        item.classList.add('border-emerald-500/50', 'bg-[#131720]');
-        item.classList.remove('border-[#1d2330]', 'bg-[#0e1117]');
-      } else {
-        item.classList.remove('border-emerald-500/50', 'bg-[#131720]');
-        item.classList.add('border-[#1d2330]', 'bg-[#0e1117]');
-      }
+    // Mark the active story in the list
+    section.querySelectorAll('.wire-list-item').forEach(el => {
+      const isActive = el.getAttribute('data-story-id') === String(story.id);
+      el.querySelector('h5')?.classList.toggle('text-brand', isActive);
+      el.querySelector('h5')?.classList.toggle('dark:text-brand-dark', isActive);
     });
   }
 
@@ -178,48 +128,49 @@ export function renderEditorialBriefing(activeCategory = 'all', initialStory = n
     const countEl = section.querySelector('#wire-count');
     if (!list) return;
 
-    if (countEl) countEl.textContent = `${activeStories.length} Stories`;
+    if (countEl) countEl.textContent = `${activeStories.length} stories`;
 
     list.innerHTML = '';
 
     activeStories.forEach(s => {
-      const item = document.createElement('div');
-      item.setAttribute('data-story-id', s.id);
-      item.className = `wire-list-item p-3 rounded-lg border transition-all cursor-pointer hover:border-slate-500 ${
-        activeStory && activeStory.id === s.id
-          ? 'border-emerald-500/50 bg-[#131720]'
-          : 'border-[#1d2330] bg-[#0e1117]'
-      }`;
+      const li = document.createElement('li');
+      li.setAttribute('data-story-id', String(s.id));
+      li.className = 'wire-list-item';
 
-      item.innerHTML = `
-        <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-1">
-          <span class="text-emerald-400 font-semibold uppercase">${s.category}</span>
-          <span>${s.publishedAgo}</span>
-        </div>
-        <h4 class="text-xs font-medium text-slate-200 line-clamp-2 leading-snug">
-          ${s.heading}
-        </h4>
-      `;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'w-full text-left py-3.5 group flex items-baseline gap-3';
 
-      item.addEventListener('click', () => {
+      const meta = document.createElement('span');
+      meta.className = 'font-mono text-[11px] uppercase tracking-wide text-ink-faint dark:text-paper-faint shrink-0 w-20 truncate';
+      meta.textContent = String(s.category || '').replace(/_/g, ' ');
+
+      const title = document.createElement('h5');
+      title.className = 'font-serif text-base font-medium text-ink dark:text-paper-ink leading-snug group-hover:text-brand dark:group-hover:text-brand-dark transition-colors';
+      title.textContent = s.heading;
+
+      btn.appendChild(meta);
+      btn.appendChild(title);
+      btn.addEventListener('click', () => {
         updateLeadCard(s);
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
-      list.appendChild(item);
+      li.appendChild(btn);
+      list.appendChild(li);
     });
   }
 
-  // Bind Next Button
   const nextBtn = section.querySelector('#next-dispatch-btn');
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      const currIdx = activeStories.findIndex(s => s.id === activeStory.id);
+      if (!activeStory || activeStories.length === 0) return;
+      const currIdx = activeStories.findIndex(s => String(s.id) === String(activeStory.id));
       const nextIdx = (currIdx + 1) % activeStories.length;
       updateLeadCard(activeStories[nextIdx]);
     });
   }
 
-  // Bind Copy Roast Button
   const copyBtn = section.querySelector('#copy-roast-btn');
   const copyLabel = section.querySelector('#copy-btn-label');
   if (copyBtn && copyLabel) {
@@ -227,23 +178,25 @@ export function renderEditorialBriefing(activeCategory = 'all', initialStory = n
       if (!activeStory) return;
       const textToCopy = `"${activeStory.heading}"\n\n${activeStory.roast}\n\n— ZeroDaily (${activeStory.sourceUrl})`;
       navigator.clipboard.writeText(textToCopy).then(() => {
-        copyLabel.textContent = 'Copied!';
-        setTimeout(() => {
-          copyLabel.textContent = 'Copy Roast';
-        }, 1800);
+        copyLabel.textContent = 'Copied';
+        setTimeout(() => { copyLabel.textContent = 'Copy'; }, 1600);
+      }).catch(() => {
+        copyLabel.textContent = 'Failed';
+        setTimeout(() => { copyLabel.textContent = 'Copy'; }, 1600);
       });
     });
   }
 
-  // Initial render
   renderWireList();
   updateLeadCard(activeStory);
 
   return {
     element: section,
-    setStory: (story) => {
+    setStory: (story, shouldScroll = true) => {
       updateLeadCard(story);
-      section.scrollIntoView({ behavior: 'smooth' });
+      if (shouldScroll) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     },
     setCategory: (newCategory) => {
       currentCategory = newCategory;
@@ -251,14 +204,6 @@ export function renderEditorialBriefing(activeCategory = 'all', initialStory = n
       activeStory = activeStories[0];
       renderWireList();
       updateLeadCard(activeStory);
-    },
-    prependLiveStory: (story) => {
-      // Add live story at top of briefing list if not already present
-      if (!activeStories.some(s => s.id === story.id)) {
-        activeStories.unshift(story);
-        renderWireList();
-        updateLeadCard(story);
-      }
     }
   };
 }

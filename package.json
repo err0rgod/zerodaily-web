@@ -1,8 +1,7 @@
 {
   "name": "zerodaily-web",
   "version": "1.0.0",
-  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Live Website](https://img.shields.io/badge/Live-zerodaily.in-blue)](https://zerodaily.in)",
-  "main": "index.js",
+  "description": "ZeroDaily — tech news, roasted in 60 words. Newspaper-style web client for zerodaily.in.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -18,7 +17,8 @@
   },
   "homepage": "https://github.com/err0rgod/zerodaily-web#readme",
   "devDependencies": {
-    "lucide": "^1.46.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
     "vite": "^8.3.0"
   }
 }
