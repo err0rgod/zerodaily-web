@@ -224,79 +224,117 @@ export function setBreakingEndpoint(url) {
   currentBreakingEndpoint = url;
 }
 
-/**
- * Fetches the last 10 breaking news from https://api.zerodaily.in/api/v1/notifications/history?limit=10
- * Blends live breaking notifications with top curated wire dispatches to always ensure 10 items.
- */
-export async function fetchTopBreakingNews() {
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4500);
+const FETCH_ATTEMPTS = 3;
+const FETCH_RETRY_DELAY_MS = 3000;
+const FETCH_TIMEOUT_MS = 4500;
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * One attempt at the wire. Returns the raw list, or null on any failure
+ * (network error, timeout, non-200, malformed payload, empty feed).
+ */
+async function tryFetchWire() {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+  try {
     const res = await fetch(currentBreakingEndpoint, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
       signal: controller.signal
     });
+
+    if (!res.ok) return null;
+
+    const json = await res.json();
+    const rawList = Array.isArray(json.data) ? json.data : [];
+    return rawList.length > 0 ? rawList : null;
+  } catch {
+    return null;
+  } finally {
     clearTimeout(timeoutId);
+  }
+}
 
-    if (res.ok) {
-      const json = await res.json();
-      const rawList = Array.isArray(json.data) ? json.data : [];
+/**
+ * Fetches the last 10 breaking news from the live wire.
+ * Retries up to 3 times, 3 seconds apart, before falling back to the
+ * curated wire dispatches so the page is never empty.
+ */
+export async function fetchTopBreakingNews() {
+  let rawList = null;
 
-      if (rawList.length > 0) {
-        const liveItems = rawList.map((item, idx) => {
-          const roastText = item.push_punchline || item.heading || '';
-          return {
-            id: item.article_id || `live-breaking-${idx}`,
-            category: CATEGORIES.some(c => c.id === item.category) ? item.category : 'cybersec',
-            badge: 'LIVE BREAKING',
-            heading: item.heading || 'ZeroDaily Breaking',
-            roast: roastText,
-            wordCount: roastText.split(/\s+/).filter(Boolean).length || 45,
-            source: extractSourceFromUrl(item.article_id || ''),
-            sourceUrl: safeUrl(item.article_id, 'https://zerodaily.in'),
-            publishedAgo: formatTimeAgo(item.published_at),
-            imageUrl: null,
-            urgency: 'CRITICAL',
-            isLive: true,
-          };
-        });
-
-        // Combine live items with non-duplicate dispatches to guarantee exactly 10 stories
-        const liveUrls = new Set(liveItems.map(i => i.sourceUrl));
-        const remaining = BREAKING_DISPATCHES.filter(d => !liveUrls.has(d.sourceUrl));
-        const combined = [...liveItems, ...remaining].slice(0, 10);
-        return combined;
-      }
+  for (let attempt = 1; attempt <= FETCH_ATTEMPTS; attempt++) {
+    rawList = await tryFetchWire();
+    if (rawList) break;
+    if (attempt < FETCH_ATTEMPTS) {
+      console.debug(`[ZeroDaily Wire] Attempt ${attempt}/${FETCH_ATTEMPTS} came back empty, retrying in ${FETCH_RETRY_DELAY_MS / 1000}s…`);
+      await sleep(FETCH_RETRY_DELAY_MS);
     }
-  } catch (err) {
-    console.debug('[ZeroDaily Wire] Live fetch fallback:', err);
   }
 
-  return BREAKING_DISPATCHES.slice(0, 10);
+  if (!rawList) {
+    console.debug('[ZeroDaily Wire] Live wire unreachable, serving curated dispatches.');
+    return BREAKING_DISPATCHES.slice(0, 10);
+  }
+
+  const liveItems = rawList.map((item, idx) => {
+    const roastText = item.push_punchline || item.heading || '';
+    return {
+      id: item.article_id || `live-breaking-${idx}`,
+      category: CATEGORIES.some(c => c.id === item.category) ? item.category : 'cybersec',
+      badge: 'LIVE BREAKING',
+      heading: item.heading || 'ZeroDaily Breaking',
+      roast: roastText,
+      wordCount: roastText.split(/\s+/).filter(Boolean).length || 45,
+      source: extractSourceFromUrl(item.article_id || ''),
+      sourceUrl: safeUrl(item.article_id, 'https://zerodaily.in'),
+      publishedAgo: formatTimeAgo(item.published_at),
+      imageUrl: null,
+      urgency: 'CRITICAL',
+      isLive: true,
+    };
+  });
+
+  // Top up with non-duplicate dispatches so the wire always shows 10 stories.
+  const liveUrls = new Set(liveItems.map(i => i.sourceUrl));
+  const remaining = BREAKING_DISPATCHES.filter(d => !liveUrls.has(d.sourceUrl));
+  return [...liveItems, ...remaining].slice(0, 10);
 }
 
 /**
  * Fetches full story detail from /api/v1/article?id=...
+ * Retries up to 3 times, 3 seconds apart, then gives up quietly.
  */
 export async function fetchArticleDetail(articleId) {
-  try {
+  const url = `https://api.zerodaily.in/api/v1/article?id=${encodeURIComponent(articleId)}`;
+
+  for (let attempt = 1; attempt <= FETCH_ATTEMPTS; attempt++) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3500);
-    const res = await fetch(`https://api.zerodaily.in/api/v1/article?id=${encodeURIComponent(articleId)}`, {
-      headers: { 'Accept': 'application/json' },
-      signal: controller.signal
-    });
-    clearTimeout(timeoutId);
 
-    if (res.ok) {
-      const json = await res.json();
-      return json.data || null;
+    try {
+      const res = await fetch(url, {
+        headers: { 'Accept': 'application/json' },
+        signal: controller.signal
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json.data) return json.data;
+      }
+    } catch {
+      // retry below
+    } finally {
+      clearTimeout(timeoutId);
     }
-  } catch {
-    // fallback
+
+    if (attempt < FETCH_ATTEMPTS) await sleep(FETCH_RETRY_DELAY_MS);
   }
+
   return null;
 }
 
