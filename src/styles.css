@@ -1,13 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap');
 
 :root {
-  --bg-base: #090a0f;
-  --bg-raised: #0e121a;
-  --bg-card: #121722;
-  --border-subtle: #1e2638;
-  --border-highlight: #2e3b56;
+  --bg-base: #08090d;
+  --bg-raised: #0e1117;
+  --bg-card: #131720;
+  --border-hairline: #1d2330;
+  --border-highlight: #2c364a;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-breaking: #ef4444;
   --accent-emerald: #10b981;
-  --accent-cyan: #06b6d4;
 }
 
 * {
@@ -23,17 +26,13 @@ body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-base);
-  color: #f1f5f9;
+  color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-code, pre, .font-mono {
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* Minimal Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -42,41 +41,50 @@ code, pre, .font-mono {
   background: var(--bg-base);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2638;
+  background: #1d2330;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2e3b56;
+  background: #2c364a;
 }
 
-/* Subtle border and surface styling */
-.glass-panel {
-  background-color: rgba(18, 23, 34, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
+/* Editorial Typography */
+.font-serif {
+  font-family: 'Newsreader', Georgia, serif;
+}
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
 }
 
-.hover-card {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hover-card:hover {
-  border-color: var(--border-highlight);
-  transform: translateY(-1px);
-}
-
-/* Pulse indicator */
-@keyframes statusPulse {
-  0%, 100% {
-    opacity: 1;
+/* Breaking Beacon Animation */
+@keyframes breakingPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
     transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
   }
-  50% {
-    opacity: 0.4;
-    transform: scale(0.9);
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
   }
 }
 
-.status-dot {
-  animation: statusPulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.beacon-red {
+  animation: breakingPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Subtle card hover transitions without glowing haze */
+.editorial-card {
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+.editorial-card:hover {
+  border-color: var(--border-highlight);
+}
+
+/* Editorial rule / line */
+.editorial-rule {
+  border-bottom: 1px solid var(--border-hairline);
 }

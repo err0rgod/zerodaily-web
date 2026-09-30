@@ -1,12 +1,16 @@
 import './styles.css';
-import { renderHeader } from './components/header.js';
-import { renderHero } from './components/hero.js';
-import { renderRoastPreview } from './components/roastPreview.js';
-import { renderDomains } from './components/domains.js';
-import { renderHowItWorks } from './components/howItWorks.js';
-import { renderDownloads } from './components/downloads.js';
+import { renderEditorialMasthead } from './components/editorialMasthead.js';
+import { renderBreakingWire } from './components/breakingWire.js';
+import { renderEditorialBriefing } from './components/editorialBriefing.js';
+import { renderCoverageDirectory } from './components/coverageDirectory.js';
+import { renderAppDock } from './components/appDock.js';
 import { renderFooter } from './components/footer.js';
-import { fetchLatestAppRelease } from './api.js';
+import { fetchLatestAppRelease, setBreakingEndpoint } from './api.js';
+
+// Application State
+const state = {
+  activeCategory: 'all',
+};
 
 async function hydrateReleaseData() {
   const release = await fetchLatestAppRelease();
@@ -17,49 +21,31 @@ async function hydrateReleaseData() {
     el.href = release.apkUrl;
   });
 
-  // 2. Update Nav Badge
-  const navBadge = document.getElementById('nav-version-badge');
-  if (navBadge && release.version !== 'Latest') {
-    navBadge.textContent = `${release.version} READY`;
+  // 2. Update Masthead APK button text
+  const mastheadApkText = document.getElementById('masthead-apk-text');
+  if (mastheadApkText && release.version !== 'Latest') {
+    mastheadApkText.textContent = `APK ${release.version}`;
   }
 
-  // 3. Update Hero version pill
-  const heroPill = document.getElementById('hero-version-pill');
-  if (heroPill && release.version !== 'Latest') {
-    heroPill.textContent = release.version;
-    heroPill.classList.remove('hidden');
+  // 3. Update App Dock badge and buttons
+  const appBadgeVersion = document.getElementById('app-badge-version');
+  if (appBadgeVersion && release.version !== 'Latest') {
+    appBadgeVersion.textContent = `STANDALONE ${release.version} AVAILABLE`;
   }
 
-  // 4. Update Downloads section badge & metadata
-  const downloadsBadge = document.getElementById('downloads-badge');
-  if (downloadsBadge && release.version !== 'Latest') {
-    downloadsBadge.textContent = `${release.version} AVAILABLE`;
+  const appBtnText = document.getElementById('app-btn-text');
+  if (appBtnText && release.version !== 'Latest') {
+    appBtnText.textContent = `Download APK (${release.version}${release.apkSize ? ' • ' + release.apkSize : ''})`;
   }
 
-  const downloadsInfo = document.getElementById('downloads-apk-info');
-  if (downloadsInfo) {
-    const parts = [];
-    if (release.version !== 'Latest') parts.push(release.version);
-    if (release.apkSize) parts.push(release.apkSize);
-    if (release.publishedAt) parts.push(`Updated ${release.publishedAt}`);
-    if (parts.length > 0) {
-      downloadsInfo.textContent = parts.join(' • ');
-    }
+  const appSpecsTag = document.getElementById('app-specs-tag');
+  if (appSpecsTag && release.version !== 'Latest') {
+    appSpecsTag.textContent = `Active ${release.version}`;
   }
 
-  const downloadsBtnText = document.getElementById('downloads-btn-text');
-  if (downloadsBtnText && release.version !== 'Latest') {
-    downloadsBtnText.textContent = `Download ZeroDaily.apk (${release.version})`;
-  }
-
-  const shaLink = document.getElementById('downloads-sha-link');
-  if (shaLink && release.shaUrl) {
-    shaLink.href = release.shaUrl;
-  }
-
-  const releaseLink = document.getElementById('downloads-release-link');
-  if (releaseLink && release.releaseUrl) {
-    releaseLink.href = release.releaseUrl;
+  const appShaLink = document.getElementById('app-sha-link');
+  if (appShaLink && release.shaUrl) {
+    appShaLink.href = release.shaUrl;
   }
 }
 
@@ -67,20 +53,73 @@ function initApp() {
   const appRoot = document.getElementById('app');
   if (!appRoot) return;
 
-  // Clear any existing content
   appRoot.innerHTML = '';
 
-  // Render minimal intro site sections
-  appRoot.appendChild(renderHeader());
-  appRoot.appendChild(renderHero());
-  appRoot.appendChild(renderRoastPreview());
-  appRoot.appendChild(renderDomains());
-  appRoot.appendChild(renderHowItWorks());
-  appRoot.appendChild(renderDownloads());
-  appRoot.appendChild(renderFooter());
+  let breakingWireComp = null;
+  let editorialBriefingComp = null;
 
-  // Dynamically hydrate latest GitHub release data
+  function switchCategory(newCategory) {
+    state.activeCategory = newCategory;
+
+    // Update Masthead Pills
+    document.querySelectorAll('[data-category-tab]').forEach(tab => {
+      const cat = tab.getAttribute('data-category-tab');
+      if (cat === newCategory) {
+        tab.className = 'masthead-cat-pill whitespace-nowrap px-3 py-1.5 rounded text-xs font-mono font-bold bg-white text-slate-950 shadow-sm transition-all';
+      } else {
+        tab.className = 'masthead-cat-pill whitespace-nowrap px-3 py-1.5 rounded text-xs font-mono font-medium bg-[#131720] hover:bg-[#181e2b] text-slate-300 hover:text-white border border-[#1d2330] transition-all';
+      }
+    });
+
+    if (breakingWireComp) {
+      breakingWireComp.setCategory(newCategory);
+    }
+    if (editorialBriefingComp) {
+      editorialBriefingComp.setCategory(newCategory);
+    }
+  }
+
+  function handleSelectStory(story, shouldScroll = true) {
+    if (editorialBriefingComp) {
+      editorialBriefingComp.setStory(story, shouldScroll);
+    }
+  }
+
+  // 1. Render Editorial Masthead
+  const masthead = renderEditorialMasthead(state.activeCategory, (cat) => switchCategory(cat));
+  appRoot.appendChild(masthead);
+
+  // 2. Render Live Breaking Wire (Top 10)
+  breakingWireComp = renderBreakingWire((story, shouldScroll) => handleSelectStory(story, shouldScroll), state.activeCategory);
+  appRoot.appendChild(breakingWireComp.element);
+
+  // 3. Render The Editorial Briefing (Lead + Wire Rail)
+  editorialBriefingComp = renderEditorialBriefing(state.activeCategory);
+  appRoot.appendChild(editorialBriefingComp.element);
+
+  // 4. Render The 7 Domains Directory
+  const coverageDir = renderCoverageDirectory((cat) => {
+    switchCategory(cat);
+    document.getElementById('briefing')?.scrollIntoView({ behavior: 'smooth' });
+  });
+  appRoot.appendChild(coverageDir);
+
+  // 5. Render App Dock
+  const appDock = renderAppDock();
+  appRoot.appendChild(appDock);
+
+  // 6. Render Footer
+  const footer = renderFooter();
+  appRoot.appendChild(footer);
+
+  // Hydrate release info from GitHub
   hydrateReleaseData();
+
+  // Allow setting live breaking endpoint via window helper for quick testing
+  window.__setZeroDailyBreakingEndpoint = (url) => {
+    setBreakingEndpoint(url);
+    if (breakingWireComp) breakingWireComp.reload();
+  };
 }
 
 // Start application

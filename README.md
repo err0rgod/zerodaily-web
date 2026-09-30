@@ -25,28 +25,30 @@ zerodaily-web/
 │   ├── main.js                 # App orchestrator & client-side release hydrator
 │   ├── styles.css              # Minimal dark aesthetic & typography
 │   └── components/
-│       ├── header.js           # Minimal navbar with dynamic APK CTA
-│       ├── hero.js             # High-impact typography, copy, and key metrics
-│       ├── roastPreview.js     # Interactive 60-word roast viewer with domain switcher
-│       ├── domains.js          # The 7 core engineering & market domains
-│       ├── howItWorks.js       # 3-step automated pipeline breakdown
-│       ├── downloads.js        # Android APK & iOS TestFlight download cards
-│       └── footer.js           # Status pulse, links, and MIT license
+│       ├── editorialMasthead.js # Editorial header with dynamic date, issue metadata, and 7-domain navigation
+│       ├── breakingWire.js      # Real-time top 10 breaking dispatches wire from live scraper pipeline
+│       ├── editorialBriefing.js # Featured lead dispatch commanded by Newsreader serif + wire rail
+│       ├── coverageDirectory.js # 7 core engineering & market domains directory
+│       ├── appDock.js           # Standalone APK download showcase with specs & checksums
+│       └── footer.js            # Editorial footer with system status & links
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml          # Automated CI/CD pipeline for Cloudflare Pages
-└── README.md                   # Technical documentation
+│       └── deploy.yml           # Automated CI/CD pipeline for Cloudflare Pages
+└── README.md                    # Technical documentation
 ```
 
 ---
 
 ## 2. Key Highlights
 
+- **Live Breaking News Wire (Top 10)**:
+  - Consumes real-time notifications directly from `https://api.zerodaily.in/api/v1/notifications/history?limit=10`.
+  - Automatically promotes newly scraped breaking news to the top of the wire with live pulse indicators and one-click full roasted breakdowns.
+- **Editorial Intelligence Design**:
+  - Replaces generic AI SaaS templates with a publication-grade editorial layout featuring **Newsreader** serif typography, asymmetric hierarchy, and dense wire scannability.
 - **Dynamic Latest APK Resolution**:
   - `https://zerodaily.in/apk` and `https://zerodaily.in/download` natively redirect (HTTP 302) to the newest release APK from [`err0rgod/zerodaily-app`](https://github.com/err0rgod/zerodaily-app).
   - Web UI dynamically queries the GitHub Releases API on load to display the live version tag (e.g., `v0.1.4`), file size (~71.2 MB), and direct download asset link.
-- **Zero Fluff**: Minimalist, distraction-free intro website built with clean dark aesthetic and crisp typography (Inter + JetBrains Mono).
-- **Interactive Roast Preview**: Instant showcase of ZeroDaily's 60-word cynical summaries with domain filters and one-click copy.
 - **7 Covered Technical & Market Domains**:
   - `cybersec`: Active 0-days, ransomware, and critical CVEs
   - `ai`: Foundation models, benchmark reality checks, and agent economics
