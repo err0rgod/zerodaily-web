@@ -1,64 +1,73 @@
 import { DIRECT_APK_URL, REPO_URL, CATEGORIES, escapeHtml } from '../api.js';
 
-export function renderEditorialMasthead(activeCategory, onSelectCategory) {
+export function renderMasthead(activeCategory, onSelectCategory) {
   const container = document.createElement('header');
-  container.className = 'w-full border-b border-rule dark:border-night-rule bg-paper dark:bg-night';
-
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric'
-  });
+  container.className = 'w-full';
 
   const isDark = document.documentElement.classList.contains('dark');
 
   container.innerHTML = `
-    <!-- Dateline -->
-    <div class="border-b border-rule dark:border-night-rule">
-      <div class="max-w-3xl mx-auto px-5 py-2 flex items-center justify-between gap-4 text-[11px] font-mono text-ink-faint dark:text-paper-faint">
-        <span class="truncate">${escapeHtml(dateStr)}</span>
-        <div class="flex items-center gap-4 shrink-0">
-          <a href="${REPO_URL}" target="_blank" rel="noopener" class="hover:text-ink dark:hover:text-paper-ink transition-colors hidden sm:inline">GitHub</a>
-          <button
-            id="theme-toggle"
-            type="button"
-            aria-label="Toggle dark mode"
-            class="hover:text-ink dark:hover:text-paper-ink transition-colors flex items-center gap-1.5"
-          >
-            <svg id="theme-icon-moon" class="w-3.5 h-3.5 ${isDark ? 'hidden' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-            <svg id="theme-icon-sun" class="w-3.5 h-3.5 ${isDark ? '' : 'hidden'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.95-6.95l-1.414 1.414M7.464 16.536L6.05 17.95m11.9 0l-1.414-1.414M7.464 7.464L6.05 6.05M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          </button>
-          <a
-            href="${DIRECT_APK_URL}"
-            data-apk-link="true"
-            download
-            class="text-brand dark:text-brand-dark font-medium hover:underline underline-offset-4"
-          >
-            <span id="masthead-apk-text">Get the app</span>
-          </a>
-        </div>
+    <!-- Slim top bar -->
+    <div class="max-w-3xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 group">
+        <img src="/favicon.svg" alt="ZeroDaily" class="w-7 h-7 rounded-md" />
+        <span class="font-serif text-xl font-bold text-ink dark:text-paper-ink tracking-tight group-hover:text-brand dark:group-hover:text-brand-dark transition-colors">ZeroDaily</span>
+      </a>
+
+      <div class="flex items-center gap-4 text-sm">
+        <a href="${REPO_URL}" target="_blank" rel="noopener" class="text-ink-faint dark:text-paper-faint hover:text-ink dark:hover:text-paper-ink transition-colors hidden sm:inline">GitHub</a>
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Toggle dark mode"
+          class="text-ink-faint dark:text-paper-faint hover:text-ink dark:hover:text-paper-ink transition-colors"
+        >
+          <svg id="theme-icon-moon" class="w-4 h-4 ${isDark ? 'hidden' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg id="theme-icon-sun" class="w-4 h-4 ${isDark ? '' : 'hidden'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.95-6.95l-1.414 1.414M7.464 16.536L6.05 17.95m11.9 0l-1.414-1.414M7.464 7.464L6.05 6.05M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        </button>
+        <a
+          href="${DIRECT_APK_URL}"
+          data-apk-link="true"
+          download
+          class="font-medium text-brand dark:text-brand-dark hover:underline underline-offset-4"
+        >
+          <span id="masthead-apk-text">Get the app</span>
+        </a>
       </div>
     </div>
 
-    <!-- Nameplate -->
-    <div class="max-w-3xl mx-auto px-5 pt-10 pb-8 text-center">
-      <a href="/" class="inline-block">
-        <h1 class="font-serif text-6xl sm:text-7xl font-bold tracking-tight text-ink dark:text-paper-ink leading-none">
-          ZeroDaily
-        </h1>
-      </a>
-      <p class="mt-4 font-serif italic text-base sm:text-lg text-ink-soft dark:text-paper-soft leading-relaxed">
-        Tech news, roasted in sixty words.
+    <!-- Hero -->
+    <div class="max-w-3xl mx-auto px-5 pt-14 pb-12 sm:pt-20 sm:pb-16 text-center">
+      <h1 class="font-serif text-5xl sm:text-6xl font-bold text-ink dark:text-paper-ink tracking-tight leading-[1.05] text-balance">
+        The whole tech world,<br />in sixty words.
+      </h1>
+      <p class="mt-6 font-serif italic text-lg sm:text-xl text-ink-soft dark:text-paper-soft leading-relaxed max-w-xl mx-auto">
+        ZeroDaily reads the press releases, the post-mortems and the SEC filings
+        so you don't have to — then hands you one honest paragraph.
       </p>
-      <p class="mt-2 text-xs text-ink-faint dark:text-paper-faint font-mono">
-        We read the press releases so you don't have to.
+
+      <div class="mt-8 flex items-center justify-center gap-4">
+        <a
+          href="${DIRECT_APK_URL}"
+          data-apk-link="true"
+          download
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-ink dark:bg-paper-ink text-paper dark:text-night text-sm font-semibold hover:bg-brand dark:hover:bg-brand-dark transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span id="hero-apk-text">Download for Android</span>
+        </a>
+        <a href="#taste" class="text-sm text-ink-soft dark:text-paper-soft hover:text-brand dark:hover:text-brand-dark transition-colors underline underline-offset-4 decoration-rule-dark dark:decoration-night-rule-dark">
+          Read a story first
+        </a>
+      </div>
+
+      <p class="mt-4 font-mono text-[11px] text-ink-faint dark:text-paper-faint">
+        Free &middot; no account &middot; no ads &middot; no trackers
       </p>
     </div>
 
-    <!-- Category strip -->
-    <nav class="border-t border-rule dark:border-night-rule">
+    <!-- Desk strip: filters the single preview story below -->
+    <nav class="border-y border-rule dark:border-night-rule">
       <div class="max-w-3xl mx-auto px-5 py-2.5 flex items-center gap-1 overflow-x-auto no-scrollbar">
         ${CATEGORIES.map(cat => `
           <button

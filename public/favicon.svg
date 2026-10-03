@@ -1,6 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="6" fill="#faf8f3"/>
-  <rect x="1" y="1" width="30" height="30" rx="5" stroke="#1b1a17" stroke-width="2"/>
-  <text x="16" y="22" text-anchor="middle" font-family="Georgia, serif" font-weight="bold" font-size="16" fill="#1b1a17">Z</text>
-  <rect x="6" y="24.5" width="20" height="2" fill="#c2410c"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1252 1340" role="img" aria-label="ZeroDaily">
+  <!-- Black field -->
+  <rect width="1252" height="1340" fill="#010101"/>
+  <!-- Z glyph: white body with a diagonal cut-out slash, vertically centered -->
+  <g transform="translate(0, 30)">
+    <path fill="#ffffff" d="M 951.25 1248.39 L 207.39 1248.39 L 229.63 1118.97 L 841.44 419.56 L 381.26 419.56 L 412.64 250.92 L 1126.42 250.92 L 1101.59 386.87 L 497.61 1079.75 L 980.02 1079.75 Z"/>
+    <path fill="#010101" d="M 1213.42 220.72 L 1251.38 255.72 L 274.34 1314.73 L 236.38 1279.73 Z"/>
+  </g>
 </svg>

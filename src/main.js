@@ -1,9 +1,8 @@
 import './styles.css';
-import { renderEditorialMasthead } from './components/editorialMasthead.js';
-import { renderBreakingWire } from './components/breakingWire.js';
-import { renderEditorialBriefing } from './components/editorialBriefing.js';
+import { renderMasthead } from './components/editorialMasthead.js';
+import { renderStoryPreview } from './components/storyPreview.js';
 import { renderCoverageDirectory } from './components/coverageDirectory.js';
-import { renderAppDock } from './components/appDock.js';
+import { renderAppSection } from './components/appDock.js';
 import { renderFooter } from './components/footer.js';
 import { fetchLatestAppRelease, setBreakingEndpoint } from './api.js';
 
@@ -23,15 +22,18 @@ async function hydrateReleaseData() {
     el.href = release.apkUrl;
   });
 
+  const versionSuffix = release.version !== 'Latest' ? ` (${release.version}${release.apkSize ? ' · ' + release.apkSize : ''})` : '';
+
   const mastheadApkText = document.getElementById('masthead-apk-text');
   if (mastheadApkText && release.version !== 'Latest') {
     mastheadApkText.textContent = `Get the app (${release.version})`;
   }
 
+  const heroApkText = document.getElementById('hero-apk-text');
+  if (heroApkText) heroApkText.textContent = `Download for Android${versionSuffix}`;
+
   const appBtnText = document.getElementById('app-btn-text');
-  if (appBtnText && release.version !== 'Latest') {
-    appBtnText.textContent = `Download for Android (${release.version}${release.apkSize ? ' · ' + release.apkSize : ''})`;
-  }
+  if (appBtnText) appBtnText.textContent = `Download for Android${versionSuffix}`;
 
   const appSpecsTag = document.getElementById('app-specs-tag');
   if (appSpecsTag && release.version !== 'Latest') {
@@ -50,8 +52,7 @@ function initApp() {
 
   appRoot.innerHTML = '';
 
-  let breakingWireComp = null;
-  let editorialBriefingComp = null;
+  const preview = renderStoryPreview(state.activeCategory);
 
   function switchCategory(newCategory) {
     state.activeCategory = newCategory;
@@ -61,30 +62,14 @@ function initApp() {
       tab.className = cat === newCategory ? TAB_ACTIVE : TAB_IDLE;
     });
 
-    breakingWireComp?.setCategory(newCategory);
-    editorialBriefingComp?.setCategory(newCategory);
+    preview.setCategory(newCategory);
+    document.getElementById('taste')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function handleSelectStory(story, shouldScroll = true) {
-    editorialBriefingComp?.setStory(story, shouldScroll);
-  }
-
-  const masthead = renderEditorialMasthead(state.activeCategory, switchCategory);
-  appRoot.appendChild(masthead);
-
-  breakingWireComp = renderBreakingWire(handleSelectStory, state.activeCategory);
-  appRoot.appendChild(breakingWireComp.element);
-
-  editorialBriefingComp = renderEditorialBriefing(state.activeCategory);
-  appRoot.appendChild(editorialBriefingComp.element);
-
-  const desks = renderCoverageDirectory((cat) => {
-    switchCategory(cat);
-    document.getElementById('briefing')?.scrollIntoView({ behavior: 'smooth' });
-  });
-  appRoot.appendChild(desks);
-
-  appRoot.appendChild(renderAppDock());
+  appRoot.appendChild(renderMasthead(state.activeCategory, switchCategory));
+  appRoot.appendChild(preview.element);
+  appRoot.appendChild(renderAppSection());
+  appRoot.appendChild(renderCoverageDirectory(switchCategory));
   appRoot.appendChild(renderFooter());
 
   hydrateReleaseData();
@@ -93,7 +78,7 @@ function initApp() {
   // __setZeroDailyBreakingEndpoint('https://staging.example.com/feed')
   window.__setZeroDailyBreakingEndpoint = (url) => {
     setBreakingEndpoint(url);
-    breakingWireComp?.reload();
+    preview.reload();
   };
 }
 
