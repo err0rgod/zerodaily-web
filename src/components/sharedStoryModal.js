@@ -7,16 +7,16 @@ import { fetchArticleDetail, escapeHtml, DIRECT_APK_URL } from '../api.js';
  * - ?id=:id
  */
 export function getSharedArticleIdFromUrl() {
-  const pathname = window.location.pathname;
-  const match = pathname.match(/^\/(?:a|story)\/([^/?#]+)/i);
-  if (match && match[1]) {
-    return decodeURIComponent(match[1]);
-  }
-
   const params = new URLSearchParams(window.location.search);
   const paramId = params.get('id') || params.get('article_id');
   if (paramId) {
     return decodeURIComponent(paramId);
+  }
+
+  const pathname = window.location.pathname;
+  const match = pathname.match(/^\/(?:a|story)\/(.+?)(?:[?#]|$)/i);
+  if (match && match[1]) {
+    return decodeURIComponent(match[1]);
   }
 
   return null;
