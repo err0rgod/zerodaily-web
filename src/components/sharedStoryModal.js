@@ -91,9 +91,14 @@ export async function handleSharedStoryView() {
           ${escapeHtml(heading)}
         </h2>
 
-        <p class="text-xs sm:text-[13px] font-sans text-ink-muted dark:text-paper-muted leading-relaxed mb-4 line-clamp-3 sm:line-clamp-4">
+        <p class="text-xs sm:text-[13px] font-sans text-ink-muted dark:text-paper-muted leading-relaxed mb-3 line-clamp-3 sm:line-clamp-4">
           ${escapeHtml(summary)}
         </p>
+
+        <div class="flex items-center gap-1.5 text-[11px] font-mono font-medium text-brand dark:text-brand-dark mb-2.5">
+          <span>⚡</span>
+          <span>Download ZeroDaily for fastest tech news</span>
+        </div>
 
         <div class="flex flex-row gap-2 mt-auto">
           <a href="${escapeHtml(appLaunchUrl)}" class="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-xl font-sans text-xs sm:text-sm font-semibold bg-brand text-paper hover:bg-brand/90 transition-colors shadow-sm text-center">
