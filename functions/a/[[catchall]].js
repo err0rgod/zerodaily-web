@@ -31,7 +31,7 @@ export async function onRequest(context) {
           heading = json.data.heading || heading;
           const snippet = json.data.shortSummary || json.data.fullSummary || "";
           description = snippet
-            ? `Download ZeroDaily for fastest tech news • ${snippet.slice(0, 160)}...`
+            ? `Download ZeroDaily for fastest tech news — ${snippet.slice(0, 160)}...`
             : "Download ZeroDaily for fastest tech news";
           imageUrl = json.data.image_url || imageUrl;
         }
@@ -77,6 +77,16 @@ export async function onRequest(context) {
     .on('meta[name="twitter:image"]', {
       element(e) {
         e.setAttribute('content', imageUrl);
+      }
+    })
+    .on('head', {
+      element(e) {
+        // WhatsApp & Telegram rich card compliance tags
+        e.append(`<meta property="og:image:secure_url" content="${imageUrl}" />`, { html: true });
+        e.append(`<meta property="og:image:type" content="image/jpeg" />`, { html: true });
+        e.append(`<meta property="og:image:width" content="1200" />`, { html: true });
+        e.append(`<meta property="og:image:height" content="630" />`, { html: true });
+        e.append(`<meta name="twitter:image" content="${imageUrl}" />`, { html: true });
       }
     })
     .transform(response);

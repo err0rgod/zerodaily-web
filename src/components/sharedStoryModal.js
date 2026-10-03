@@ -35,8 +35,9 @@ export async function handleSharedStoryView() {
   const isAndroid = /Android/i.test(navigator.userAgent);
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  // Standard Android Intent URI directly targeting the app package
-  const androidIntentUrl = `intent://a/${encodedId}#Intent;scheme=zerodaily;package=in.zerodaily.app;end;`;
+  const currentUrl = encodeURIComponent(window.location.href);
+  // Standard Android Intent URI with web fallback if app is not installed
+  const androidIntentUrl = `intent://a/${encodedId}#Intent;scheme=zerodaily;package=in.zerodaily.app;S.browser_fallback_url=${currentUrl};end;`;
   const customSchemeUrl = `zerodaily://a/${encodedId}`;
   const appLaunchUrl = isAndroid ? androidIntentUrl : customSchemeUrl;
 
@@ -46,13 +47,6 @@ export async function handleSharedStoryView() {
       navigator.clipboard.writeText(`zerodaily:${articleId}`).catch(() => {});
     }
   } catch {}
-
-  // 2. Automatically attempt launching installed app on mobile devices
-  if (isMobile) {
-    try {
-      window.location.href = appLaunchUrl;
-    } catch {}
-  }
 
   // 3. Fetch story details for clean web preview
   const article = await fetchArticleDetail(articleId);
