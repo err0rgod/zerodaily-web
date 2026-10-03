@@ -2,7 +2,7 @@ import { DIRECT_APK_URL, REPO_URL, CATEGORIES, escapeHtml } from '../api.js';
 
 export function renderMasthead(activeCategory, onSelectCategory) {
   const container = document.createElement('header');
-  container.className = 'w-full';
+  container.className = 'w-full bg-paper dark:bg-night';
 
   const isDark = document.documentElement.classList.contains('dark');
 
@@ -19,8 +19,8 @@ export function renderMasthead(activeCategory, onSelectCategory) {
         <button
           id="theme-toggle"
           type="button"
-          aria-label="Toggle dark mode"
-          class="text-ink-faint dark:text-paper-faint hover:text-ink dark:hover:text-paper-ink transition-colors"
+          aria-label="${isDark ? 'Switch to light theme' : 'Switch to dark theme'}"
+          class="text-ink-faint dark:text-paper-faint hover:text-ink dark:hover:text-paper-ink transition-colors cursor-pointer"
         >
           <svg id="theme-icon-moon" class="w-4 h-4 ${isDark ? 'hidden' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
           <svg id="theme-icon-sun" class="w-4 h-4 ${isDark ? '' : 'hidden'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.95-6.95l-1.414 1.414M7.464 16.536L6.05 17.95m11.9 0l-1.414-1.414M7.464 7.464L6.05 6.05M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -99,11 +99,15 @@ export function renderMasthead(activeCategory, onSelectCategory) {
       const root = document.documentElement;
       const nowDark = !root.classList.contains('dark');
       root.classList.toggle('dark', nowDark);
+      root.style.colorScheme = nowDark ? 'dark' : 'light';
       try { localStorage.setItem('zd-theme', nowDark ? 'dark' : 'light'); } catch (e) {}
-      const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', nowDark ? '#0d0e12' : '#faf8f3');
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) metaTheme.setAttribute('content', nowDark ? '#0d0e12' : '#faf8f3');
+      const metaScheme = document.querySelector('meta[name="color-scheme"]');
+      if (metaScheme) metaScheme.setAttribute('content', nowDark ? 'dark' : 'light');
       container.querySelector('#theme-icon-moon')?.classList.toggle('hidden', nowDark);
       container.querySelector('#theme-icon-sun')?.classList.toggle('hidden', !nowDark);
+      toggle.setAttribute('aria-label', nowDark ? 'Switch to light theme' : 'Switch to dark theme');
     });
   }
 

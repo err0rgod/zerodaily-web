@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
@@ -33,11 +33,29 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+  background-color: var(--color-paper);
+  scrollbar-color: var(--color-rule-dark) transparent;
+}
+
+html.dark {
+  color-scheme: dark;
+  background-color: var(--color-night);
+  scrollbar-color: var(--color-night-rule-dark) transparent;
 }
 
 body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+html.dark body,
+.dark body {
+  background-color: var(--color-night);
+  color: var(--color-paper-ink);
 }
 
 ::selection {
@@ -45,7 +63,10 @@ body {
   color: #fff7ed;
 }
 
-.dark ::selection {
+html.dark ::selection,
+.dark ::selection,
+html.dark::selection,
+.dark::selection {
   background: #f26f3f;
   color: #181410;
 }
@@ -62,6 +83,9 @@ body {
   background: var(--color-rule-dark);
   border-radius: 9999px;
 }
+html.dark::-webkit-scrollbar-thumb,
+.dark::-webkit-scrollbar-thumb,
+html.dark ::-webkit-scrollbar-thumb,
 .dark ::-webkit-scrollbar-thumb {
   background: var(--color-night-rule-dark);
 }
@@ -77,7 +101,8 @@ body {
   padding-top: 0.06em;
   color: var(--color-brand);
 }
-.dark .dropcap::first-letter {
+.dark .dropcap::first-letter,
+html.dark .dropcap::first-letter {
   color: var(--color-brand-dark);
 }
 
