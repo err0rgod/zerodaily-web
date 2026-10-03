@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "in.zerodaily.app",
+      "sha256_cert_fingerprints": [
+        "06:06:9D:C9:FE:27:D7:F2:DD:67:93:4E:1D:48:5F:D5:ED:69:02:E1:3A:42:7D:33:72:2F:11:7E:98:24:F8:EC"
+      ]
+    }
+  }
+]

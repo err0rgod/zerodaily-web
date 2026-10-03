@@ -5,6 +5,7 @@ import { renderCoverageDirectory } from './components/coverageDirectory.js';
 import { renderAppSection } from './components/appDock.js';
 import { renderFooter } from './components/footer.js';
 import { fetchLatestAppRelease, setBreakingEndpoint } from './api.js';
+import { handleSharedStoryView } from './components/sharedStoryModal.js';
 
 const state = {
   activeCategory: 'all',
@@ -73,6 +74,7 @@ function initApp() {
   appRoot.appendChild(renderFooter());
 
   hydrateReleaseData();
+  handleSharedStoryView();
 
   // Handy for testing against a staging feed:
   // __setZeroDailyBreakingEndpoint('https://staging.example.com/feed')

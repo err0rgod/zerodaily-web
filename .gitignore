@@ -17,6 +17,7 @@ build/
 *.json
 !package.json
 !package-lock.json
+!public/.well-known/assetlinks.json
 
 # Logs & temp
 npm-debug.log*
