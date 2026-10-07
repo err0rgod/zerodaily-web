@@ -1,10 +1,5 @@
-# Clean routes for legal and compliance pages
-/privacy         /privacy.html         200
-/terms           /terms.html           200
-/delete-account  /delete-account.html  200
-
 # Android App Links verification
-/.well-known/assetlinks.json /assetlinks.json                                                200
+/.well-known/assetlinks.json /.well-known/assetlinks.json                                      200
 
 # APK download shortcuts
 /download/apk   https://github.com/err0rgod/zerodaily-app/releases/latest/download/ZeroDaily.apk   302

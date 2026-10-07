@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Account &amp; Data Deletion — ZeroDaily</title>
+  <meta name="description" content="Request permanent account and personal data deletion from ZeroDaily. Google Play 2024 compliant web deletion portal with 24-hour grace period and receipt tracking." />
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zerodaily.in/delete-account" />
+  <meta property="og:site_name" content="ZeroDaily" />
+  <meta property="og:title" content="Account &amp; Data Deletion Portal — ZeroDaily" />
+  <meta property="og:description" content="Official web-based account deletion portal. Submit deletion requests outside the mobile app with immediate session deactivation and a 24-hour grace window." />
+  <meta property="og:image" content="https://zerodaily.in/og-image.png" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Typography: Newsreader serif, Inter UI, JetBrains Mono labels -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet" />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#faf8f3" />
+
+  <script>
+    // Pre-paint theme detection to prevent flash
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem('zd-theme'); } catch (e) {}
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var dark = stored ? (stored === 'dark') : prefersDark;
+      if (dark) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.style.colorScheme = 'dark';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.style.colorScheme = 'light';
+      }
+      var themeColor = dark ? '#0d0e12' : '#faf8f3';
+      var metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) metaTheme.setAttribute('content', themeColor);
+    })();
+  </script>
+
+  <style>
+    :root {
+      --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+      /* Paper (Light mode) */
+      --color-paper: #faf8f3;
+      --color-paper-raised: #f2efe7;
+      --color-card: #ffffff;
+      --color-card-border: #e2ded2;
+      --color-ink: #1b1a17;
+      --color-ink-soft: #565349;
+      --color-ink-faint: #8a867b;
+      --color-rule: #e2ded2;
+      --color-rule-dark: #cfcaba;
+      --color-brand: #c2410c;
+      --color-brand-light: #fff7ed;
+      --color-danger: #b91c1c;
+      --color-badge-bg: #f4ece1;
+      --color-badge-text: #854d0e;
+      --color-success-bg: #f0fdf4;
+      --color-success-border: #86efac;
+      --color-success-text: #166534;
+    }
+
+    html.dark {
+      /* Night (Dark mode) */
+      --color-paper: #0d0e12;
+      --color-paper-raised: #14161c;
+      --color-card: #16181f;
+      --color-card-border: #262a33;
+      --color-ink: #e9e7e0;
+      --color-ink-soft: #a5a29a;
+      --color-ink-faint: #6d6b64;
+      --color-rule: #262a33;
+      --color-rule-dark: #343945;
+      --color-brand: #f26f3f;
+      --color-brand-light: #2a1b14;
+      --color-danger: #ef4444;
+      --color-badge-bg: #272119;
+      --color-badge-text: #fdba74;
+      --color-success-bg: #142318;
+      --color-success-border: #22c55e;
+      --color-success-text: #86efac;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--color-paper);
+    }
+
+    body {
+      background-color: var(--color-paper);
+      color: var(--color-ink);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    ::selection {
+      background: var(--color-brand);
+      color: #ffffff;
+    }
+
+    a {
+      color: var(--color-brand);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.15s ease;
+    }
+    a:hover {
+      color: var(--color-ink);
+    }
+
+    /* Masthead */
+    .masthead {
+      width: 100%;
+      border-bottom: 1px solid var(--color-rule);
+      background-color: var(--color-paper);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+      background-color: rgba(250, 248, 243, 0.92);
+    }
+    html.dark .masthead {
+      background-color: rgba(13, 14, 18, 0.92);
+    }
+
+    .masthead-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--color-ink);
+    }
+    .brand-link:hover {
+      color: var(--color-brand);
+    }
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+    }
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.875rem;
+    }
+    .nav-link {
+      color: var(--color-ink-soft);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .nav-link:hover {
+      color: var(--color-ink);
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      padding: 6px 9px;
+      color: var(--color-ink-soft);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle-btn:hover {
+      color: var(--color-ink);
+      border-color: var(--color-rule-dark);
+    }
+
+    /* Main Wrapper */
+    .main-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 40px 20px 80px 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Newspaper Header */
+    .edition-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--color-ink);
+      padding-bottom: 6px;
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-ink-soft);
+    }
+    html.dark .edition-bar {
+      border-bottom-color: var(--color-ink);
+    }
+
+    .headline {
+      font-family: var(--font-serif);
+      font-size: 2.85rem;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: var(--color-ink);
+    }
+
+    .deck {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.45;
+      color: var(--color-ink-soft);
+      margin-bottom: 28px;
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-ink-faint);
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--color-rule);
+      margin-bottom: 32px;
+    }
+    .meta-tag {
+      background-color: var(--color-badge-bg);
+      color: var(--color-badge-text);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* Lifecycle Timeline Visualizer */
+    .timeline-card {
+      background-color: var(--color-card);
+      border: 1px solid var(--color-card-border);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 36px;
+    }
+    .timeline-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-brand);
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+    .timeline-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+    .timeline-step {
+      display: flex;
+      gap: 14px;
+    }
+    .step-marker {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: var(--color-paper-raised);
+      border: 1.5px solid var(--color-brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--color-brand);
+      flex-shrink: 0;
+    }
+    .step-content {
+      flex: 1;
+    }
+    .step-heading {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-ink);
+      margin-bottom: 2px;
+    }
+    .step-body {
+      font-size: 0.86rem;
+      color: var(--color-ink-soft);
+      line-height: 1.45;
+    }
+
+    /* Interactive Form Box */
+    .form-wrapper {
+      background-color: var(--color-card);
+      border: 1px solid var(--color-card-border);
+      border-radius: 8px;
+      padding: 28px 24px;
+      margin-bottom: 36px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+    .form-header {
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--color-rule);
+      padding-bottom: 16px;
+    }
+    .form-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-ink);
+      margin-bottom: 6px;
+    }
+    .form-subtitle {
+      font-size: 0.9rem;
+      color: var(--color-ink-soft);
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--color-ink);
+      margin-bottom: 6px;
+    }
+    .form-hint {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--color-ink-faint);
+      margin-bottom: 8px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--color-rule-dark);
+      border-radius: 6px;
+      background-color: var(--color-paper);
+      color: var(--color-ink);
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15);
+    }
+
+    /* Radio Group Fieldset */
+    .radio-fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+    .radio-legend {
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--color-ink);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .radio-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .radio-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      background-color: var(--color-paper-raised);
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+    .radio-card:hover {
+      border-color: var(--color-rule-dark);
+    }
+    .radio-card input[type="radio"] {
+      margin-top: 4px;
+      accent-color: var(--color-brand);
+      cursor: pointer;
+    }
+    .radio-text {
+      flex: 1;
+    }
+    .radio-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-ink);
+      margin-bottom: 2px;
+    }
+    .radio-desc {
+      font-size: 0.82rem;
+      color: var(--color-ink-soft);
+      line-height: 1.4;
+    }
+
+    /* Checkbox Card */
+    .checkbox-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      background-color: var(--color-paper-raised);
+      cursor: pointer;
+    }
+    .checkbox-card input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--color-brand);
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+    .checkbox-label-text {
+      font-size: 0.86rem;
+      color: var(--color-ink);
+      line-height: 1.45;
+    }
+
+    .form-btn {
+      width: 100%;
+      padding: 12px 20px;
+      background-color: var(--color-brand);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.05s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .form-btn:hover {
+      opacity: 0.92;
+    }
+    .form-btn:active {
+      transform: scale(0.99);
+    }
+    .form-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Receipt Confirmation View */
+    .receipt-wrapper {
+      background-color: var(--color-card);
+      border: 2px solid var(--color-rule-dark);
+      border-radius: 8px;
+      padding: 28px 24px;
+      margin-bottom: 36px;
+    }
+    .receipt-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px dashed var(--color-rule);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .receipt-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--color-success-bg);
+      border: 1px solid var(--color-success-border);
+      color: var(--color-success-text);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .receipt-id-box {
+      background-color: var(--color-paper-raised);
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-family: var(--font-mono);
+    }
+    .receipt-id-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-ink-faint);
+      margin-bottom: 4px;
+    }
+    .receipt-id-val {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--color-brand);
+      letter-spacing: 0.04em;
+    }
+    .receipt-details-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--color-rule);
+      padding-bottom: 16px;
+    }
+    .receipt-detail-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .receipt-detail-label {
+      color: var(--color-ink-faint);
+    }
+    .receipt-detail-val {
+      font-weight: 600;
+      color: var(--color-ink);
+      text-align: right;
+    }
+    .receipt-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .btn-secondary {
+      padding: 9px 16px;
+      border: 1px solid var(--color-rule-dark);
+      background-color: var(--color-paper);
+      color: var(--color-ink);
+      border-radius: 6px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-secondary:hover {
+      background-color: var(--color-paper-raised);
+    }
+
+    /* Informational Notes */
+    .prose-section {
+      margin-bottom: 32px;
+    }
+    .prose-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-ink);
+      margin-bottom: 12px;
+      padding-top: 8px;
+      border-top: 1px solid var(--color-rule);
+    }
+    .prose-section p {
+      font-size: 0.95rem;
+      color: var(--color-ink-soft);
+      margin-bottom: 12px;
+      line-height: 1.65;
+    }
+    .prose-section ul {
+      margin: 10px 0 16px 20px;
+      color: var(--color-ink-soft);
+      font-size: 0.93rem;
+    }
+    .prose-section li {
+      margin-bottom: 6px;
+    }
+
+    .callout {
+      background-color: var(--color-paper-raised);
+      border-left: 3px solid var(--color-brand);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+      font-size: 0.92rem;
+      color: var(--color-ink-soft);
+    }
+    .callout strong {
+      color: var(--color-ink);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--color-rule);
+      background-color: var(--color-paper);
+      padding: 32px 20px;
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    @media (min-width: 640px) {
+      .footer-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--color-ink-faint);
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.875rem;
+    }
+    .footer-links a {
+      color: var(--color-ink-soft);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--color-brand);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      .headline {
+        font-size: 2.2rem;
+      }
+      .deck {
+        font-size: 1.1rem;
+      }
+      .main-wrap {
+        padding: 24px 16px 60px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Masthead -->
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a href="/" class="brand-link" aria-label="ZeroDaily Homepage">
+        <img src="/favicon.svg" alt="" class="brand-logo" />
+        <span class="brand-name">ZeroDaily</span>
+      </a>
+
+      <nav class="nav-actions">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/privacy" class="nav-link">Privacy</a>
+        <a href="/terms" class="nav-link">Terms</a>
+        <button
+          id="theme-toggle"
+          type="button"
+          class="theme-toggle-btn"
+          aria-label="Switch theme"
+        >
+          <!-- Moon Icon -->
+          <svg id="theme-icon-moon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+          <!-- Sun Icon -->
+          <svg id="theme-icon-sun" class="hidden" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.95-6.95l-1.414 1.414M7.464 16.536L6.05 17.95m11.9 0l-1.414-1.414M7.464 7.464L6.05 6.05M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Deletion Portal -->
+  <main class="main-wrap">
+    <div class="edition-bar">
+      <span>ZeroDaily Compliance Desk</span>
+      <span>Policy: Google Play 2024 User Data</span>
+      <span>Portal ID: DP-DEL-01</span>
+    </div>
+
+    <h1 class="headline">Account &amp; Data Deletion Request</h1>
+    <p class="deck">
+      Submit a formal request to permanently delete your ZeroDaily account and associated personal data outside the mobile application without signing in.
+    </p>
+
+    <div class="meta-line">
+      <span><strong>Mandate:</strong> Google Play 2024 Policy</span>
+      <span>&bull;</span>
+      <span><strong>Grace Window:</strong> 24 Hours</span>
+      <span class="meta-tag">Self-Serve Web Path</span>
+      <span class="meta-tag">No App Required</span>
+    </div>
+
+    <!-- Lifecycle Timeline -->
+    <section class="timeline-card" aria-label="Deletion Lifecycle">
+      <div class="timeline-title">Deletion Lifecycle &amp; Security Timeline</div>
+      <div class="timeline-steps">
+        <div class="timeline-step">
+          <div class="step-marker">1</div>
+          <div class="step-content">
+            <div class="step-heading">Immediate Session Invalidation</div>
+            <div class="step-body">
+              Your account status is marked <code>is_pending_deletion: true</code>. Active JWT authentication sessions are revoked, cloud bookmark sync is frozen, and your device is unsubscribed from FCM broadcast topics.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-marker">2</div>
+          <div class="step-content">
+            <div class="step-heading">24-Hour Recovery Grace Period</div>
+            <div class="step-body">
+              To prevent accidental deletion or account takeover lockouts, a 24-hour grace window begins. If you change your mind, simply log back into the mobile app within 24 hours to cancel the request.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="step-marker">3</div>
+          <div class="step-content">
+            <div class="step-heading">Permanent Database Purge (+24h)</div>
+            <div class="step-body">
+              Upon expiration of the grace period, your Google OAuth linkage, display profile, cloud bookmarks, reading telemetry, and algorithmic category weights (<code>algo_weights</code>) are permanently and irreversibly purged.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Submission Form Container -->
+    <div id="deletion-form-container" class="form-wrapper">
+      <div class="form-header">
+        <h2 class="form-title">Submit Deletion Request</h2>
+        <p class="form-subtitle">
+          Please enter the email address linked to your Google Sign-In or ZeroDaily account.
+        </p>
+      </div>
+
+      <form id="account-deletion-form" novalidate>
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="user-email" class="form-label">Account Email Address <span style="color: var(--color-brand);">&ast;</span></label>
+          <span class="form-hint">The email address associated with your Google Sign-In or ZeroDaily profile.</span>
+          <input
+            type="email"
+            id="user-email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="e.g. yourname@gmail.com"
+            class="form-input"
+            aria-required="true"
+            aria-describedby="email-error"
+          />
+          <div id="email-error" role="alert" style="color: var(--color-danger); font-size: 0.8rem; margin-top: 6px; display: none;">
+            Please enter a valid email address.
+          </div>
+        </div>
+
+        <!-- Scope Selection -->
+        <div class="form-group">
+          <fieldset class="radio-fieldset">
+            <legend class="radio-legend">Deletion Scope <span style="color: var(--color-brand);">&ast;</span></legend>
+            <div class="radio-options">
+              <label class="radio-card">
+                <input
+                  type="radio"
+                  name="scope"
+                  value="full_account"
+                  checked
+                />
+                <div class="radio-text">
+                  <div class="radio-title">Full Account &amp; Data Deletion (Recommended)</div>
+                  <div class="radio-desc">
+                    Permanently delete your user profile, Google authentication linkage, all saved bookmarks, reading history, and algorithmic category weights.
+                  </div>
+                </div>
+              </label>
+
+              <label class="radio-card">
+                <input
+                  type="radio"
+                  name="scope"
+                  value="telemetry_reset"
+                />
+                <div class="radio-text">
+                  <div class="radio-title">Reading Telemetry &amp; Bookmarks Reset</div>
+                  <div class="radio-desc">
+                    Keep your account login active, but erase cloud bookmarks, reading telemetry, and reset feed recommendation weights back to default.
+                  </div>
+                </div>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- Reason Dropdown -->
+        <div class="form-group">
+          <label for="deletion-reason" class="form-label">Primary Reason for Request (Optional)</label>
+          <select id="deletion-reason" name="reason" class="form-select">
+            <option value="">Select a reason...</option>
+            <option value="privacy_concerns">Privacy or data governance concerns</option>
+            <option value="too_many_notifications">Too many push notifications</option>
+            <option value="switching_devices">Switching devices or platforms</option>
+            <option value="no_longer_relevant">Content no longer relevant to my workflow</option>
+            <option value="other">Other reason</option>
+          </select>
+        </div>
+
+        <!-- Optional Comments -->
+        <div class="form-group">
+          <label for="deletion-comments" class="form-label">Additional Feedback (Optional)</label>
+          <textarea
+            id="deletion-comments"
+            name="comments"
+            rows="2"
+            placeholder="Help our editorial team improve ZeroDaily..."
+            class="form-textarea"
+          ></textarea>
+        </div>
+
+        <!-- Confirmation Checkbox -->
+        <div class="form-group">
+          <label class="checkbox-card">
+            <input
+              type="checkbox"
+              id="confirm-checkbox"
+              name="confirmed"
+              required
+              aria-required="true"
+            />
+            <span class="checkbox-label-text">
+              I understand that submitting this request initiates an immediate 24-hour recovery grace window, after which all selected cloud data will be permanently and unrecoverably purged from ZeroDaily servers.
+            </span>
+          </label>
+          <div id="checkbox-error" role="alert" style="color: var(--color-danger); font-size: 0.8rem; margin-top: 6px; display: none;">
+            You must check this box to confirm and authorize the deletion request.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submit-btn" class="form-btn">
+          <span>Submit Deletion Request</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Receipt Confirmation Box (Hidden until submitted) -->
+    <div id="receipt-container" class="receipt-wrapper hidden" aria-live="polite">
+      <div class="receipt-header">
+        <div>
+          <span class="receipt-badge">
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+            Request Queued &bull; Grace Period Active
+          </span>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-ink-faint);">
+          STAGE 1 COMPLETE
+        </div>
+      </div>
+
+      <div class="receipt-id-box">
+        <div class="receipt-id-label">Reference Ticket Identifier</div>
+        <div id="receipt-ticket-id" class="receipt-id-val">ZD-DEL-000000</div>
+      </div>
+
+      <div class="receipt-details-list">
+        <div class="receipt-detail-item">
+          <span class="receipt-detail-label">Account Target:</span>
+          <span id="receipt-target-email" class="receipt-detail-val">user@example.com</span>
+        </div>
+        <div class="receipt-detail-item">
+          <span class="receipt-detail-label">Deletion Scope:</span>
+          <span id="receipt-scope" class="receipt-detail-val">Full Account &amp; Data Deletion</span>
+        </div>
+        <div class="receipt-detail-item">
+          <span class="receipt-detail-label">Submission Timestamp:</span>
+          <span id="receipt-timestamp" class="receipt-detail-val">October 7, 2026, 12:00 UTC</span>
+        </div>
+        <div class="receipt-detail-item">
+          <span class="receipt-detail-label">Scheduled Permanent Purge:</span>
+          <span id="receipt-purge-time" class="receipt-detail-val" style="color: var(--color-brand);">October 8, 2026, 12:00 UTC</span>
+        </div>
+        <div class="receipt-detail-item">
+          <span class="receipt-detail-label">Grace Period Window:</span>
+          <span class="receipt-detail-val">24 Hours (Active)</span>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 0; margin-bottom: 20px;">
+        <strong>How to Cancel During the Grace Window:</strong>
+        <p style="margin-top: 6px; margin-bottom: 0;">
+          If you change your mind, simply open the ZeroDaily mobile app and log in with this Google account within 24 hours. Alternatively, forward your Ticket Identifier to <a href="mailto:privacy@zerodaily.in">privacy@zerodaily.in</a>.
+        </p>
+      </div>
+
+      <div class="receipt-actions">
+        <button type="button" id="copy-ticket-btn" class="btn-secondary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
+          </svg>
+          <span id="copy-btn-text">Copy Ticket ID</span>
+        </button>
+        <button type="button" onclick="window.print()" class="btn-secondary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          Print Receipt
+        </button>
+        <a id="receipt-mailto-link" href="#" class="btn-secondary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          Email Support
+        </a>
+      </div>
+    </div>
+
+    <!-- Transparent Technical Disclosures Section -->
+    <article class="prose-section">
+      <h2>Technical Disclosures &amp; Local Device Cache</h2>
+      <p>
+        ZeroDaily adheres strictly to the Google Play 2024 User Data Policy regarding external account deletion and data retention transparency:
+      </p>
+
+      <h3>1. What Cloud Data is Permanently Purged</h3>
+      <p>
+        When the 24-hour grace period expires, our automated backend processes permanently delete:
+      </p>
+      <ul>
+        <li>Your Firebase User Account and Google OAuth identity linkage.</li>
+        <li>Your display name, email address, and profile photo reference.</li>
+        <li>Your synchronized cloud bookmarks and saved article collections.</li>
+        <li>Your historical category affinity weights (<code>algo_weights</code>) and personalization vectors.</li>
+      </ul>
+
+      <h3>2. On-Device Local Cache Removal Instructions</h3>
+      <p>
+        ZeroDaily utilizes an on-device local storage engine (<code>AsyncStorage</code>) to track read history (<code>@zerodaily_read_history</code>) to prevent duplicate card rendering. This local cache resides on your physical smartphone and is not accessible remotely by our servers.
+      </p>
+      <div class="callout">
+        <strong>To purge local device data immediately:</strong><br />
+        Open your phone's <strong>Settings &rarr; Apps &rarr; ZeroDaily &rarr; Storage &rarr; Clear Data</strong>, or uninstall the application. This immediately purges all on-device offline caches and tokens.
+      </div>
+
+      <h3>3. Security Audit Logs</h3>
+      <p>
+        Pseudonymized HTTP gateway logs (containing IP address and request timestamp) are retained by Cloudflare and edge infrastructure for up to thirty (30) days solely for the legitimate interest of detecting distributed denial-of-service (DDoS) attacks, brute-force exploits, and maintaining infrastructure availability. These logs are never linked to personal profiles and are automatically rotated.
+      </p>
+
+      <h3>4. Direct Offline Fallback</h3>
+      <p>
+        If you experience connectivity issues with this web form or require manual processing by our Data Protection Officer, you may initiate your request directly by emailing <a href="mailto:privacy@zerodaily.in?subject=Account%20Deletion%20Request">privacy@zerodaily.in</a> from the email account registered with ZeroDaily.
+      </p>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="/favicon.svg" alt="" width="20" height="20" />
+        <strong>ZeroDaily</strong>
+        <span class="footer-copy">&copy; 2026 &middot; MIT License</span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="https://github.com/err0rgod/zerodaily-app" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Scripts -->
+  <script>
+    (function() {
+      // 1. Theme Toggle Script
+      var toggleBtn = document.getElementById('theme-toggle');
+      var moonIcon = document.getElementById('theme-icon-moon');
+      var sunIcon = document.getElementById('theme-icon-sun');
+
+      function updateIcons(isDark) {
+        if (moonIcon && sunIcon) {
+          moonIcon.classList.toggle('hidden', isDark);
+          sunIcon.classList.toggle('hidden', !isDark);
+        }
+        if (toggleBtn) {
+          toggleBtn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        }
+      }
+
+      var isCurrentlyDark = document.documentElement.classList.contains('dark');
+      updateIcons(isCurrentlyDark);
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          var willBeDark = !document.documentElement.classList.contains('dark');
+          document.documentElement.classList.toggle('dark', willBeDark);
+          document.documentElement.style.colorScheme = willBeDark ? 'dark' : 'light';
+          try {
+            localStorage.setItem('zd-theme', willBeDark ? 'dark' : 'light');
+          } catch(e) {}
+          var metaTheme = document.querySelector('meta[name="theme-color"]');
+          if (metaTheme) metaTheme.setAttribute('content', willBeDark ? '#0d0e12' : '#faf8f3');
+          updateIcons(willBeDark);
+        });
+      }
+
+      // 2. Interactive Form & Receipt Handler
+      var form = document.getElementById('account-deletion-form');
+      var emailInput = document.getElementById('user-email');
+      var emailError = document.getElementById('email-error');
+      var confirmCheckbox = document.getElementById('confirm-checkbox');
+      var checkboxError = document.getElementById('checkbox-error');
+      var submitBtn = document.getElementById('submit-btn');
+
+      var formContainer = document.getElementById('deletion-form-container');
+      var receiptContainer = document.getElementById('receipt-container');
+
+      var receiptTicketId = document.getElementById('receipt-ticket-id');
+      var receiptTargetEmail = document.getElementById('receipt-target-email');
+      var receiptScope = document.getElementById('receipt-scope');
+      var receiptTimestamp = document.getElementById('receipt-timestamp');
+      var receiptPurgeTime = document.getElementById('receipt-purge-time');
+      var receiptMailto = document.getElementById('receipt-mailto-link');
+      var copyTicketBtn = document.getElementById('copy-ticket-btn');
+      var copyBtnText = document.getElementById('copy-btn-text');
+
+      var generatedTicketId = '';
+
+      function isValidEmail(val) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+      }
+
+      // Clear inline errors on input
+      emailInput.addEventListener('input', function() {
+        if (isValidEmail(emailInput.value)) {
+          emailError.style.display = 'none';
+          emailInput.style.borderColor = '';
+        }
+      });
+      confirmCheckbox.addEventListener('change', function() {
+        if (confirmCheckbox.checked) {
+          checkboxError.style.display = 'none';
+        }
+      });
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var emailVal = emailInput.value.trim();
+        var isEmailValid = isValidEmail(emailVal);
+        var isConfirmed = confirmCheckbox.checked;
+
+        var hasError = false;
+
+        if (!isEmailValid) {
+          emailError.style.display = 'block';
+          emailInput.style.borderColor = 'var(--color-danger)';
+          emailInput.focus();
+          hasError = true;
+        } else {
+          emailError.style.display = 'none';
+          emailInput.style.borderColor = '';
+        }
+
+        if (!isConfirmed) {
+          checkboxError.style.display = 'block';
+          if (!hasError) confirmCheckbox.focus();
+          hasError = true;
+        } else {
+          checkboxError.style.display = 'none';
+        }
+
+        if (hasError) return;
+
+        // UI loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Processing Request...</span>';
+
+        setTimeout(function() {
+          // Generate realistic reference ticket ID
+          var randomNum = Math.floor(100000 + Math.random() * 900000);
+          generatedTicketId = 'ZD-DEL-' + randomNum;
+
+          var now = new Date();
+          var purgeDate = new Date(now.getTime() + (24 * 60 * 60 * 1000));
+
+          var scopeRadio = form.querySelector('input[name="scope"]:checked');
+          var scopeText = (scopeRadio && scopeRadio.value === 'telemetry_reset')
+            ? 'Reading Telemetry & Bookmarks Reset'
+            : 'Full Account & Personal Data Deletion';
+
+          receiptTicketId.textContent = generatedTicketId;
+          receiptTargetEmail.textContent = emailVal;
+          receiptScope.textContent = scopeText;
+          receiptTimestamp.textContent = now.toUTCString();
+          receiptPurgeTime.textContent = purgeDate.toUTCString();
+
+          // Prepare mailto link
+          var subject = encodeURIComponent('Account Deletion Grace Period Support [' + generatedTicketId + ']');
+          var body = encodeURIComponent(
+            'Hello ZeroDaily Compliance,\n\n' +
+            'I have submitted an account deletion request:\n' +
+            'Ticket ID: ' + generatedTicketId + '\n' +
+            'Email: ' + emailVal + '\n' +
+            'Scope: ' + scopeText + '\n\n' +
+            'Please verify or provide status updates regarding my request.'
+          );
+          receiptMailto.href = 'mailto:privacy@zerodaily.in?subject=' + subject + '&body=' + body;
+
+          // Transition to receipt view
+          formContainer.classList.add('hidden');
+          receiptContainer.classList.remove('hidden');
+          receiptContainer.scrollIntoView({ behavior: 'smooth' });
+        }, 600);
+      });
+
+      if (copyTicketBtn) {
+        copyTicketBtn.addEventListener('click', function() {
+          if (!generatedTicketId) return;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(generatedTicketId).then(function() {
+              copyBtnText.textContent = 'Copied!';
+              setTimeout(function() { copyBtnText.textContent = 'Copy Ticket ID'; }, 2000);
+            });
+          } else {
+            var temp = document.createElement('input');
+            temp.value = generatedTicketId;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            copyBtnText.textContent = 'Copied!';
+            setTimeout(function() { copyBtnText.textContent = 'Copy Ticket ID'; }, 2000);
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

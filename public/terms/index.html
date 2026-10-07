@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — ZeroDaily</title>
+  <meta name="description" content="ZeroDaily Terms of Service. Editorial satire disclaimers, fair use attribution of news sources, acceptable use policies, and liability limitations." />
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zerodaily.in/terms" />
+  <meta property="og:site_name" content="ZeroDaily" />
+  <meta property="og:title" content="Terms of Service — ZeroDaily" />
+  <meta property="og:description" content="ZeroDaily Terms of Service. Disclaimers on satirical roast commentary, fair use news sourcing, intellectual property, and acceptable use." />
+  <meta property="og:image" content="https://zerodaily.in/og-image.png" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Typography: Newsreader serif, Inter UI, JetBrains Mono labels -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet" />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#faf8f3" />
+
+  <script>
+    // Pre-paint theme detection to prevent flash
+    (function () {
+      var stored = null;
+      try { stored = localStorage.getItem('zd-theme'); } catch (e) {}
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var dark = stored ? (stored === 'dark') : prefersDark;
+      if (dark) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.style.colorScheme = 'dark';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.style.colorScheme = 'light';
+      }
+      var themeColor = dark ? '#0d0e12' : '#faf8f3';
+      var metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) metaTheme.setAttribute('content', themeColor);
+    })();
+  </script>
+
+  <style>
+    :root {
+      --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+      /* Paper (Light mode) */
+      --color-paper: #faf8f3;
+      --color-paper-raised: #f2efe7;
+      --color-card: #ffffff;
+      --color-card-border: #e2ded2;
+      --color-ink: #1b1a17;
+      --color-ink-soft: #565349;
+      --color-ink-faint: #8a867b;
+      --color-rule: #e2ded2;
+      --color-rule-dark: #cfcaba;
+      --color-brand: #c2410c;
+      --color-brand-light: #fff7ed;
+      --color-badge-bg: #f4ece1;
+      --color-badge-text: #854d0e;
+    }
+
+    html.dark {
+      /* Night (Dark mode) */
+      --color-paper: #0d0e12;
+      --color-paper-raised: #14161c;
+      --color-card: #16181f;
+      --color-card-border: #262a33;
+      --color-ink: #e9e7e0;
+      --color-ink-soft: #a5a29a;
+      --color-ink-faint: #6d6b64;
+      --color-rule: #262a33;
+      --color-rule-dark: #343945;
+      --color-brand: #f26f3f;
+      --color-brand-light: #2a1b14;
+      --color-badge-bg: #272119;
+      --color-badge-text: #fdba74;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--color-paper);
+    }
+
+    body {
+      background-color: var(--color-paper);
+      color: var(--color-ink);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    ::selection {
+      background: var(--color-brand);
+      color: #ffffff;
+    }
+
+    a {
+      color: var(--color-brand);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.15s ease;
+    }
+    a:hover {
+      color: var(--color-ink);
+    }
+
+    /* Masthead */
+    .masthead {
+      width: 100%;
+      border-bottom: 1px solid var(--color-rule);
+      background-color: var(--color-paper);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+      background-color: rgba(250, 248, 243, 0.92);
+    }
+    html.dark .masthead {
+      background-color: rgba(13, 14, 18, 0.92);
+    }
+
+    .masthead-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--color-ink);
+    }
+    .brand-link:hover {
+      color: var(--color-brand);
+    }
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+    }
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.875rem;
+    }
+    .nav-link {
+      color: var(--color-ink-soft);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .nav-link:hover {
+      color: var(--color-ink);
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: 1px solid var(--color-rule);
+      border-radius: 6px;
+      padding: 6px 9px;
+      color: var(--color-ink-soft);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle-btn:hover {
+      color: var(--color-ink);
+      border-color: var(--color-rule-dark);
+    }
+
+    /* Container */
+    .main-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 40px 20px 80px 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Newspaper Header */
+    .edition-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--color-ink);
+      padding-bottom: 6px;
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-ink-soft);
+    }
+    html.dark .edition-bar {
+      border-bottom-color: var(--color-ink);
+    }
+
+    .headline {
+      font-family: var(--font-serif);
+      font-size: 2.85rem;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: var(--color-ink);
+    }
+
+    .deck {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.45;
+      color: var(--color-ink-soft);
+      margin-bottom: 28px;
+    }
+
+    .meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-ink-faint);
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--color-rule);
+      margin-bottom: 32px;
+    }
+    .meta-tag {
+      background-color: var(--color-badge-bg);
+      color: var(--color-badge-text);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* Table of Contents Card */
+    .toc-card {
+      background-color: var(--color-card);
+      border: 1px solid var(--color-card-border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 36px;
+    }
+    .toc-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-brand);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px 16px;
+      font-size: 0.88rem;
+    }
+    .toc-grid a {
+      color: var(--color-ink-soft);
+      text-decoration: none;
+    }
+    .toc-grid a:hover {
+      color: var(--color-brand);
+      text-decoration: underline;
+    }
+
+    /* Prose Section */
+    .prose-section {
+      margin-bottom: 38px;
+    }
+    .prose-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-ink);
+      margin-bottom: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--color-rule);
+    }
+    .prose-section h3 {
+      font-family: var(--font-sans);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--color-ink);
+      margin: 20px 0 10px 0;
+    }
+    .prose-section p {
+      font-size: 0.98rem;
+      color: var(--color-ink-soft);
+      margin-bottom: 14px;
+      line-height: 1.68;
+    }
+    .prose-section ul, .prose-section ol {
+      margin: 12px 0 18px 22px;
+      color: var(--color-ink-soft);
+      font-size: 0.95rem;
+    }
+    .prose-section li {
+      margin-bottom: 8px;
+      line-height: 1.55;
+    }
+    .prose-section strong {
+      color: var(--color-ink);
+      font-weight: 600;
+    }
+
+    /* Callout Note */
+    .callout {
+      background-color: var(--color-paper-raised);
+      border-left: 3px solid var(--color-brand);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+      font-size: 0.92rem;
+      color: var(--color-ink-soft);
+    }
+    .callout strong {
+      color: var(--color-ink);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--color-rule);
+      background-color: var(--color-paper);
+      padding: 32px 20px;
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    @media (min-width: 640px) {
+      .footer-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--color-ink-faint);
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.875rem;
+    }
+    .footer-links a {
+      color: var(--color-ink-soft);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--color-brand);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      .headline {
+        font-size: 2.2rem;
+      }
+      .deck {
+        font-size: 1.1rem;
+      }
+      .main-wrap {
+        padding: 24px 16px 60px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Masthead -->
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a href="/" class="brand-link" aria-label="ZeroDaily Homepage">
+        <img src="/favicon.svg" alt="" class="brand-logo" />
+        <span class="brand-name">ZeroDaily</span>
+      </a>
+
+      <nav class="nav-actions">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/privacy" class="nav-link">Privacy</a>
+        <a href="/delete-account" class="nav-link">Delete Account</a>
+        <button
+          id="theme-toggle"
+          type="button"
+          class="theme-toggle-btn"
+          aria-label="Switch theme"
+        >
+          <!-- Moon Icon -->
+          <svg id="theme-icon-moon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+          <!-- Sun Icon -->
+          <svg id="theme-icon-sun" class="hidden" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.95-6.95l-1.414 1.414M7.464 16.536L6.05 17.95m11.9 0l-1.414-1.414M7.464 7.464L6.05 6.05M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Terms Document -->
+  <main class="main-wrap">
+    <div class="edition-bar">
+      <span>ZeroDaily Terms &amp; Conditions</span>
+      <span>Effective: October 2026</span>
+      <span>Edition v1.6.3</span>
+    </div>
+
+    <h1 class="headline">Terms of Service</h1>
+    <p class="deck">
+      Rules of engagement, fair use sourcing guidelines, satirical commentary disclaimers, and user obligations for the ZeroDaily mobile application and web platform.
+    </p>
+
+    <div class="meta-line">
+      <span><strong>Effective Date:</strong> October 7, 2026</span>
+      <span>&bull;</span>
+      <span><strong>Governing Scope:</strong> Mobile App &amp; Web Platform</span>
+      <span class="meta-tag">Satire &amp; Fair Use</span>
+      <span class="meta-tag">Non-Defamatory Humor</span>
+    </div>
+
+    <!-- Table of Contents -->
+    <nav class="toc-card" aria-label="Table of Contents">
+      <div class="toc-title">Table of Contents</div>
+      <div class="toc-grid">
+        <a href="#section-1">&sect; 1. Acceptance &amp; Eligibility</a>
+        <a href="#section-2">&sect; 2. Editorial Scope &amp; Service Nature</a>
+        <a href="#section-3">&sect; 3. Satirical Roasts &amp; Disclaimers</a>
+        <a href="#section-4">&sect; 4. Intellectual Property &amp; Fair Use</a>
+        <a href="#section-5">&sect; 5. User Accounts &amp; Security</a>
+        <a href="#section-6">&sect; 6. Acceptable Use Policy</a>
+        <a href="#section-7">&sect; 7. Disclaimers &amp; As-Is Warranty</a>
+        <a href="#section-8">&sect; 8. Limitation of Liability</a>
+        <a href="#section-9">&sect; 9. External Links &amp; Third Parties</a>
+        <a href="#section-10">&sect; 10. Termination &amp; Deletion</a>
+        <a href="#section-11">&sect; 11. Governing Law &amp; Contact</a>
+      </div>
+    </nav>
+
+    <!-- Section 1 -->
+    <article class="prose-section" id="section-1">
+      <h2>1. Acceptance of Terms &amp; Eligibility</h2>
+      <p>
+        These Terms of Service (&ldquo;Terms&rdquo;) form a legally binding contract between you (&ldquo;User&rdquo;, &ldquo;you&rdquo;) and the ZeroDaily project (&ldquo;ZeroDaily&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;). By downloading, accessing, or using the ZeroDaily mobile application, website (<code>zerodaily.in</code>), or associated backend application programming interfaces (APIs), you confirm that you have read, understood, and agreed to be bound by these Terms and our <a href="/privacy">Privacy Policy</a>.
+      </p>
+      <p>
+        You must be at least thirteen (13) years of age (or the minimum statutory age required in your jurisdiction) to access or use ZeroDaily. If you are using the Service on behalf of a company or entity, you represent and warrant that you possess full authority to bind that entity to these Terms.
+      </p>
+    </article>
+
+    <!-- Section 2 -->
+    <article class="prose-section" id="section-2">
+      <h2>2. Nature of Service &amp; Editorial Curation</h2>
+      <p>
+        ZeroDaily is an editorial technology news intelligence platform. We monitor corporate press releases, engineering post-mortems, regulatory filings, research papers, and technology reporting, synthesizing each story into an objective 60-word briefing paired with a biting editorial punchline (&ldquo;roast&rdquo;).
+      </p>
+      <p>
+        Our coverage spans seven dedicated editorial desks:
+      </p>
+      <ul>
+        <li><strong>Cybersecurity:</strong> Zero-day exploits, threat actor campaigns, breach disclosures, and cryptographic vulnerabilities.</li>
+        <li><strong>Artificial Intelligence:</strong> Foundation model benchmarks, compute economics, research breakthroughs, and algorithmic developments.</li>
+        <li><strong>Software Engineering:</strong> Infrastructure architectures, compiler innovations, runtime ecosystems, and developer tooling.</li>
+        <li><strong>Robotics &amp; Automation:</strong> Embodied intelligence, spatial computing, autonomous vehicles, and industrial automation.</li>
+        <li><strong>Defense &amp; Aerospace:</strong> Orbital deployments, satellite constellations, avionics, and national security technologies.</li>
+        <li><strong>Silicon &amp; Hardware:</strong> Fabrication nodes, semiconductor foundries, wafer packaging, and processor architectures.</li>
+        <li><strong>Finance &amp; Tech Economics:</strong> Venture capital flows, IPO disclosures, antitrust enforcement, and tech enterprise earnings.</li>
+      </ul>
+    </article>
+
+    <!-- Section 3 -->
+    <article class="prose-section" id="section-3">
+      <h2>3. Satirical Roast Commentary &amp; Editorial Disclaimers</h2>
+      <p>
+        Each ZeroDaily briefing contains an editorial commentary section styled as a &ldquo;Roast.&rdquo; This commentary is written with caustic wit, satirical hyperbole, and critical editorial perspective designed to cut through corporate marketing spin.
+      </p>
+      <div class="callout">
+        <strong>Important Humor &amp; Commentary Notice:</strong>
+        <p style="margin-top: 8px; margin-bottom: 0;">
+          Roast punchlines are works of satire, parody, and editorial opinion. They are <strong>not</strong> statements of objective fact, assertions of illegal conduct, or defamatory attacks against corporations, individuals, or founders.
+        </p>
+      </div>
+      <p>
+        By using the Service, you explicitly acknowledge and agree that:
+      </p>
+      <ul>
+        <li><strong>Not Financial or Investment Advice:</strong> Summaries and roasts regarding corporate earnings, venture funding, stock performances, or market dynamics do <em>not</em> constitute investment, financial, trading, accounting, or tax advice. Never execute financial trades or capital investments based upon ZeroDaily briefings.</li>
+        <li><strong>Not Legal or Engineering Counsel:</strong> Briefings on security vulnerabilities, intellectual property lawsuits, or compliance mandates represent high-level editorial overviews and must not be relied upon as legal counsel or cybersecurity mitigation advice.</li>
+        <li><strong>Protected Editorial Caricature:</strong> Satirical critique of corporate marketing announcements, public executive statements, and product releases represents protected speech and editorial caricature under applicable free expression doctrines.</li>
+      </ul>
+    </article>
+
+    <!-- Section 4 -->
+    <article class="prose-section" id="section-4">
+      <h2>4. Intellectual Property &amp; Fair Use Attribution</h2>
+      <h3>A. ZeroDaily Original Content</h3>
+      <p>
+        The 60-word synthesized summaries, original roast commentaries, headlines, graphic design elements, user interface design, logo marks (&ldquo;Z&rdquo; icon), and software source code are the intellectual property of ZeroDaily, its contributors, or licensed under the open-source MIT License as specified in our public code repositories.
+      </p>
+
+      <h3>B. Third-Party News Publications &amp; Trademarks</h3>
+      <p>
+        ZeroDaily actively cites, attributes, and deep-links to primary reporting sources (including but not limited to <em>The Hacker News, Bloomberg, Reuters, Ars Technica, Tom&rsquo;s Hardware, Financial Times, TechCrunch, The Verge, BleepingComputer,</em> and corporate engineering blogs).
+      </p>
+      <ul>
+        <li><strong>Fair Use Doctrine:</strong> We reference source publication names, trademarks, original headlines, and minimal factual excerpts under the Fair Use doctrine (17 U.S.C. &sect; 107 and equivalent international fair dealing provisions) exclusively for purposes of news reporting, commentary, criticism, and scholarship.</li>
+        <li><strong>Direct Source Links:</strong> Every briefing provides a direct link directing users to the primary publisher&rsquo;s original full-length reporting. ZeroDaily encourages users to read the original journalists&rsquo; complete articles.</li>
+        <li><strong>No Affiliation:</strong> Third-party names, trademarks, and registered marks belong solely to their respective copyright and trademark owners. ZeroDaily is an independent publication and is not sponsored by, endorsed by, or affiliated with the third-party news organizations cited.</li>
+      </ul>
+    </article>
+
+    <!-- Section 5 -->
+    <article class="prose-section" id="section-5">
+      <h2>5. User Accounts &amp; Security</h2>
+      <p>
+        When you create an account using Google Sign-In or Firebase email authentication, you agree to:
+      </p>
+      <ul>
+        <li>Provide accurate and authentic identity information via Google OAuth.</li>
+        <li>Maintain the confidentiality and security of your account credentials and mobile device access.</li>
+        <li>Promptly notify us of any unauthorized compromise of your account or suspicious activity.</li>
+      </ul>
+      <p>
+        ZeroDaily reserves the right to suspend or terminate accounts that engage in fraudulent authentication, security tampering, or abuse of our infrastructure.
+      </p>
+    </article>
+
+    <!-- Section 6 -->
+    <article class="prose-section" id="section-6">
+      <h2>6. Acceptable Use Policy</h2>
+      <p>
+        You agree to use ZeroDaily solely for lawful, personal, non-commercial reading purposes. You expressly agree that you will not:
+      </p>
+      <ul>
+        <li><strong>Automated Scraping &amp; Harvesting:</strong> Deploy scrapers, crawlers, spiders, or automated scripts to systematically extract stories, roasts, or metadata from <code>api.zerodaily.in</code> or web endpoints without prior written authorization.</li>
+        <li><strong>API Exploitation &amp; Denial of Service:</strong> Flood telemetry, feedback, or authentication endpoints with malformed payloads, rate-limit bypassing attacks, or distributed denial-of-service attempts.</li>
+        <li><strong>Reverse Engineering:</strong> Decompile, reverse engineer, disassemble, or derive source code from compiled mobile binaries, except to the extent permitted by applicable open-source licenses.</li>
+        <li><strong>Circumvention:</strong> Bypass, modify, or tamper with digital rate limits, security tokens, or authentication verification mechanisms.</li>
+      </ul>
+    </article>
+
+    <!-- Section 7 -->
+    <article class="prose-section" id="section-7">
+      <h2>7. Disclaimers &amp; &ldquo;As-Is&rdquo; Warranty</h2>
+      <p>
+        THE SERVICE IS PROVIDED ON AN &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; BASIS WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+      </p>
+      <p>
+        FAST-BREAKING TECHNOLOGY NEWS EVOLVES RAPIDLY. ZERODAILY DOES NOT WARRANT THAT:
+      </p>
+      <ul>
+        <li>The briefings, facts, or technical statistics will be 100% complete, error-free, or uninterrupted at all times.</li>
+        <li>The servers or networks will be completely immune from operational downtime, cyber attacks, or edge routing interruptions.</li>
+        <li>The satirical perspectives or roasts will align with the opinions or sensibilities of every individual reader.</li>
+      </ul>
+    </article>
+
+    <!-- Section 8 -->
+    <article class="prose-section" id="section-8">
+      <h2>8. Limitation of Liability</h2>
+      <p>
+        TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL ZERODAILY, ITS FOUNDERS, CONTRIBUTORS, MAINTAINERS, AFFILIATES, OR SERVICE PROVIDERS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES (INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES) ARISING OUT OF OR IN CONNECTION WITH:
+      </p>
+      <ul>
+        <li>Your access to, use of, or inability to access or use the Service.</li>
+        <li>Any conduct, statement, or content of any third-party news publication or linked external source.</li>
+        <li>Any technical error, omission, or interruption in news dispatches.</li>
+        <li>Any decision, investment, trade, or action taken in reliance upon editorial briefings or satirical roast commentary.</li>
+      </ul>
+    </article>
+
+    <!-- Section 9 -->
+    <article class="prose-section" id="section-9">
+      <h2>9. External Links &amp; Third-Party Services</h2>
+      <p>
+        The Service contains outbound links to external third-party websites, news publishers, SEC filings, and research papers. We have no editorial control over, and assume no responsibility for, the content, privacy practices, terms, or cookies of any third-party websites. You access third-party links at your own risk.
+      </p>
+    </article>
+
+    <!-- Section 10 -->
+    <article class="prose-section" id="section-10">
+      <h2>10. Account Termination &amp; Deletion Rights</h2>
+      <p>
+        You have the unrestricted right to terminate your account and delete your data at any time:
+      </p>
+      <ul>
+        <li>Via the mobile app: <strong>Settings &rarr; Account &rarr; Delete Account</strong>.</li>
+        <li>Via our web portal: Visit <a href="/delete-account">zerodaily.in/delete-account</a> without needing to log in or install the mobile app.</li>
+      </ul>
+      <p>
+        All deletion requests receive a 24-hour grace period during which you may restore your account by logging in. Following the 24-hour window, all personal profiles, bookmarks, and telemetry are permanently purged.
+      </p>
+    </article>
+
+    <!-- Section 11 -->
+    <article class="prose-section" id="section-11">
+      <h2>11. Governing Law, Dispute Resolution &amp; Contact</h2>
+      <p>
+        These Terms shall be governed by and construed in accordance with the substantive laws applicable to software services, without giving effect to conflict of law principles.
+      </p>
+      <p>
+        Prior to initiating any formal legal dispute, the parties agree to seek informal, good-faith resolution by contacting our legal counsel at <a href="mailto:legal@zerodaily.in">legal@zerodaily.in</a>.
+      </p>
+      <div class="callout">
+        <strong>Legal &amp; Compliance Inquiries:</strong><br />
+        ZeroDaily Project Legal Desk<br />
+        Email: <a href="mailto:legal@zerodaily.in">legal@zerodaily.in</a><br />
+        Support: <a href="mailto:support@zerodaily.in">support@zerodaily.in</a><br />
+        GitHub: <a href="https://github.com/err0rgod/zerodaily-app" target="_blank" rel="noopener">github.com/err0rgod/zerodaily-app</a>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="/favicon.svg" alt="" width="20" height="20" />
+        <strong>ZeroDaily</strong>
+        <span class="footer-copy">&copy; 2026 &middot; MIT License</span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/delete-account">Delete Account</a>
+        <a href="https://github.com/err0rgod/zerodaily-app" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Theme Toggle Script -->
+  <script>
+    (function() {
+      var toggleBtn = document.getElementById('theme-toggle');
+      var moonIcon = document.getElementById('theme-icon-moon');
+      var sunIcon = document.getElementById('theme-icon-sun');
+
+      function updateIcons(isDark) {
+        if (moonIcon && sunIcon) {
+          moonIcon.classList.toggle('hidden', isDark);
+          sunIcon.classList.toggle('hidden', !isDark);
+        }
+        if (toggleBtn) {
+          toggleBtn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        }
+      }
+
+      var isCurrentlyDark = document.documentElement.classList.contains('dark');
+      updateIcons(isCurrentlyDark);
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          var willBeDark = !document.documentElement.classList.contains('dark');
+          document.documentElement.classList.toggle('dark', willBeDark);
+          document.documentElement.style.colorScheme = willBeDark ? 'dark' : 'light';
+          try {
+            localStorage.setItem('zd-theme', willBeDark ? 'dark' : 'light');
+          } catch(e) {}
+          var metaTheme = document.querySelector('meta[name="theme-color"]');
+          if (metaTheme) metaTheme.setAttribute('content', willBeDark ? '#0d0e12' : '#faf8f3');
+          updateIcons(willBeDark);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
