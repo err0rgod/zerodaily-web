@@ -13,6 +13,7 @@ export function renderFooter() {
       <p>&copy; ${year} ZeroDaily</p>
       <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
         <a href="/wire" class="${link}">Today's Wire</a>
+        <a href="/join" class="${link}">Waitlist</a>
         <a href="/privacy" class="${link}">Privacy</a>
         <a href="/terms" class="${link}">Terms</a>
         <a href="/delete-account" class="${link}">Delete account</a>

@@ -7,6 +7,7 @@ const SUN = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="
 
 const NAV = [
   { href: '/wire', label: "Today's Wire", page: 'wire' },
+  { href: '/join', label: 'Waitlist', page: 'join' },
 ];
 
 export function renderHeader(activePage = 'home') {
@@ -17,12 +18,12 @@ export function renderHeader(activePage = 'home') {
 
   header.innerHTML = `
     <div class="${CONTAINER} h-16 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-6 sm:gap-10 min-w-0">
+      <div class="flex items-center gap-5 sm:gap-10 min-w-0">
         <a href="/" class="flex items-center gap-2 shrink-0">
           <img src="/favicon.svg" alt="" class="w-7 h-7 rounded-md" />
           <span class="text-lg font-semibold tracking-tight text-ink dark:text-paper-ink">ZeroDaily</span>
         </a>
-        <nav class="flex items-center gap-6 text-sm">
+        <nav class="flex items-center gap-4 sm:gap-6 text-sm">
           ${NAV.map(item => `
             <a
               href="${item.href}"
