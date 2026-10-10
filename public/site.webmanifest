@@ -1,7 +1,7 @@
 {
   "name": "ZeroDaily",
   "short_name": "ZeroDaily",
-  "description": "Tech news, roasted in 60 words.",
+  "description": "Tech news, minus the noise.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#010101",

@@ -1,133 +1,117 @@
-import { fetchTopBreakingNews, fetchArticleDetail, safeUrl } from '../api.js';
+import { fetchTopBreakingNews, fetchArticleDetail, CATEGORIES, escapeHtml, safeUrl } from '../api.js';
+
+const CHIP_ACTIVE = 'bg-ink dark:bg-paper-ink text-paper dark:text-night border-transparent';
+const CHIP_IDLE = 'border-rule-dark dark:border-night-rule-dark text-ink-soft dark:text-paper-soft hover:text-ink dark:hover:text-paper-ink';
+
+function categoryLabel(id) {
+  return CATEGORIES.find(c => c.id === id)?.label || String(id || 'News').replace(/_/g, ' ');
+}
 
 /**
- * A single-story preview: one card that reads exactly like the app does.
- * Category tabs filter which story is shown; arrows cycle the wire.
+ * The latest stories as a simple, filterable list.
  */
-export function renderStoryPreview(activeCategory = 'all') {
+export function renderStoryPreview() {
   const section = document.createElement('section');
-  section.id = 'taste';
-  section.className = 'w-full bg-paper dark:bg-night border-b border-rule dark:border-night-rule';
+  section.id = 'latest';
+  section.className = 'w-full scroll-mt-16';
 
   let stories = [];
-  let activeStory = null;
+  let activeCategory = 'all';
 
   section.innerHTML = `
-    <div class="max-w-3xl mx-auto px-5 py-14">
+    <div class="max-w-2xl mx-auto px-4 sm:px-5 pb-16">
+      <h2 class="text-sm font-semibold text-ink dark:text-paper-ink">Latest</h2>
 
-      <div class="flex items-baseline justify-between pb-3">
-        <p class="font-mono text-[11px] uppercase tracking-widest text-ink-faint dark:text-paper-faint">A taste of the app</p>
-        <div class="flex items-center gap-3">
-          <span id="preview-position" class="font-mono text-[11px] text-ink-faint dark:text-paper-faint"></span>
-          <button id="preview-next" type="button" class="font-mono text-[11px] text-ink-faint dark:text-paper-faint hover:text-brand dark:hover:text-brand-dark transition-colors">next &rarr;</button>
-        </div>
+      <div id="feed-chips" class="mt-3 -mx-4 px-4 sm:mx-0 sm:px-0 flex gap-2 overflow-x-auto no-scrollbar">
+        ${CATEGORIES.map(cat => `
+          <button type="button" data-category="${cat.id}" class="shrink-0 px-3 py-1.5 rounded-full border text-[13px] transition-colors cursor-pointer">
+            ${escapeHtml(cat.label)}
+          </button>
+        `).join('')}
       </div>
 
-      <!-- The card — deliberately phone-shaped, like the app -->
-      <div class="mx-auto max-w-lg rounded-2xl border border-rule-dark dark:border-night-rule-dark bg-paper dark:bg-night-card shadow-sm p-7 sm:p-9">
-
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] text-ink-faint dark:text-paper-faint mb-5">
-          <span id="preview-category" class="uppercase tracking-wide text-brand dark:text-brand-dark font-semibold"></span>
-          <span aria-hidden="true">&middot;</span>
-          <span id="preview-timestamp"></span>
-          <span aria-hidden="true">&middot;</span>
-          <span id="preview-wordcount"></span>
-        </div>
-
-        <h3 id="preview-heading" class="font-serif text-2xl sm:text-3xl font-bold text-ink dark:text-paper-ink tracking-tight leading-tight text-balance min-h-[4rem]">
-          <span class="text-ink-faint dark:text-paper-faint">Reading the wire…</span>
-        </h3>
-
-        <p id="preview-roast" class="dropcap mt-5 font-serif text-lg text-ink dark:text-paper-ink leading-relaxed min-h-[7rem]"></p>
-
-        <div class="mt-7 pt-5 border-t border-rule dark:border-night-rule flex items-center justify-between gap-3">
-          <p class="text-sm text-ink-soft dark:text-paper-soft truncate">
-            <span id="preview-source-name"></span>
-          </p>
-          <a id="preview-source-link" href="#" target="_blank" rel="noopener" class="shrink-0 text-sm font-medium text-brand dark:text-brand-dark hover:underline underline-offset-4">
-            Original &rarr;
-          </a>
-        </div>
-
-      </div>
-
-      <p class="mt-6 text-center text-sm text-ink-faint dark:text-paper-faint">
-        The app is an endless stack of these. Swipe, read, move on.
-      </p>
-
+      <ul id="feed-list" class="mt-4 divide-y divide-rule dark:divide-night-rule border-y border-rule dark:border-night-rule">
+        ${Array.from({ length: 3 }, () => `
+          <li class="py-6 animate-pulse">
+            <div class="h-3 w-24 rounded bg-paper-raised dark:bg-night-raised"></div>
+            <div class="mt-3 h-5 w-4/5 rounded bg-paper-raised dark:bg-night-raised"></div>
+            <div class="mt-3 h-3 w-full rounded bg-paper-raised dark:bg-night-raised"></div>
+            <div class="mt-2 h-3 w-2/3 rounded bg-paper-raised dark:bg-night-raised"></div>
+          </li>
+        `).join('')}
+      </ul>
     </div>
   `;
 
-  function filteredStories() {
-    if (!activeCategory || activeCategory === 'all') return stories;
-    const f = stories.filter(s => s.category === activeCategory);
-    return f.length > 0 ? f : stories;
-  }
+  const list = section.querySelector('#feed-list');
+  const chips = section.querySelectorAll('[data-category]');
 
-  function show(story) {
-    if (!story) return;
-    activeStory = story;
-
-    const heading = section.querySelector('#preview-heading');
-    const roast = section.querySelector('#preview-roast');
-    const cat = section.querySelector('#preview-category');
-    const timestamp = section.querySelector('#preview-timestamp');
-    const wordcount = section.querySelector('#preview-wordcount');
-    const sourceName = section.querySelector('#preview-source-name');
-    const sourceLink = section.querySelector('#preview-source-link');
-    const position = section.querySelector('#preview-position');
-
-    if (heading) heading.textContent = story.heading;
-    if (roast) roast.textContent = story.roast;
-    if (cat) cat.textContent = String(story.category || 'briefing').replace(/_/g, ' ');
-    if (timestamp) timestamp.textContent = story.publishedAgo || 'recently';
-    if (wordcount) wordcount.textContent = `${story.wordCount || 60} words`;
-    if (sourceName) sourceName.textContent = story.source || 'Original source';
-    if (sourceLink) sourceLink.href = safeUrl(story.sourceUrl);
-
-    const list = filteredStories();
-    const idx = list.findIndex(s => String(s.id) === String(story.id));
-    if (position && idx >= 0) position.textContent = `${idx + 1} / ${list.length}`;
-
-    // Live stories carry a full roast behind the API.
-    if (story.id && String(story.id).startsWith('http')) {
-      fetchArticleDetail(story.id).then(detail => {
-        if (!detail || !activeStory || activeStory.id !== story.id) return;
-        const fullText = detail.shortSummary || detail.fullSummary;
-        if (fullText) {
-          if (roast) roast.textContent = fullText;
-          const wc = fullText.split(/\s+/).filter(Boolean).length;
-          if (wordcount) wordcount.textContent = `${wc} words`;
-        }
-      });
-    }
-  }
-
-  async function load() {
-    stories = await fetchTopBreakingNews();
-    const list = filteredStories();
-    show(list[0]);
-  }
-
-  const nextBtn = section.querySelector('#preview-next');
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      const list = filteredStories();
-      if (list.length === 0) return;
-      const idx = list.findIndex(s => activeStory && String(s.id) === String(activeStory.id));
-      show(list[(idx + 1) % list.length]);
+  function paintChips() {
+    chips.forEach(chip => {
+      const active = chip.dataset.category === activeCategory;
+      chip.className = `shrink-0 px-3 py-1.5 rounded-full border text-[13px] transition-colors cursor-pointer ${active ? CHIP_ACTIVE : CHIP_IDLE}`;
+      chip.setAttribute('aria-pressed', String(active));
     });
   }
 
+  function paintList() {
+    const visible = activeCategory === 'all' ? stories : stories.filter(s => s.category === activeCategory);
+
+    if (visible.length === 0) {
+      list.innerHTML = `
+        <li class="py-10 text-center text-sm text-ink-faint dark:text-paper-faint">
+          Nothing from this desk right now. The app has the full feed.
+        </li>`;
+      return;
+    }
+
+    list.innerHTML = visible.map(story => `
+      <li class="py-6">
+        <p class="text-xs text-ink-faint dark:text-paper-faint">
+          <span class="font-medium text-brand dark:text-brand-dark">${escapeHtml(categoryLabel(story.category))}</span>
+          <span aria-hidden="true"> &middot; </span>${escapeHtml(story.publishedAgo || 'Recently')}
+        </p>
+        <h3 class="mt-2 font-serif text-xl sm:text-2xl font-semibold text-ink dark:text-paper-ink leading-snug text-balance">
+          ${escapeHtml(story.heading)}
+        </h3>
+        ${story.roast && story.roast !== story.heading ? `
+          <p class="mt-2 text-[15px] text-ink-soft dark:text-paper-soft leading-relaxed">${escapeHtml(story.roast)}</p>
+        ` : ''}
+        <a href="${escapeHtml(safeUrl(story.sourceUrl))}" target="_blank" rel="noopener" class="mt-3 inline-block text-sm text-ink-faint dark:text-paper-faint hover:text-ink dark:hover:text-paper-ink transition-colors">
+          ${escapeHtml(story.source || 'Source')} &rarr;
+        </a>
+      </li>
+    `).join('');
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      activeCategory = chip.dataset.category;
+      paintChips();
+      paintList();
+    });
+  });
+
+  async function load() {
+    stories = await fetchTopBreakingNews();
+    paintList();
+
+    // Live stories only carry a punchline; swap in the full summary when it arrives.
+    stories.filter(s => s.isLive).forEach(story => {
+      fetchArticleDetail(story.id).then(detail => {
+        const full = detail?.shortSummary || detail?.fullSummary;
+        if (!full || !stories.includes(story)) return;
+        story.roast = full;
+        paintList();
+      });
+    });
+  }
+
+  paintChips();
   load();
 
   return {
     element: section,
-    setCategory: (newCategory) => {
-      activeCategory = newCategory;
-      const list = filteredStories();
-      show(list[0]);
-    },
     reload: () => load(),
   };
 }

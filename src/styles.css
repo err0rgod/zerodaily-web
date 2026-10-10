@@ -90,31 +90,6 @@ html.dark ::-webkit-scrollbar-thumb,
   background: var(--color-night-rule-dark);
 }
 
-/* Drop cap for the lead roast — a small newspaper pleasure */
-.dropcap::first-letter {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 3.1em;
-  line-height: 0.85;
-  float: left;
-  padding-right: 0.12em;
-  padding-top: 0.06em;
-  color: var(--color-brand);
-}
-.dark .dropcap::first-letter,
-html.dark .dropcap::first-letter {
-  color: var(--color-brand-dark);
-}
-
-/* Live wire beacon: a calm blink, not a rave */
-@keyframes beacon {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
-}
-.beacon {
-  animation: beacon 2.4s ease-in-out infinite;
-}
-
 /* Fade-in for freshly rendered lists */
 @keyframes rise {
   from { opacity: 0; transform: translateY(6px); }

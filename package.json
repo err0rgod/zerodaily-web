@@ -1,7 +1,7 @@
 {
   "name": "zerodaily-web",
   "version": "1.0.0",
-  "description": "ZeroDaily — tech news, roasted in 60 words. Newspaper-style web client for zerodaily.in.",
+  "description": "ZeroDaily — tech news, minus the noise. Newspaper-style web client for zerodaily.in.",
   "type": "module",
   "scripts": {
     "dev": "vite",

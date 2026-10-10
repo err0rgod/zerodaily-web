@@ -2,20 +2,19 @@ import { REPO_URL } from '../api.js';
 
 export function renderFooter() {
   const footer = document.createElement('footer');
-  footer.className = 'bg-paper dark:bg-night py-10';
+  footer.className = 'border-t border-rule dark:border-night-rule';
 
   const year = new Date().getFullYear();
+  const link = 'hover:text-ink dark:hover:text-paper-ink transition-colors';
 
   footer.innerHTML = `
-    <div class="max-w-3xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2.5">
-        <img src="/favicon.svg" alt="" class="w-5 h-5 rounded" />
-        <span class="font-serif font-bold text-ink dark:text-paper-ink">ZeroDaily</span>
-        <span class="font-mono text-[11px] text-ink-faint dark:text-paper-faint">&copy; ${year} &middot; MIT</span>
-      </div>
-      <nav class="flex items-center gap-5 text-sm text-ink-soft dark:text-paper-soft">
-        <a href="#app" class="hover:text-brand dark:hover:text-brand-dark transition-colors">Get the app</a>
-        <a href="${REPO_URL}" target="_blank" rel="noopener" class="hover:text-brand dark:hover:text-brand-dark transition-colors">GitHub</a>
+    <div class="max-w-2xl mx-auto px-4 sm:px-5 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-ink-faint dark:text-paper-faint">
+      <p>&copy; ${year} ZeroDaily</p>
+      <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        <a href="/privacy" class="${link}">Privacy</a>
+        <a href="/terms" class="${link}">Terms</a>
+        <a href="/delete-account" class="${link}">Delete account</a>
+        <a href="${REPO_URL}" target="_blank" rel="noopener" class="${link}">GitHub</a>
       </nav>
     </div>
   `;

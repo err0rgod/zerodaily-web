@@ -5,7 +5,7 @@
 [![Edge](https://img.shields.io/badge/Edge-Cloudflare%20Pages-F38020)](https://pages.cloudflare.com)
 [![Latest APK](https://img.shields.io/badge/Android%20APK-Download-emerald)](https://zerodaily.in/apk)
 
-The landing page for **ZeroDaily** — an Android app that roasts tech news in 60 words. The site pitches the app, shows one live story as a taste, and links the download. The app is the product; this page is the trailer.
+The landing page for **ZeroDaily** — an Android app that delivers short, no-spin tech news. The site pitches the app, shows the latest stories, and links the download.
 
 ---
 

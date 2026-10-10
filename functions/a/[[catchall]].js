@@ -8,8 +8,8 @@ export async function onRequest(context) {
   const match = url.pathname.match(/^\/(?:a|story)\/(.+?)(?:[?#]|$)/i);
   const articleId = match ? decodeURIComponent(match[1]) : null;
 
-  let heading = "ZeroDaily — Tech News, Roasted in 60 Words";
-  let description = "Download ZeroDaily for fastest tech news — 60-word, no-spin intelligence briefings.";
+  let heading = "ZeroDaily — Tech news, minus the noise";
+  let description = "Download ZeroDaily for fastest tech news — short, no-spin briefings.";
   let imageUrl = "https://zerodaily.in/og-image.png";
 
   if (articleId) {
