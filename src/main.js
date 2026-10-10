@@ -1,7 +1,7 @@
 import './styles.css';
-import { renderMasthead } from './components/editorialMasthead.js';
-import { renderStoryPreview } from './components/storyPreview.js';
-import { renderAppSection } from './components/appDock.js';
+import { renderHeader } from './components/header.js';
+import { renderHome } from './components/home.js';
+import { renderWire } from './components/wire.js';
 import { renderFooter } from './components/footer.js';
 import { fetchLatestAppRelease, setBreakingEndpoint } from './api.js';
 import { handleSharedStoryView } from './components/sharedStoryModal.js';
@@ -40,22 +40,28 @@ function initApp() {
     return;
   }
 
-  const feed = renderStoryPreview();
+  appRoot.className = 'min-h-screen flex flex-col bg-paper dark:bg-night';
 
-  appRoot.appendChild(renderMasthead());
-  appRoot.appendChild(feed.element);
-  appRoot.appendChild(renderAppSection());
-  appRoot.appendChild(renderFooter());
+  if (path === '/wire') {
+    document.title = "Today's Wire — ZeroDaily";
+    const wire = renderWire();
+    wire.element.classList.add('flex-1');
+    appRoot.append(renderHeader('wire'), wire.element, renderFooter());
+
+    // Handy for testing against a staging feed:
+    // __setZeroDailyBreakingEndpoint('https://staging.example.com/feed')
+    window.__setZeroDailyBreakingEndpoint = (url) => {
+      setBreakingEndpoint(url);
+      wire.reload();
+    };
+  } else {
+    const home = renderHome();
+    home.classList.add('flex-1');
+    appRoot.append(renderHeader('home'), home, renderFooter());
+    handleSharedStoryView();
+  }
 
   hydrateReleaseData();
-  handleSharedStoryView();
-
-  // Handy for testing against a staging feed:
-  // __setZeroDailyBreakingEndpoint('https://staging.example.com/feed')
-  window.__setZeroDailyBreakingEndpoint = (url) => {
-    setBreakingEndpoint(url);
-    feed.reload();
-  };
 }
 
 initApp();
