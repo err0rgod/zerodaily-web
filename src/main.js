@@ -6,6 +6,7 @@ import { renderAppSection } from './components/appDock.js';
 import { renderFooter } from './components/footer.js';
 import { fetchLatestAppRelease, setBreakingEndpoint } from './api.js';
 import { handleSharedStoryView } from './components/sharedStoryModal.js';
+import { renderJoinView } from './components/joinView.js';
 
 const state = {
   activeCategory: 'all',
@@ -52,6 +53,12 @@ function initApp() {
   if (!appRoot) return;
 
   appRoot.innerHTML = '';
+
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  if (path === '/join') {
+    appRoot.appendChild(renderJoinView());
+    return;
+  }
 
   const preview = renderStoryPreview(state.activeCategory);
 

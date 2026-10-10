@@ -5,3 +5,7 @@
 /download/apk   https://github.com/err0rgod/zerodaily-app/releases/latest/download/ZeroDaily.apk   302
 /download       https://github.com/err0rgod/zerodaily-app/releases/latest/download/ZeroDaily.apk   302
 /apk            https://github.com/err0rgod/zerodaily-app/releases/latest/download/ZeroDaily.apk   302
+
+# Join route
+/join           /join/index.html                                                                    200
+/join/*         /join/index.html                                                                    200
