@@ -5,8 +5,8 @@
  */
 export async function onRequest(context) {
   const url = new URL(context.request.url);
-  const match = url.pathname.match(/^\/api\/join\/(send|verify)(?:[?#]|$)/i);
-  const action = match ? match[1].toLowerCase() : '';
+  const match = url.pathname.match(/^\/api\/join\/(save|send|verify)(?:[?#]|$)/i);
+  const action = match ? match[1].toLowerCase() : 'save';
 
   if (!action) {
     return new Response(JSON.stringify({ detail: "Not found" }), {
