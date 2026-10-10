@@ -83,7 +83,7 @@
 
     .container {
       width: 100%;
-      max-width: 360px;
+      max-width: 420px;
       text-align: center;
     }
 
@@ -173,26 +173,46 @@
       color: #f87171;
     }
 
-    .joined-box {
+    .welcome-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 24px 20px;
-      font-size: 1rem;
-      font-weight: 500;
+      padding: 32px 24px;
       color: var(--text-main);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      text-align: center;
+      gap: 12px;
     }
 
-    .joined-icon {
-      color: #16a34a;
+    .welcome-heading {
+      font-family: "Newsreader", Georgia, serif;
+      font-size: 2rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin: 0;
     }
 
-    html.dark .joined-icon {
-      color: #4ade80;
+    .welcome-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .welcome-text a {
+      color: var(--primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .welcome-text a:hover {
+      color: var(--primary-hover);
     }
 
     .spinner {
@@ -215,7 +235,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>join Zerodaily</h1>
+    <h1 id="main-title">join Zerodaily</h1>
 
     <!-- Email Input Box -->
     <div id="step-email">
@@ -239,19 +259,20 @@
       <div class="msg" id="msg"></div>
     </div>
 
-    <!-- Joined Status -->
+    <!-- Welcome / Success Status -->
     <div id="step-joined" class="hidden">
-      <div class="joined-box">
-        <svg class="joined-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        <span>joined</span>
+      <div class="welcome-card">
+        <h2 class="welcome-heading">welcome to zerodaily</h2>
+        <p class="welcome-text">
+          we will inform you when we launch till then you can visit our <a href="/">website</a> and try our app by <a href="/download/apk">.apk</a>
+        </p>
       </div>
     </div>
   </div>
 
   <script>
     (function () {
+      const mainTitle = document.getElementById('main-title');
       const stepEmail = document.getElementById('step-email');
       const stepJoined = document.getElementById('step-joined');
       const formEmail = document.getElementById('form-email');
@@ -319,6 +340,7 @@
 
         try {
           await apiSave(email);
+          if (mainTitle) mainTitle.classList.add('hidden');
           stepEmail.classList.add('hidden');
           stepJoined.classList.remove('hidden');
         } catch (err) {

@@ -3,8 +3,8 @@ export function renderJoinView() {
   container.className = 'min-h-screen flex flex-col items-center justify-center px-4 bg-paper dark:bg-night text-ink dark:text-paper-ink';
 
   container.innerHTML = `
-    <div class="w-full max-w-[360px] text-center">
-      <h1 class="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-ink dark:text-paper-ink mb-7">
+    <div class="w-full max-w-[420px] text-center">
+      <h1 id="join-title" class="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-ink dark:text-paper-ink mb-7">
         join Zerodaily
       </h1>
 
@@ -35,18 +35,21 @@ export function renderJoinView() {
         <div id="join-msg" class="text-xs min-h-[20px] mt-3"></div>
       </div>
 
-      <!-- Joined Status -->
+      <!-- Welcome Status -->
       <div id="join-step-joined" class="hidden">
-        <div class="bg-card dark:bg-[#15171e] border border-[#e2ded2] dark:border-[#232733] rounded-lg p-6 shadow-sm flex items-center justify-center gap-2.5 text-base font-medium">
-          <svg class="text-green-600 dark:text-green-400 w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          <span>joined</span>
+        <div class="bg-card dark:bg-[#15171e] border border-[#e2ded2] dark:border-[#232733] rounded-lg p-8 shadow-sm flex flex-col items-center text-center gap-3">
+          <h2 class="font-serif text-2xl sm:text-3xl font-normal text-ink dark:text-paper-ink">
+            welcome to zerodaily
+          </h2>
+          <p class="text-sm leading-relaxed text-[#7f7b6e] dark:text-[#8c8f9b]">
+            we will inform you when we launch till then you can visit our <a href="/" class="text-brand dark:text-brand-dark underline underline-offset-2 hover:opacity-80 font-medium">website</a> and try our app by <a href="/download/apk" class="text-brand dark:text-brand-dark underline underline-offset-2 hover:opacity-80 font-medium">.apk</a>
+          </p>
         </div>
       </div>
     </div>
   `;
 
+  const mainTitle = container.querySelector('#join-title');
   const stepEmail = container.querySelector('#join-step-email');
   const stepJoined = container.querySelector('#join-step-joined');
   const formEmail = container.querySelector('#join-form-email');
@@ -108,6 +111,7 @@ export function renderJoinView() {
 
     try {
       await apiSave(email);
+      if (mainTitle) mainTitle.classList.add('hidden');
       stepEmail.classList.add('hidden');
       stepJoined.classList.remove('hidden');
     } catch (err) {
