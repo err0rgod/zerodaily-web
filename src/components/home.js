@@ -9,10 +9,10 @@ const FEATURES = [
 
 const SCREENS = [
   { src: '/screens/feed.webp', title: 'A clean feed', body: 'One story per screen with the image, the gist and the source.', alt: 'ZeroDaily feed showing a single story card' },
-  { src: '/screens/desks.webp', title: 'Pick your desks', body: 'Tap a desk to follow security, AI, silicon and more.', alt: 'ZeroDaily feed filtered to the AI desk' },
-  { src: '/screens/search.webp', title: 'Search everything', body: 'Find any story or topic across the whole feed.', alt: 'ZeroDaily search results list' },
-  { src: '/screens/settings.webp', title: 'Alerts you control', body: 'Choose exactly which topics are allowed to buzz your phone.', alt: 'ZeroDaily settings with notification topics' },
-  { src: '/screens/light.webp', title: 'Light or dark', body: 'Follows your system, or set it yourself.', alt: 'ZeroDaily feed in light theme' },
+  { src: '/screens/desks.webp', title: 'Pick your desks', body: 'Tap a desk to follow security, AI, engineering and more.', alt: 'ZeroDaily feed filtered to the Cybersecurity desk' },
+  { src: '/screens/onboarding.webp', title: 'Make it yours', body: 'Choose the topics you care about. Change them any time.', alt: 'ZeroDaily topic picker with seven desks' },
+  { src: '/screens/saved.webp', title: 'Saved for offline', body: 'Bookmark a story and read it later, even without a signal.', alt: 'ZeroDaily saved offline stories list' },
+  { src: '/screens/settings.webp', title: 'Alerts you control', body: 'Choose exactly which topics are allowed to buzz your phone.', alt: 'ZeroDaily settings with theme and notification channels' },
 ];
 
 const DOWNLOAD_ICON = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>';
@@ -27,7 +27,7 @@ function phone(screen, extra = '', eager = false) {
         width="780" height="1688"
         ${eager ? '' : 'loading="lazy"'}
         decoding="async"
-        class="w-full h-full rounded-[2rem] object-cover object-top bg-night"
+        class="w-full h-full rounded-[2rem] object-cover object-top bg-paper-raised dark:bg-night-raised"
       />
     </div>`;
 }
