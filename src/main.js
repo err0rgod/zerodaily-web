@@ -36,7 +36,10 @@ function initApp() {
 
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
   if (path === '/join') {
-    appRoot.appendChild(renderJoinView());
+    document.title = 'Join — ZeroDaily';
+    appRoot.className = 'min-h-screen flex flex-col bg-paper dark:bg-night';
+    appRoot.append(renderHeader('join'), renderJoinView(), renderFooter());
+    hydrateReleaseData();
     return;
   }
 

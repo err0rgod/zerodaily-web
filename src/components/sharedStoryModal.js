@@ -23,9 +23,9 @@ export function getSharedArticleIdFromUrl() {
 }
 
 /**
- * Renders a compact, aesthetic preview card when visiting a shared story URL.
- * Automatically attempts redirect to the native app if installed,
- * and copies `zerodaily:<id>` to clipboard for seamless deferred deep linking.
+ * Renders a compact preview when visiting a shared story URL.
+ * Attempts redirect to the native app if installed,
+ * and copies `zerodaily:<id>` to clipboard for deferred deep linking.
  */
 export async function handleSharedStoryView() {
   const articleId = getSharedArticleIdFromUrl();
@@ -33,7 +33,6 @@ export async function handleSharedStoryView() {
 
   const encodedId = encodeURIComponent(articleId);
   const isAndroid = /Android/i.test(navigator.userAgent);
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   const currentUrl = encodeURIComponent(window.location.href);
   // Standard Android Intent URI with web fallback if app is not installed
@@ -41,14 +40,13 @@ export async function handleSharedStoryView() {
   const customSchemeUrl = `zerodaily://a/${encodedId}`;
   const appLaunchUrl = isAndroid ? androidIntentUrl : customSchemeUrl;
 
-  // 1. Deferred deep-link handshake: write token to clipboard so app detects story on first boot
+  // Deferred deep-link handshake: write token to clipboard so app detects story on first boot
   try {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(`zerodaily:${articleId}`).catch(() => {});
     }
   } catch {}
 
-  // 3. Fetch story details for clean web preview
   const article = await fetchArticleDetail(articleId);
 
   const heading = article?.heading || 'ZeroDaily Shared Dispatch';
@@ -56,46 +54,31 @@ export async function handleSharedStoryView() {
   const category = String(article?.category || 'News').replace(/_/g, ' ');
   const imageUrl = article?.image_url || '';
 
-  // 4. Render compact, non-intrusive preview modal
   const modal = document.createElement('div');
   modal.id = 'shared-story-modal';
-  modal.className = 'fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm';
+  modal.className = 'fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40';
 
   modal.innerHTML = `
-    <div class="relative w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden rounded-3xl bg-paper dark:bg-night-card shadow-2xl">
+    <div class="relative w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden bg-paper dark:bg-night border border-rule dark:border-night-rule">
       ${imageUrl ? `
-        <div class="w-full h-36 bg-paper-raised dark:bg-night-raised overflow-hidden shrink-0">
-          <img src="${escapeHtml(imageUrl)}" alt="" class="w-full h-full object-cover" onerror="this.parentElement.style.display='none'" />
-        </div>
+        <img src="${escapeHtml(imageUrl)}" alt="" class="w-full max-h-40 object-cover shrink-0" onerror="this.remove()" />
       ` : ''}
 
-      <div class="p-5 sm:p-6 flex flex-col overflow-y-auto">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-medium capitalize text-brand dark:text-brand-dark">${escapeHtml(category)}</span>
-          <button id="close-shared-modal" type="button" class="w-8 h-8 -mr-2 grid place-items-center rounded-full text-ink-faint dark:text-paper-faint hover:bg-paper-raised dark:hover:bg-night-raised transition-colors cursor-pointer" aria-label="Close">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M6 6l12 12M18 6L6 18"/></svg>
-          </button>
-        </div>
-
-        <h2 class="mt-1 font-serif text-xl font-semibold text-ink dark:text-paper-ink leading-snug">
+      <div class="p-5 flex flex-col overflow-y-auto">
+        <p class="text-sm capitalize text-brand dark:text-brand-dark">${escapeHtml(category)}</p>
+        <h2 class="mt-1 text-xl font-medium text-ink dark:text-paper-ink leading-snug">
           ${escapeHtml(heading)}
         </h2>
-
-        <p class="mt-3 text-[15px] text-ink-soft dark:text-paper-soft leading-relaxed">
+        <p class="mt-3 text-ink-soft dark:text-paper-soft leading-relaxed">
           ${escapeHtml(summary)}
         </p>
-
-        <div class="mt-6 grid grid-cols-2 gap-2">
-          <a href="${escapeHtml(appLaunchUrl)}" class="inline-flex items-center justify-center px-4 py-2.5 rounded-full text-sm font-semibold bg-brand dark:bg-brand-dark text-white dark:text-night hover:opacity-90 transition-opacity">
-            Open in app
-          </a>
-          <a href="${escapeHtml(DIRECT_APK_URL)}" class="inline-flex items-center justify-center px-4 py-2.5 rounded-full text-sm font-medium border border-rule-dark dark:border-night-rule-dark text-ink dark:text-paper-ink hover:bg-paper-raised dark:hover:bg-night-raised transition-colors">
-            Get the app
-          </a>
-        </div>
-
-        <button id="dismiss-shared-modal" type="button" class="mt-3 text-sm text-ink-faint dark:text-paper-faint hover:text-ink dark:hover:text-paper-ink transition-colors cursor-pointer">
-          Continue on web
+        <p class="mt-5 text-sm">
+          <a href="${escapeHtml(appLaunchUrl)}" class="underline underline-offset-2 text-ink dark:text-paper-ink">Open in the app</a>
+          <span class="text-ink-faint dark:text-paper-faint" aria-hidden="true"> · </span>
+          <a href="${escapeHtml(DIRECT_APK_URL)}" class="underline underline-offset-2 text-ink dark:text-paper-ink">Get the app</a>
+        </p>
+        <button id="dismiss-shared-modal" type="button" class="mt-4 text-sm text-left text-ink-faint dark:text-paper-faint underline underline-offset-2 cursor-pointer hover:text-ink dark:hover:text-paper-ink">
+          Stay on this page
         </button>
       </div>
     </div>
@@ -104,7 +87,6 @@ export async function handleSharedStoryView() {
   document.body.appendChild(modal);
 
   const closeModal = () => modal.remove();
-  modal.querySelector('#close-shared-modal')?.addEventListener('click', closeModal);
   modal.querySelector('#dismiss-shared-modal')?.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();

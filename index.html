@@ -21,11 +21,6 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-  <!-- Fonts: Newsreader (serif headlines) + Inter (UI) + JetBrains Mono (labels) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet" />
-
   <meta name="color-scheme" content="light dark" />
   <meta name="theme-color" content="#faf8f3" />
 
@@ -58,14 +53,9 @@
           document.documentElement.style.colorScheme = systemDark ? 'dark' : 'light';
           var mTheme = document.querySelector('meta[name="theme-color"]');
           if (mTheme) mTheme.setAttribute('content', systemDark ? '#0d0e12' : '#faf8f3');
-          var moon = document.getElementById('theme-icon-moon');
-          var sun = document.getElementById('theme-icon-sun');
-          if (moon && sun) {
-            moon.classList.toggle('hidden', systemDark);
-            sun.classList.toggle('hidden', !systemDark);
-          }
           var toggleBtn = document.getElementById('theme-toggle');
           if (toggleBtn) {
+            toggleBtn.textContent = systemDark ? 'Light' : 'Dark';
             toggleBtn.setAttribute('aria-label', systemDark ? 'Switch to light theme' : 'Switch to dark theme');
           }
         });
