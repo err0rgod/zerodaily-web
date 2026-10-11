@@ -32,7 +32,6 @@ export function safeUrl(value, fallback = '#') {
 export const APP_REPO = 'err0rgod/zerodaily-app';
 export const DIRECT_APK_URL = `https://github.com/${APP_REPO}/releases/latest/download/ZeroDaily.apk`;
 export const RELEASES_URL = `https://github.com/${APP_REPO}/releases`;
-export const REPO_URL = `https://github.com/${APP_REPO}`;
 
 export const BREAKING_ENDPOINT = 'https://api.zerodaily.in/api/v1/notifications/history?limit=10';
 
