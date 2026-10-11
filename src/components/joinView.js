@@ -1,45 +1,50 @@
-import { CONTAINER } from './header.js';
-
 export function renderJoinView() {
-  const container = document.createElement('main');
+  const container = document.createElement('div');
+  container.className = 'min-h-screen flex flex-col items-center justify-center px-4 bg-paper dark:bg-night text-ink dark:text-paper-ink';
 
   container.innerHTML = `
-    <div class="${CONTAINER} py-12 sm:py-16">
-      <h1 id="join-title" class="font-serif text-[2rem] sm:text-4xl font-normal text-ink dark:text-paper-ink leading-tight">
+    <div class="w-full max-w-[420px] text-center">
+      <h1 id="join-title" class="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-ink dark:text-paper-ink mb-7">
         join Zerodaily
       </h1>
 
-      <div id="join-step-email" class="mt-6">
-        <p class="text-ink-soft dark:text-paper-soft">An email when there's something worth sending.</p>
-        <form id="join-form-email" class="mt-6">
-          <label for="join-email-input" class="text-sm text-ink-soft dark:text-paper-soft">Email</label>
-          <input
-            type="email"
-            id="join-email-input"
-            name="email"
-            placeholder="you@domain.com"
-            required
-            autofocus
-            spellcheck="false"
-            class="field"
-          />
-          <button
-            type="submit"
-            id="join-btn-submit"
-            class="btn mt-3 min-w-16 cursor-pointer"
-          >
-            <span class="btn-text">Join</span>
-            <span class="spinner hidden"></span>
-          </button>
-        </form>
-        <div id="join-msg" class="text-sm min-h-5 mt-3"></div>
+      <!-- Email Box -->
+      <div id="join-step-email">
+        <div class="bg-card dark:bg-[#15171e] border border-[#e2ded2] dark:border-[#232733] rounded-lg p-1.5 shadow-sm focus-within:border-brand dark:focus-within:border-brand-dark focus-within:ring-2 focus-within:ring-brand/20 transition-all">
+          <form id="join-form-email" class="flex gap-1.5 w-full">
+            <input
+              type="email"
+              id="join-email-input"
+              name="email"
+              placeholder="you@domain.com"
+              required
+              autofocus
+              spellcheck="false"
+              class="flex-1 min-w-0 bg-transparent border-0 px-3 py-2 text-[15px] text-ink dark:text-paper-ink placeholder:text-[#7f7b6e] dark:placeholder:text-[#8c8f9b] focus:outline-none"
+            />
+            <button
+              type="submit"
+              id="join-btn-submit"
+              class="bg-brand hover:bg-[#b03224] dark:bg-brand-dark dark:hover:bg-[#f05a49] text-white px-4 py-2 rounded-md text-[14px] font-medium transition-colors cursor-pointer flex items-center justify-center min-w-[80px]"
+            >
+              <span class="btn-text">Join</span>
+              <span class="hidden spinner w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            </button>
+          </form>
+        </div>
+        <div id="join-msg" class="text-xs min-h-[20px] mt-3"></div>
       </div>
 
-      <div id="join-step-joined" class="hidden mt-6">
-        <h2 class="font-serif text-2xl font-normal text-ink dark:text-paper-ink">welcome to zerodaily</h2>
-        <p class="mt-3 text-ink-soft dark:text-paper-soft leading-relaxed max-w-md">
-          we will inform you when we launch till then you can visit our <a href="/" class="underline underline-offset-2 text-ink dark:text-paper-ink">website</a> and try our app by <a href="/download/apk" class="underline underline-offset-2 text-ink dark:text-paper-ink">.apk</a>
-        </p>
+      <!-- Welcome Status -->
+      <div id="join-step-joined" class="hidden">
+        <div class="bg-card dark:bg-[#15171e] border border-[#e2ded2] dark:border-[#232733] rounded-lg p-8 shadow-sm flex flex-col items-center text-center gap-3">
+          <h2 class="font-serif text-2xl sm:text-3xl font-normal text-ink dark:text-paper-ink">
+            welcome to zerodaily
+          </h2>
+          <p class="text-sm leading-relaxed text-[#7f7b6e] dark:text-[#8c8f9b]">
+            we will inform you when we launch till then you can visit our <a href="/" class="text-brand dark:text-brand-dark underline underline-offset-2 hover:opacity-80 font-medium">website</a> and try our app by <a href="/download/apk" class="text-brand dark:text-brand-dark underline underline-offset-2 hover:opacity-80 font-medium">.apk</a>
+          </p>
+        </div>
       </div>
     </div>
   `;
@@ -95,7 +100,7 @@ export function renderJoinView() {
   formEmail.addEventListener('submit', async (e) => {
     e.preventDefault();
     msg.textContent = '';
-    msg.className = 'text-sm min-h-5 mt-3';
+    msg.className = 'text-xs min-h-[20px] mt-3';
 
     const email = emailInput.value.trim().toLowerCase();
     if (!email) return;
@@ -111,7 +116,7 @@ export function renderJoinView() {
       stepJoined.classList.remove('hidden');
     } catch (err) {
       msg.textContent = err.message || 'Error submitting email';
-      msg.className = 'text-sm min-h-5 mt-3 text-red-700 dark:text-red-400';
+      msg.className = 'text-xs min-h-[20px] mt-3 text-red-600 dark:text-red-400 font-medium';
     } finally {
       btnSubmit.disabled = false;
       btnSubmit.querySelector('.btn-text').classList.remove('hidden');
