@@ -2,6 +2,8 @@ import { DIRECT_APK_URL } from '../api.js';
 
 export const CONTAINER = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-10';
 
+export { renderLaunchNotice, calculateDaysRemaining, PLAY_STORE_LAUNCH_TARGET_DATE } from './launchNotice.js';
+
 const MOON = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
 const SUN = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.95-6.95l-1.414 1.414M7.464 16.536L6.05 17.95m11.9 0l-1.414-1.414M7.464 7.464L6.05 6.05M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
 

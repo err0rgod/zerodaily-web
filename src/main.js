@@ -1,5 +1,6 @@
 import './styles.css';
 import { renderHeader } from './components/header.js';
+import { renderLaunchNotice } from './components/launchNotice.js';
 import { renderHome } from './components/home.js';
 import { renderWire } from './components/wire.js';
 import { renderFooter } from './components/footer.js';
@@ -46,7 +47,7 @@ function initApp() {
     document.title = "Today's Wire — ZeroDaily";
     const wire = renderWire();
     wire.element.classList.add('flex-1');
-    appRoot.append(renderHeader('wire'), wire.element, renderFooter());
+    appRoot.append(renderHeader('wire'), renderLaunchNotice(), wire.element, renderFooter());
 
     // Handy for testing against a staging feed:
     // __setZeroDailyBreakingEndpoint('https://staging.example.com/feed')
@@ -57,7 +58,7 @@ function initApp() {
   } else {
     const home = renderHome();
     home.classList.add('flex-1');
-    appRoot.append(renderHeader('home'), home, renderFooter());
+    appRoot.append(renderHeader('home'), renderLaunchNotice(), home, renderFooter());
     handleSharedStoryView();
   }
 
