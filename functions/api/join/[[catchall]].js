@@ -22,6 +22,10 @@ export async function onRequest(context) {
   const forwardHeaders = new Headers();
   forwardHeaders.set("Content-Type", context.request.headers.get("Content-Type") || "application/json");
   forwardHeaders.set("Accept", "application/json");
+  // Pass the visitor's IP on, so the backend's per-IP limits count each visitor separately
+  // instead of every request arriving from this function's address.
+  const clientIp = context.request.headers.get("CF-Connecting-IP");
+  if (clientIp) forwardHeaders.set("X-Forwarded-For", clientIp);
 
   try {
     const backendResponse = await fetch(targetUrl, {
