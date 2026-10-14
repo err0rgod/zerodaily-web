@@ -7,6 +7,7 @@ import { renderFooter } from './components/footer.js';
 import { fetchLatestAppRelease, setBreakingEndpoint } from './api.js';
 import { handleSharedStoryView } from './components/sharedStoryModal.js';
 import { renderJoinView } from './components/joinView.js';
+import { renderFeedbackView } from './components/feedbackView.js';
 
 async function hydrateReleaseData() {
   const release = await fetchLatestAppRelease();
@@ -38,6 +39,10 @@ function initApp() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
   if (path === '/join') {
     appRoot.appendChild(renderJoinView());
+    return;
+  }
+  if (path === '/feedback') {
+    appRoot.appendChild(renderFeedbackView());
     return;
   }
 
