@@ -52,6 +52,10 @@ export function renderFooter() {
         <a href="mailto:${CONTACT_EMAIL}" class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink dark:text-paper-ink hover:text-brand dark:hover:text-brand-dark transition-colors">
           ${MAIL_ICON}<span>${CONTACT_EMAIL}</span>
         </a>
+        <a href="https://www.nvidia.com/en-us/startups/" target="_blank" rel="noopener" class="mt-5 flex w-fit items-center gap-2 rounded-full border border-rule dark:border-night-rule px-3 py-1.5 text-xs font-medium text-ink-soft dark:text-paper-soft hover:text-ink dark:hover:text-paper-ink transition-colors">
+          <span class="h-2 w-2 rounded-full bg-[#76b900]" aria-hidden="true"></span>
+          <span>Member of NVIDIA Inception</span>
+        </a>
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 lg:contents">
