@@ -8,6 +8,7 @@ import { fetchLatestAppRelease, setBreakingEndpoint } from './api.js';
 import { handleSharedStoryView } from './components/sharedStoryModal.js';
 import { renderJoinView } from './components/joinView.js';
 import { renderFeedbackView } from './components/feedbackView.js';
+import { renderContactView } from './components/contactView.js';
 
 async function hydrateReleaseData() {
   const release = await fetchLatestAppRelease();
@@ -48,7 +49,11 @@ function initApp() {
 
   appRoot.className = 'min-h-screen flex flex-col bg-paper dark:bg-night';
 
-  if (path === '/wire') {
+  if (path === '/contact') {
+    const contact = renderContactView();
+    contact.classList.add('flex-1');
+    appRoot.append(renderHeader('home'), contact, renderFooter());
+  } else if (path === '/wire') {
     document.title = "Today's Wire — ZeroDaily";
     const wire = renderWire();
     wire.element.classList.add('flex-1');
