@@ -14,7 +14,7 @@ const COLUMNS = [
   {
     title: 'Company',
     links: [
-      { href: `mailto:${CONTACT_EMAIL}`, label: 'Contact us' },
+      { href: '/contact', label: 'Contact us' },
       { href: '/feedback', label: 'Send feedback' },
       { href: `mailto:${CONTACT_EMAIL}?subject=Press%20enquiry`, label: 'Press' },
       { href: `mailto:${CONTACT_EMAIL}?subject=Partnership%20enquiry`, label: 'Partnerships' },
