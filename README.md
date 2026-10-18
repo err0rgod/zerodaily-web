@@ -1,62 +1,38 @@
 # ZeroDaily Web (`zerodaily.in`)
 
 [![Build & Deploy](https://github.com/err0rgod/zerodaily-web/actions/workflows/deploy.yml/badge.svg)](https://github.com/err0rgod/zerodaily-web/actions)
-[![Live Site](https://img.shields.io/badge/Live%20Site-zerodaily.in-10B981)](https://zerodaily.in)
+[![Live Site](https://img.shields.io/badge/Live%20Site-zerodaily.in-c2410c)](https://zerodaily.in)
 [![Edge](https://img.shields.io/badge/Edge-Cloudflare%20Pages-F38020)](https://pages.cloudflare.com)
-[![Latest APK](https://img.shields.io/badge/Android%20APK-Download-emerald)](https://zerodaily.in/apk)
+[![Latest APK](https://img.shields.io/badge/Android%20APK-Download-1b1a17)](https://zerodaily.in/download)
 
-The landing page for **ZeroDaily** — an Android app that delivers short, no-spin tech news. The site pitches the app, shows the latest stories, and links the download.
+The website for **ZeroDaily**, an Android app that delivers short, no-spin tech news across seven
+desks: security, AI, software, robotics, defense, silicon and finance. The site introduces the app,
+shows the latest stories, links the APK download, and runs the waitlist and feedback forms.
 
----
+## Pages
 
-## 1. Project Structure
+| Path | What it is |
+| :--- | :--- |
+| `/` | Landing page with app screenshots and download links |
+| `/wire` | Today's Wire: the latest stories, filterable by desk |
+| `/join` | Waitlist signup with email verification |
+| `/feedback` | Send feedback (verified email required) |
+| `/contact` | Contact details (hi@zerodaily.in) |
+| `/privacy`, `/terms`, `/delete-account` | Static legal and account-deletion pages |
+| `/download` | Redirects to the latest APK on GitHub Releases |
+| `/a/<id>` | Shared story link with rich link previews |
 
-```text
-zerodaily-web/
-├── index.html                  # Entry point (theme bootstrap, fonts, meta)
-├── vite.config.js              # Vite + Tailwind v4 build
-├── package.json
-├── public/
-│   ├── favicon.svg             # Brand mark (Z slash logo)
-│   ├── icon-192.png / icon-512.png / apple-touch-icon.png  # Rasterized icons
-│   ├── og-image.png            # Social share card
-│   ├── site.webmanifest        # Installable PWA manifest
-│   ├── _headers                # Cloudflare Pages cache & security headers
-│   └── _redirects              # /apk, /download -> latest GitHub release APK
-├── src/
-│   ├── api.js                  # Wire/release fetching (3x retry), fallbacks, escaping helpers
-│   ├── main.js                 # Page orchestrator (sections + category state)
-│   ├── styles.css              # Tailwind v4 theme (paper/night) + editorial touches
-│   └── components/
-│       ├── editorialMasthead.js # Top bar, hero pitch, desk strip, theme toggle
-│       ├── storyPreview.js      # A single app-style story card ("a taste of the app")
-│       ├── appDock.js           # The product: app icon, feature list, download CTA
-│       ├── coverageDirectory.js # The seven desks, one compact line
-│       └── footer.js
-├── .github/
-│   └── workflows/
-│       └── deploy.yml           # CI/CD: build -> Cloudflare Pages
-└── README.md
-```
+## Stack
 
----
+- [Vite](https://vite.dev) + [Tailwind CSS v4](https://tailwindcss.com), plain JavaScript, no framework
+- Newspaper look: Newsreader / Inter / JetBrains Mono, warm paper light theme and a night dark theme
+- [Cloudflare Pages](https://pages.cloudflare.com) hosting, with Pages Functions for the `/api/*`
+  proxy (waitlist and feedback) and the `/a/*` link previews
+- Data from the ZeroDaily API (`api.zerodaily.in`) and the GitHub Releases API
 
-## 2. Design Notes
+## Local development
 
-- **Landing page, not a feed.** Hero pitch → one live story preview (exactly like the app renders it) → app features → desks → download. The app is the product.
-- **Newspaper, not SaaS.** Warm paper background, black serif headlines (Newsreader), one rust-red accent, hairline rules. Dark mode via the moon toggle persists in `localStorage`; light is the house style.
-- **All API-provided strings are rendered via `textContent`** (never raw `innerHTML`), and link URLs pass through an http(s) allow-list — no XSS surface from the feed.
-- **Tailwind CSS v4 is bundled and purged by Vite** (~4.8 KB gzipped CSS), replacing the old CDN script.
-- **Live story preview**: pulls the last 10 items from `https://api.zerodaily.in/api/v1/notifications/history?limit=10` (3 attempts, 3s apart), topped up with curated fallback dispatches when the wire is quiet.
-- **Dynamic APK links**: version, size and download URL are hydrated from the GitHub Releases API for [`err0rgod/zerodaily-app`](https://github.com/err0rgod/zerodaily-app); `/apk` and `/download` 302 to the latest asset.
-
----
-
-## 3. Local Development
-
-### Prerequisites
-- Node.js >= 18
-- npm >= 9
+Requires Node.js 20.19+ or 22.12+.
 
 ```bash
 npm install
@@ -65,8 +41,20 @@ npm run build    # production build -> dist/
 npm run preview  # serve the production build locally
 ```
 
----
+Pages Functions do not run under the Vite dev server; the waitlist and feedback forms then call
+`api.zerodaily.in` directly.
 
-## 4. CI/CD & Deployment
+## Deploy
 
-Every push to `main` builds the site in GitHub Actions and deploys `dist/` to **Cloudflare Pages** (`.github/workflows/deploy.yml`).
+Every push to `main` builds the site in GitHub Actions and deploys `dist/` to Cloudflare Pages
+(`.github/workflows/deploy.yml`). Pull requests only build. Changes go through a feature branch and
+a PR, and are checked in light mode, dark mode and on a phone-width screen before merging.
+
+## More
+
+Routing gotchas, the API proxy allowlist, visitor sessions, design tokens and other details for
+contributors and coding agents are in [AGENTS.md](AGENTS.md).
+
+## License
+
+See [LICENSE](LICENSE).
