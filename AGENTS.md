@@ -134,6 +134,12 @@ That is: `/api/join`, `/api/join/save`, `/api/join/send`, `/api/join/verify`, `/
 - `OPTIONS` -> `204` with CORS headers; non-allowlisted path -> `404`; non-`POST` -> `405`.
 - Forwards `Content-Type`, `Authorization`, `User-Agent`, and the visitor IP (`CF-Connecting-IP`)
   as `X-Forwarded-For`, so the backend's per-IP limits count visitors, not the proxy.
+- **`ORIGIN_SECRET` (Pages env var):** when set, the proxy adds `X-ZD-Origin-Key: <ORIGIN_SECRET>`
+  to every upstream request, because the backend rejects requests without it. The value must equal
+  the backend's `ORIGIN_SECRET` (on the `zerodaily-api` Lambda) and the header value set by the
+  Cloudflare transform rule on `api.zerodaily.in`. It is configured as an **encrypted** Pages
+  environment variable for production (Pages project settings), never in code; never log it.
+  If unset, the header is omitted.
 - Responses are passed through with `Cache-Control: no-store`; an unreachable backend returns `502`.
 - To expose a new visitor endpoint, extend `ALLOWED` and document it here.
 
