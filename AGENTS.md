@@ -9,6 +9,10 @@ backend repo's `AGENTS.md` (`D:\zerodaily`, `api.zerodaily.in`).
 
 ---
 
+## Commit & PR attribution
+
+- **Never add AI attribution.** No `Co-Authored-By: Claude ...` (or any AI co-author) trailer in commit messages, and no "Generated with Claude Code" or similar AI credit lines in PR titles or descriptions. Commits and PRs are authored by the repo owner only. This applies to every agent and tool working in this repo.
+
 ## 1. Quick orientation
 
 ### Commands
