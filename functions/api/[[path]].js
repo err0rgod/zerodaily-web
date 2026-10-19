@@ -38,6 +38,9 @@ export async function onRequest(context) {
   // Pass the visitor's IP on, so per-IP limits count each visitor rather than this proxy.
   const clientIp = request.headers.get('CF-Connecting-IP');
   if (clientIp) headers.set('X-Forwarded-For', clientIp);
+  // Shared origin secret the backend requires (encrypted Pages env var). Never log it.
+  const originSecret = context.env && context.env.ORIGIN_SECRET;
+  if (originSecret) headers.set('X-ZD-Origin-Key', originSecret);
 
   try {
     const upstream = await fetch(`${BACKEND}${path.slice('/api'.length)}`, {
