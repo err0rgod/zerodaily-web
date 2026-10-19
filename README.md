@@ -19,7 +19,7 @@ shows the latest stories, links the APK download, and runs the waitlist and feed
 | `/feedback` | Send feedback (verified email required) |
 | `/contact` | Contact details (hi@zerodaily.in) |
 | `/privacy`, `/terms`, `/delete-account` | Static legal and account-deletion pages |
-| `/download` | Redirects to the latest APK on GitHub Releases |
+| `/download` | Redirects to the latest APK (`media.zerodaily.in/downloads/ZeroDaily.apk`) |
 | `/a/<id>` | Shared story link with rich link previews |
 
 ## Stack
@@ -28,7 +28,8 @@ shows the latest stories, links the APK download, and runs the waitlist and feed
 - Newspaper look: Newsreader / Inter / JetBrains Mono, warm paper light theme and a night dark theme
 - [Cloudflare Pages](https://pages.cloudflare.com) hosting, with Pages Functions for the `/api/*`
   proxy (waitlist and feedback) and the `/a/*` link previews
-- Data from the ZeroDaily API (`api.zerodaily.in`) and the GitHub Releases API
+- Data from the ZeroDaily API (`api.zerodaily.in`) and the APK metadata file
+  `media.zerodaily.in/downloads/latest.json`
 
 ## Local development
 
