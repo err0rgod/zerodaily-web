@@ -50,15 +50,15 @@ Static pages in `public/` (not part of the SPA), each present twice with identic
 - `/delete-account` — account deletion portal (Google Play requirement)
 
 Redirects (`public/_redirects`): `/download`, `/download/apk` and `/apk` 302 to
-`https://github.com/err0rgod/zerodaily-app/releases/latest/download/ZeroDaily.apk` (the latest GitHub
-release APK). `/.well-known/assetlinks.json` is a 200 passthrough.
+`https://media.zerodaily.in/downloads/ZeroDaily.apk` (the latest APK, see "APK download" in §6).
+`/.well-known/assetlinks.json` is a 200 passthrough.
 
 ### Component map (`src/`)
 
 | File | Purpose |
 | :--- | :--- |
-| `main.js` | Router (above) and `hydrateReleaseData()`, which points every `[data-apk-link="true"]` at the latest release APK and fills version/size from the GitHub Releases API. |
-| `api.js` | Read-only data: `escapeHtml`, `safeUrl`, categories, wire fetch (`/api/v1/notifications/history?limit=10`) with fallback dispatches, `fetchArticleDetail`, `fetchLatestAppRelease`. |
+| `main.js` | Router (above) and `hydrateReleaseData()`, which reads `latest.json`, points every `[data-apk-link="true"]` at the versioned APK, fills version/size/date into `#app-specs-tag` and shows the SHA-256 in `#app-sha`. |
+| `api.js` | Read-only data: `escapeHtml`, `safeUrl`, categories, wire fetch (`/api/v1/notifications/history?limit=10`) with fallback dispatches, `fetchArticleDetail`, `fetchLatestAppRelease` (APK metadata; `DIRECT_APK_URL`, `APK_METADATA_URL`). |
 | `webApi.js` | `apiPost(route, body, { token })` for visitor endpoints: tries same-origin `/api` first, then `https://api.zerodaily.in/api/v1`. A 4xx is reported immediately (`ApiError` with `.status`); only network errors and 5xx try the next host. |
 | `session.js` | Verified-visitor session in `localStorage` (`getSession`, `saveSession`, `clearSession`). |
 | `components/header.js` | Sticky header, nav (Today's Wire, Waitlist), theme toggle, "Get the app" button. Exports `CONTAINER`. |
@@ -184,8 +184,20 @@ In the browser, `sharedStoryModal.js` shows a preview card, tries to open the An
   for package `in.zerodaily.app` lists two SHA-256 fingerprints: the new release signing key and the
   old debug key (kept until sideload users migrate). Keep both files identical. `.gitignore` ignores
   `*.json` except these files and `package*.json`.
-- **APK download:** `/download` (also `/apk`, `/download/apk`) redirects to the latest GitHub release
-  APK of `err0rgod/zerodaily-app`.
+- **APK download:** the app repo `err0rgod/zerodaily-app` is **private**, so GitHub release URLs and
+  the GitHub Releases API do not work for visitors — never link to them. APKs are served publicly from
+  the S3 bucket `zerodaily-media-339087217625` (prefix `downloads/`) through Cloudflare at
+  `media.zerodaily.in`:
+  - `https://media.zerodaily.in/downloads/ZeroDaily.apk` — always the latest APK (`DIRECT_APK_URL`;
+    target of the `/download`, `/apk`, `/download/apk` redirects and the static `href` of every
+    download button).
+  - `https://media.zerodaily.in/downloads/ZeroDaily-<version>.apk` — versioned copy.
+  - `https://media.zerodaily.in/downloads/latest.json` — metadata
+    `{ version, versionCode, file, latest, size, sha256, published_at }` (S3 CORS allows GET from any
+    origin). `fetchLatestAppRelease()` fetches it (4 s timeout), points download buttons at `file`,
+    and shows `Android v<version> · <size> MB · released <date>` plus the SHA-256. If it fails, the
+    buttons keep `DIRECT_APK_URL` and the page shows the static "Latest release" text.
+  Publishing a new APK (upload + `latest.json`) is done from the app repo, not here.
 - **Cloudflare Email Obfuscation** rewrites `mailto:` addresses in the static HTML pages
   (`/privacy`, `/terms`, `/delete-account`). This is expected; the SPA renders its links in JS.
 - **Cloudflare Bot Fight Mode is intentionally OFF** — it blocked Google Play's URL checker

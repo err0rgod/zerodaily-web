@@ -1,6 +1,6 @@
 /**
  * ZeroDaily Data Service
- * Fetches live dispatches and app releases, with curated fallbacks.
+ * Fetches live dispatches and app release metadata, with curated fallbacks.
  */
 
 /**
@@ -29,9 +29,9 @@ export function safeUrl(value, fallback = '#') {
   return fallback;
 }
 
-export const APP_REPO = 'err0rgod/zerodaily-app';
-export const DIRECT_APK_URL = `https://github.com/${APP_REPO}/releases/latest/download/ZeroDaily.apk`;
-export const RELEASES_URL = `https://github.com/${APP_REPO}/releases`;
+// Public APK home (S3 bucket behind Cloudflare). latest.json describes the current release.
+export const DIRECT_APK_URL = 'https://media.zerodaily.in/downloads/ZeroDaily.apk';
+export const APK_METADATA_URL = 'https://media.zerodaily.in/downloads/latest.json';
 
 export const BREAKING_ENDPOINT = 'https://api.zerodaily.in/api/v1/notifications/history?limit=10';
 
@@ -327,45 +327,45 @@ export async function fetchArticleDetail(articleId) {
 }
 
 /**
- * Dynamically queries GitHub Releases API for err0rgod/zerodaily-app
+ * Reads release metadata from media.zerodaily.in/downloads/latest.json:
+ * { version, versionCode, file, latest, size, sha256, published_at }.
+ * On any failure the download button keeps pointing at DIRECT_APK_URL.
  */
 export async function fetchLatestAppRelease() {
+  const fallback = {
+    version: 'Latest',
+    apkUrl: DIRECT_APK_URL,
+    apkSize: null,
+    sha256: null,
+    publishedAt: null
+  };
+
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-    const res = await fetch(`https://api.github.com/repos/${APP_REPO}/releases/latest`, {
-      headers: { 'Accept': 'application/vnd.github.v3+json' },
-      signal: controller.signal
-    });
+    const res = await fetch(APK_METADATA_URL, { cache: 'no-cache', signal: controller.signal });
     clearTimeout(timeoutId);
 
-    if (!res.ok) throw new Error(`GitHub API HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`latest.json HTTP ${res.status}`);
     const data = await res.json();
 
-    const apkAsset = data.assets?.find(a => a.name.endsWith('.apk'));
-    const shaAsset = data.assets?.find(a => a.name.includes('SHA256') || a.name.endsWith('.txt'));
-    const sizeMb = apkAsset?.size ? (apkAsset.size / (1024 * 1024)).toFixed(1) + ' MB' : null;
+    const version = typeof data.version === 'string' && data.version.trim() ? data.version.trim() : null;
+    const size = Number(data.size);
+    const sha256 = typeof data.sha256 === 'string' && /^[0-9a-f]{64}$/i.test(data.sha256) ? data.sha256.toLowerCase() : null;
+    const published = data.published_at ? new Date(data.published_at) : null;
 
     return {
-      version: data.tag_name || 'Latest',
-      name: data.name || `ZeroDaily Release ${data.tag_name || ''}`,
-      apkUrl: apkAsset?.browser_download_url || DIRECT_APK_URL,
-      apkSize: sizeMb,
-      releaseUrl: data.html_url || RELEASES_URL,
-      shaUrl: shaAsset?.browser_download_url || null,
-      publishedAt: data.published_at ? new Date(data.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : null
+      version: version ? (version.startsWith('v') ? version : `v${version}`) : 'Latest',
+      apkUrl: safeUrl(data.file || data.latest, DIRECT_APK_URL),
+      apkSize: size > 0 ? (size / (1024 * 1024)).toFixed(1) + ' MB' : null,
+      sha256,
+      publishedAt: published && !Number.isNaN(published.getTime())
+        ? published.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : null
     };
   } catch (err) {
     console.debug('[Release Service] Using fallback direct APK URL:', err);
-    return {
-      version: 'Latest',
-      name: 'ZeroDaily Android Release',
-      apkUrl: DIRECT_APK_URL,
-      apkSize: null,
-      releaseUrl: RELEASES_URL,
-      shaUrl: null,
-      publishedAt: null
-    };
+    return fallback;
   }
 }

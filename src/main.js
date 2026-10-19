@@ -19,6 +19,13 @@ async function hydrateReleaseData() {
     el.href = release.apkUrl;
   });
 
+  const appSha = document.getElementById('app-sha');
+  if (appSha && release.sha256) {
+    const value = appSha.querySelector('code');
+    if (value) value.textContent = release.sha256;
+    appSha.hidden = false;
+  }
+
   if (release.version === 'Latest') return;
 
   const appSpecsTag = document.getElementById('app-specs-tag');
@@ -26,9 +33,6 @@ async function hydrateReleaseData() {
     const parts = [`Android ${release.version}`, release.apkSize, release.publishedAt && `released ${release.publishedAt}`];
     appSpecsTag.textContent = parts.filter(Boolean).join(' · ');
   }
-
-  const appShaLink = document.getElementById('app-sha-link');
-  if (appShaLink && release.releaseUrl) appShaLink.href = release.releaseUrl;
 }
 
 function initApp() {

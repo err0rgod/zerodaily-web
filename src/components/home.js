@@ -1,4 +1,4 @@
-import { DIRECT_APK_URL, RELEASES_URL, CATEGORIES } from '../api.js';
+import { DIRECT_APK_URL, CATEGORIES } from '../api.js';
 import { CONTAINER } from './header.js';
 
 const FEATURES = [
@@ -118,10 +118,10 @@ export function renderHome() {
                 ${DOWNLOAD_ICON}
                 <span>Download APK</span>
               </a>
-              <a id="app-sha-link" href="${RELEASES_URL}" target="_blank" rel="noopener" class="text-sm text-ink-soft dark:text-paper-soft hover:text-ink dark:hover:text-paper-ink transition-colors">
-                Release notes &amp; checksums
-              </a>
             </div>
+            <p id="app-sha" hidden class="mt-4 text-xs text-ink-faint dark:text-paper-faint">
+              SHA-256 <code class="font-mono break-all text-ink-soft dark:text-paper-soft"></code>
+            </p>
           </div>
         </div>
       </div>

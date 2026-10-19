@@ -2,9 +2,9 @@
 /.well-known/assetlinks.json /.well-known/assetlinks.json                                      200
 
 # APK download shortcuts
-/download/apk   https://github.com/err0rgod/zerodaily-app/releases/latest/download/ZeroDaily.apk   302
-/download       https://github.com/err0rgod/zerodaily-app/releases/latest/download/ZeroDaily.apk   302
-/apk            https://github.com/err0rgod/zerodaily-app/releases/latest/download/ZeroDaily.apk   302
+/download/apk   https://media.zerodaily.in/downloads/ZeroDaily.apk 302
+/download       https://media.zerodaily.in/downloads/ZeroDaily.apk 302
+/apk            https://media.zerodaily.in/downloads/ZeroDaily.apk 302
 
 # App routes (/join, /feedback, /wire) need no rule: with no 404.html, Pages serves
 # index.html for any path that isn't a file. (Rewriting to /index.html 308s to /.)
