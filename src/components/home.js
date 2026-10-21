@@ -1,5 +1,6 @@
 import { DIRECT_APK_URL, CATEGORIES } from '../api.js';
 import { CONTAINER } from './header.js';
+import { mockupHtml, hydrateMockups } from './appMockups.js';
 
 const FEATURES = [
   ['Seven desks', 'Security, AI, software, robotics, defense, silicon and finance.'],
@@ -7,28 +8,25 @@ const FEATURES = [
   ['Private by default', 'No account, no ads, no trackers. Works offline.'],
 ];
 
+// Each phone is a live HTML mockup of the app (appMockups.js); `src` is the static screenshot
+// shown instead when the feed API is unavailable.
 const SCREENS = [
-  { src: '/screens/feed.webp', title: 'A clean feed', body: 'One story per screen with the image, the gist and the source.', alt: 'ZeroDaily feed showing a single story card' },
-  { src: '/screens/desks.webp', title: 'Pick your desks', body: 'Tap a desk to follow security, AI, engineering and more.', alt: 'ZeroDaily feed filtered to the Cybersecurity desk' },
-  { src: '/screens/onboarding.webp', title: 'Make it yours', body: 'Choose the topics you care about. Change them any time.', alt: 'ZeroDaily topic picker with seven desks' },
-  { src: '/screens/saved.webp', title: 'Saved for offline', body: 'Bookmark a story and read it later, even without a signal.', alt: 'ZeroDaily saved offline stories list' },
-  { src: '/screens/settings.webp', title: 'Alerts you control', body: 'Choose exactly which topics are allowed to buzz your phone.', alt: 'ZeroDaily settings with theme and notification channels' },
+  { kind: 'feed', src: '/screens/feed.webp', title: 'A clean feed', body: 'One story per screen with the image, the gist and the source.', alt: 'ZeroDaily app feed showing a full-screen story card' },
+  { kind: 'desks', src: '/screens/desks.webp', title: 'Pick your desks', body: 'Tap a desk to follow security, AI, engineering and more.', alt: 'ZeroDaily app feed filtered to the Cybersecurity desk' },
+  { kind: 'onboarding', src: '/screens/onboarding.webp', title: 'Make it yours', body: 'Choose the topics you care about. Change them any time.', alt: 'ZeroDaily topic picker with seven desks' },
+  { kind: 'saved', src: '/screens/saved.webp', title: 'Saved for offline', body: 'Bookmark a story and read it later, even without a signal.', alt: 'ZeroDaily saved offline stories list' },
+  { kind: 'settings', src: '/screens/settings.webp', title: 'Alerts you control', body: 'Choose exactly which topics are allowed to buzz your phone.', alt: 'ZeroDaily settings with theme and notification channels' },
 ];
 
 const DOWNLOAD_ICON = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>';
 
-/** A phone frame around an app screenshot. */
-function phone(screen, extra = '', eager = false) {
+/** A phone frame around a live app mockup (decorative inside; the frame carries the label). */
+function phone(screen, extra = '', eager = false, role = 'row') {
   return `
-    <div class="aspect-[390/844] rounded-[2.4rem] bg-ink dark:bg-[#2a2d36] p-[7px] shadow-2xl shadow-black/25 ${extra}">
-      <img
-        src="${screen.src}"
-        alt="${screen.alt}"
-        width="780" height="1688"
-        ${eager ? '' : 'loading="lazy"'}
-        decoding="async"
-        class="w-full h-full rounded-[2rem] object-cover object-top bg-paper-raised dark:bg-night-raised"
-      />
+    <div role="img" aria-label="${screen.alt}" class="aspect-[390/844] rounded-[2.4rem] bg-ink dark:bg-[#2a2d36] p-[7px] shadow-2xl shadow-black/25 ${extra}">
+      <div class="w-full h-full rounded-[2rem] overflow-hidden bg-paper-raised dark:bg-night-raised">
+        ${mockupHtml(screen, role, eager)}
+      </div>
     </div>`;
 }
 
@@ -66,15 +64,15 @@ export function renderHome() {
       </div>
 
       <div class="relative mx-auto w-full max-w-[26rem] lg:max-w-none h-[28rem] sm:h-[40rem]">
-        ${phone(SCREENS[1], 'absolute right-[2%] top-0 w-[48%] sm:w-[44%] translate-y-10 rotate-[5deg]', true)}
-        ${phone(SCREENS[0], 'absolute left-[6%] top-0 w-[56%] sm:w-[52%] -rotate-[3deg] z-10', true)}
+        ${phone(SCREENS[1], 'absolute right-[2%] top-0 w-[48%] sm:w-[44%] translate-y-10 rotate-[5deg]', true, 'hero-back')}
+        ${phone(SCREENS[0], 'absolute left-[6%] top-0 w-[56%] sm:w-[52%] -rotate-[3deg] z-10', true, 'hero-front')}
       </div>
     </section>
 
     <section id="screens" class="border-t border-rule dark:border-night-rule bg-paper-raised/60 dark:bg-night-raised/50 scroll-mt-16">
       <div class="${CONTAINER} py-14 sm:py-20">
         <h2 class="text-2xl sm:text-3xl font-semibold text-ink dark:text-paper-ink tracking-tight">Inside the app</h2>
-        <p class="mt-2 text-ink-soft dark:text-paper-soft">Real screens, straight from ZeroDaily.</p>
+        <p class="mt-2 text-ink-soft dark:text-paper-soft">Live stories, laid out exactly as the app shows them.</p>
 
         <ul class="mt-10 -mx-4 px-4 sm:mx-0 sm:px-0 flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 no-scrollbar lg:grid lg:grid-cols-5 lg:overflow-visible">
           ${SCREENS.map(screen => `
@@ -143,5 +141,6 @@ export function renderHome() {
     </section>
   `;
 
+  hydrateMockups(main);
   return main;
 }
