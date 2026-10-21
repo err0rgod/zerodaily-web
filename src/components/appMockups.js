@@ -443,6 +443,10 @@ export function hydrateMockups(root) {
     }
     const { stories, cyber } = data;
     const pick = (list, i) => list[i % list.length];
+    // Desk phones skip stories the rotating hero phone already shows.
+    const heroIds = new Set(stories.slice(0, 4).map(st => st.id));
+    const fresh = cyber.filter(st => !heroIds.has(st.id));
+    const desk = fresh.length ? fresh : cyber;
 
     live.forEach(el => {
       const role = el.dataset.role;
@@ -458,8 +462,8 @@ export function hydrateMockups(root) {
       const deck = el.querySelector('[data-deck]');
       let picks;
       if (role === 'hero-front') picks = stories.slice(0, 4);
-      else if (role === 'hero-back') picks = [pick(cyber, 0)];
-      else if (el.dataset.mock === 'desks') picks = [pick(cyber, 1)];
+      else if (role === 'hero-back') picks = [pick(desk, 0)];
+      else if (el.dataset.mock === 'desks') picks = [pick(desk, 1)];
       else picks = [pick(stories, 4)];
 
       deck.innerHTML = picks.map((s, i) => storyCard(s, { eager: eager && i === 0 })).join('');
