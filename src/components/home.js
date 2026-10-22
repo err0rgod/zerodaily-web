@@ -5,7 +5,7 @@ import { mockupHtml, hydrateMockups } from './appMockups.js';
 const FEATURES = [
   ['Seven desks', 'Security, AI, software, robotics, defense, silicon and finance.'],
   ['Alerts that matter', 'A push for a real zero-day or a market crash, not every launch.'],
-  ['Private by default', 'No account, no ads, no trackers. Works offline.'],
+  ['Private by default', 'No account needed, no trackers. Works offline.'],
 ];
 
 // Each phone is a live HTML mockup of the app (appMockups.js); `src` is the static screenshot
@@ -60,7 +60,7 @@ export function renderHome() {
           </a>
         </div>
 
-        <p class="mt-4 text-sm text-ink-faint dark:text-paper-faint">Free. No account, no ads, no trackers.</p>
+        <p class="mt-4 text-sm text-ink-faint dark:text-paper-faint">Free. No account needed, no trackers.</p>
       </div>
 
       <div class="relative mx-auto w-full max-w-[26rem] lg:max-w-none h-[28rem] sm:h-[40rem]">
