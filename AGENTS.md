@@ -46,8 +46,15 @@ Static pages in `public/` (not part of the SPA), each present twice with identic
 `public/<name>.html` and `public/<name>/index.html` (the folder form avoids a Pages 308 loop). Keep both copies in sync:
 
 - `/privacy` — privacy policy
-- `/terms` — terms of service
+- `/terms` — Terms of Use (short, plain English): personal non-commercial reading only; no scraping,
+  crawling, bulk downloading, AI training or republishing without written permission; governing law India
 - `/delete-account` — account deletion portal (Google Play requirement)
+
+`public/robots.txt`: all crawlers may index the site except `/api/`; AI training / AI crawler
+user-agents (GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, CCBot,
+Google-Extended, Bytespider, PerplexityBot, Meta-ExternalAgent, Amazonbot, Applebot-Extended,
+cohere-ai, DeepSeekBot, KimiBot, GrokBot, ChatGLM-Spider) get `Disallow: /`. There is no sitemap yet.
+robots.txt is advisory; the Terms of Use carry the legal prohibition.
 
 Redirects (`public/_redirects`): `/download`, `/download/apk` and `/apk` 302 to
 `https://media.zerodaily.in/downloads/ZeroDaily.apk` (the latest APK, see "APK download" in §6).
@@ -64,7 +71,7 @@ Redirects (`public/_redirects`): `/download`, `/download/apk` and `/apk` 302 to
 | `components/header.js` | Sticky header, nav (Today's Wire, Waitlist), theme toggle, "Get the app" button. Exports `CONTAINER`. |
 | `components/launchNotice.js` | Play Store launch countdown banner (`PLAY_STORE_LAUNCH_TARGET_DATE`). |
 | `components/home.js` | Landing page. `SCREENS` (feed, desks, onboarding, saved, settings) are rendered in phone frames as live app mockups; each keeps a static `src` screenshot (`public/screens/*.webp`) as fallback. |
-| `components/appMockups.js` + `appMockups.css` | Live HTML mockups of the Android app 1.8.1 (pills, edge-to-edge story card, bottom nav, topic picker, Saved, Settings). Laid out at 390 px with the app's own px values/colours (app repo `NewsCard.tsx`, `CategoryPills.tsx`, `BottomNav.tsx`, modals, `constants/theme.ts`) and scaled to the frame by a `ResizeObserver`. App light theme on the light site, app dark theme under `.dark`. Data: `GET api.zerodaily.in/api/v1/feed?limit=12` + `/feed/cybersec?limit=4` (Cloudflare-cached, CORS allows zerodaily.in), only stories with a `media.zerodaily.in` image. Hero front phone rotates 4 stories every 6 s (off with `prefers-reduced-motion`), hero back + Desks card = Cybersecurity desk, Saved = stories 6-10. Skeleton until data arrives; if the API fails or takes > 4 s, the feed/desks/saved phones swap to their webp screenshots. Inner UI is `aria-hidden`; the frame has `role="img"` + `aria-label`. Update these when the app UI changes. |
+| `components/appMockups.js` + `appMockups.css` | Live HTML mockups of the Android app 1.8.1 (pills, edge-to-edge story card, bottom nav, topic picker, Saved, Settings). Laid out at 390 px with the app's own px values/colours (app repo `NewsCard.tsx`, `CategoryPills.tsx`, `BottomNav.tsx`, modals, `constants/theme.ts`) and scaled to the frame by a `ResizeObserver`. App light theme on the light site, app dark theme under `.dark`. Data: `GET api.zerodaily.in/api/v1/feed?limit=12` + `/feed/cybersec?limit=4` (Cloudflare-cached, CORS allows zerodaily.in), only stories with a `media.zerodaily.in` image. Hero front phone rotates 4 stories every 6 s (off with `prefers-reduced-motion`), hero back + Desks card = Cybersecurity desk, Saved = stories 6-10 (rows show thumbnail, heading and relative time only; no category badge, matching app 1.9.0). Skeleton until data arrives; if the API fails or takes > 4 s, the feed/desks/saved phones swap to their webp screenshots. Inner UI is `aria-hidden`; the frame has `role="img"` + `aria-label`. Update these when the app UI changes. |
 | `components/wire.js` | Today's Wire: filterable story grid. |
 | `components/sharedStoryModal.js` | Shared-story preview modal and app deep-link handoff. |
 | `components/emailVerifier.js` | Shared email -> 6-digit code -> verified widget, plus shared UI classes (`UI`, `spinnerButton`, `setBusy`, `showMessage`). |

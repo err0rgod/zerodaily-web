@@ -24,7 +24,7 @@ const COLUMNS = [
     title: 'Legal',
     links: [
       { href: '/privacy', label: 'Privacy policy' },
-      { href: '/terms', label: 'Terms of service' },
+      { href: '/terms', label: 'Terms of use' },
       { href: '/delete-account', label: 'Delete account' },
     ],
   },

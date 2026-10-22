@@ -62,7 +62,6 @@ const DESKS = [
   { key: 'hardware', name: 'Hardware & Silicon', description: 'Semiconductor tape-outs, GPUs, packaging, and quantum chips.' },
   { key: 'finance', name: 'Finance', description: 'Fintech, algorithmic trading, crypto economics, and venture capital.' },
 ];
-const DESK_NAME = Object.fromEntries(DESKS.map(d => [d.key, d.name]));
 
 /** formatRelativeTime() from the app (src/utils/date.ts). */
 function relativeTime(iso) {
@@ -235,17 +234,14 @@ function sheetHeader(iconName, title, extra = '') {
 }
 
 function savedItem(story) {
+  // App 1.9.0 dropped the category badge: thumbnail, heading and relative time only.
   const img = safeUrl(story.image_url, '');
-  const cat = DESK_NAME[story.category] ? story.category : 'cybersec';
   return `
     <div class="zd-saved-item">
       <img class="zd-thumb" src="${escapeHtml(img)}" alt="" loading="lazy" decoding="async" />
       <div class="zd-saved-text">
-        <div class="zd-saved-meta">
-          <span class="zd-badge" style="--accent: var(--c-${cat})">${escapeHtml(DESK_NAME[cat].toUpperCase())}</span>
-          <span class="zd-saved-time">${escapeHtml(relativeTime(story.published_at))}</span>
-        </div>
         <p class="zd-saved-heading">${escapeHtml(story.heading)}</p>
+        <span class="zd-saved-time">${escapeHtml(relativeTime(story.published_at))}</span>
       </div>
       <span class="zd-trash">${icon('trash', 16)}</span>
     </div>`;
@@ -256,9 +252,9 @@ function savedSkeleton() {
     <div class="zd-saved-item">
       <span class="zd-thumb zd-shimmer"></span>
       <div class="zd-saved-text">
-        <span class="zd-skel" style="width:45%;height:12px"></span>
-        <span class="zd-skel" style="width:95%;height:13px;margin-top:9px"></span>
+        <span class="zd-skel" style="width:95%;height:13px"></span>
         <span class="zd-skel" style="width:70%;height:13px;margin-top:6px"></span>
+        <span class="zd-skel" style="width:30%;height:10px;margin-top:9px"></span>
       </div>
     </div>`).join('');
 }
