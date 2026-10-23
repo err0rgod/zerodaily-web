@@ -38,11 +38,11 @@ export const BREAKING_ENDPOINT = 'https://api.zerodaily.in/api/v1/notifications/
 export const CATEGORIES = [
   { id: 'all', label: 'All' },
   { id: 'cybersec', label: 'Cybersecurity' },
-  { id: 'ai', label: 'AI' },
-  { id: 'programming', label: 'Software' },
+  { id: 'ai', label: 'AI/ML' },
+  { id: 'programming', label: 'Engineering' },
   { id: 'robotics', label: 'Robotics' },
   { id: 'defense_aerospace', label: 'Defense' },
-  { id: 'hardware', label: 'Silicon' },
+  { id: 'hardware', label: 'VLSI' },
   { id: 'finance', label: 'Finance' },
 ];
 

@@ -48,7 +48,7 @@ export function renderFooter() {
         </a>
         <p class="mt-4 font-serif text-xl leading-snug text-ink dark:text-paper-ink">Tech news, minus the noise.</p>
         <p class="mt-2 text-sm leading-relaxed text-ink-soft dark:text-paper-soft">
-          The stories that matter across security, AI, software, robotics, defense, silicon and finance, each in 60 words.
+          The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.
         </p>
         <a href="mailto:${CONTACT_EMAIL}" class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink dark:text-paper-ink hover:text-brand dark:hover:text-brand-dark transition-colors">
           ${MAIL_ICON}<span>${CONTACT_EMAIL}</span>
