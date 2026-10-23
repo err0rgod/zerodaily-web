@@ -1,5 +1,5 @@
 /**
- * Live HTML mockups of the ZeroDaily Android app (1.8.1) for the landing page phones.
+ * Live HTML mockups of the ZeroDaily Android app (1.10.0) for the landing page phones.
  *
  * Every screen is laid out at the app's own size (390 px wide, the same px values as the
  * React Native styles in the app repo) and scaled down to fit its phone frame, so fonts,
@@ -38,6 +38,7 @@ const ICONS = {
   hardware: '<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>',
   finance: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
+  menu: '<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>',
   x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
   trash: '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
   moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
@@ -51,15 +52,15 @@ function icon(name, size, { stroke = 2, cls = '' } = {}) {
   return `<svg class="zd-i ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</svg>`;
 }
 
-/* ---------- App data (mirrors src/constants/categories.ts) ---------- */
+/* ---------- App data (mirrors src/constants/categories.ts, 1.10.0 short names) ---------- */
 
 const DESKS = [
   { key: 'cybersec', name: 'Cybersecurity', description: 'Zero-days, critical CVEs, and data breach autopsies.' },
-  { key: 'ai', name: 'Artificial Intelligence', description: 'LLM benchmark wars, frontier models, and autonomous agents.' },
+  { key: 'ai', name: 'AI/ML', description: 'LLM benchmark wars, frontier models, and autonomous agents.' },
   { key: 'programming', name: 'Engineering', description: 'Languages, runtimes, distributed systems, and kernel bugs.' },
   { key: 'robotics', name: 'Robotics', description: 'Humanoid robotics, autonomous vehicles, and industrial sensors.' },
-  { key: 'defense_aerospace', name: 'Defense & Aerospace', description: 'Hypersonics, orbital swarms, defense tech, and radar systems.' },
-  { key: 'hardware', name: 'Hardware & Silicon', description: 'Semiconductor tape-outs, GPUs, packaging, and quantum chips.' },
+  { key: 'defense_aerospace', name: 'Defense', description: 'Hypersonics, orbital swarms, defense tech, and radar systems.' },
+  { key: 'hardware', name: 'VLSI', description: 'Semiconductor tape-outs, GPUs, packaging, and quantum chips.' },
   { key: 'finance', name: 'Finance', description: 'Fintech, algorithmic trading, crypto economics, and venture capital.' },
 ];
 
@@ -107,18 +108,49 @@ function statusBar() {
 
 const gestureBar = '<div class="zd-gesture"><span></span></div>';
 
-function pills(active) {
-  const list = [{ key: 'all', name: 'Hot 🔥' }, ...DESKS];
+/** Static example shown until (or unless) the live incident list is available. */
+const FALLBACK_INCIDENT = 'PHP Flaw';
+
+/**
+ * Feed header: menu button, Hot, Breaking, then the live incident tabs (with a small unread
+ * count). Topics live only in the sidebar; when one is open its name follows after a dot.
+ * The header never scrolls sideways: tabs shrink and truncate. Neutral styling, no colours.
+ */
+function feedHeader(active = 'hot', topic = '') {
+  const tab = (key, label, { count = '', incident = false } = {}) => `
+    <span class="zd-ftab${key === active ? ' is-active' : ''}${incident ? ' is-shrink' : ''}">
+      <span class="zd-ftab-label"${incident ? ' data-incident="0"' : ''}>${label}</span>${count ? `<span class="zd-ftab-count">${count}</span>` : ''}
+    </span>`;
   return `
-    <div class="zd-pills">
-      <div class="zd-pills-row${active !== 'all' ? ' zd-pills-scrolled' : ''}">
-        ${list.map(d => `
-          <span class="zd-pill${d.key === active ? ' is-active' : ''}" style="--accent: var(--c-${d.key})">
-            ${d.key === 'all' ? '' : icon(d.key, 13, { stroke: 2.2 })}
-            <span>${d.name}</span>
-          </span>`).join('')}
-      </div>
+    <div class="zd-fhead">
+      <span class="zd-menu">${icon('menu', 22)}</span>
+      <span class="zd-ftabs">
+        ${tab('hot', 'Hot')}${tab('breaking', 'Breaking', { count: '3' })}${tab('incident', FALLBACK_INCIDENT, { count: '3', incident: true })}
+        ${topic ? `<span class="zd-ftab-sep">·</span>${tab('topic', topic).replace('zd-ftab', 'zd-ftab is-shrink')}` : ''}
+      </span>
     </div>`;
+}
+
+/**
+ * Sidebar, slid in from the left over the dimmed feed. "Live now" (incident tabs that did not
+ * fit in the header) comes first, then the topics.
+ */
+function sidebar(selected) {
+  const items = [{ key: 'all', name: 'Hot' }, ...DESKS];
+  return `
+    <div class="zd-dim"></div>
+    <aside class="zd-side">
+      <p class="zd-side-brand">ZeroDaily</p>
+      <div class="zd-live-now" data-live-now hidden>
+        <p class="zd-section zd-side-label">LIVE NOW</p>
+        <span class="zd-side-item"><span data-incident="1"></span><span class="zd-side-count">9+</span></span>
+      </div>
+      <p class="zd-section zd-side-label">TOPICS</p>
+      ${items.map(d => `
+        <span class="zd-side-item${d.key === selected ? ' is-active' : ''}">
+          <span>${d.name}</span>${d.key === selected ? icon('check', 18, { stroke: 2.5 }) : ''}
+        </span>`).join('')}
+    </aside>`;
 }
 
 function bottomNav(active = 'home') {
@@ -186,12 +218,16 @@ function skeletonCard() {
     </article>`;
 }
 
-function feedScreen(desk) {
+/** `topic`: a topic is open (its name joins the header tabs); `withSidebar`: the menu is open. */
+function feedScreen({ topic = '', withSidebar = false } = {}) {
   return `
     ${statusBar()}
-    ${pills(desk)}
-    <div class="zd-deck" data-deck>${skeletonCard()}</div>
-    ${bottomNav('home')}
+    <div class="zd-feed">
+      ${topic ? feedHeader('topic', topic) : feedHeader('hot')}
+      <div class="zd-deck" data-deck>${skeletonCard()}</div>
+      ${bottomNav('home')}
+      ${withSidebar ? sidebar('cybersec') : ''}
+    </div>
     ${gestureBar}`;
 }
 
@@ -209,7 +245,7 @@ function onboardingScreen() {
       ${DESKS.map(d => {
         const on = selected.has(d.key);
         return `
-          <div class="zd-box${on ? ' is-on' : ''}" style="--accent: var(--c-${d.key})">
+          <div class="zd-box${on ? ' is-on' : ''}">
             <div class="zd-box-top">
               <span class="zd-box-icon">${icon(d.key, 15, { stroke: 2.2 })}</span>
               <span class="zd-check">${on ? icon('check', 12, { stroke: 3 }) : ''}</span>
@@ -307,8 +343,9 @@ function settingsScreen() {
 /* ---------- Public API ---------- */
 
 const SCREEN_HTML = {
-  feed: () => feedScreen('all'),
-  desks: () => feedScreen('cybersec'),
+  feed: () => feedScreen(),
+  // The tilted hero phone shows the Cybersecurity feed itself; the row phone has the menu open over it.
+  desks: role => feedScreen({ topic: 'Cybersecurity', withSidebar: role !== 'hero-back' }),
   onboarding: onboardingScreen,
   saved: savedScreen,
   settings: settingsScreen,
@@ -324,7 +361,7 @@ const LIVE_KINDS = new Set(['feed', 'desks', 'saved']);
 export function mockupHtml(screen, role, eager) {
   return `
     <div class="zd-screen" data-mock="${screen.kind}" data-role="${role}" data-src="${screen.src}" data-eager="${eager ? '1' : ''}">
-      <div class="zd-ui" aria-hidden="true">${SCREEN_HTML[screen.kind]()}</div>
+      <div class="zd-ui" aria-hidden="true">${SCREEN_HTML[screen.kind](role)}</div>
     </div>`;
 }
 
@@ -382,6 +419,41 @@ async function loadStories() {
   }
 }
 
+/**
+ * Names of the live incident tabs from /incidents/live (same plain GET as the story requests).
+ * Resolves to [] on any failure or empty list; the mockups then keep the static example.
+ */
+async function loadIncidentNames() {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FEED_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${API}/incidents/live`, { headers: { Accept: 'application/json' }, signal: controller.signal });
+    if (!res.ok) return [];
+    const json = await res.json();
+    const list = Array.isArray(json.incidents) ? json.incidents : [];
+    return list
+      .map(i => (typeof i?.name === 'string' ? i.name.trim() : ''))
+      .filter(Boolean)
+      .slice(0, 2);
+  } catch {
+    return [];
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** First incident becomes the header tab; a second one is shown under "Live now" in the sidebar. */
+function applyIncidentNames(root, names) {
+  if (names.length === 0) return;
+  root.querySelectorAll('[data-incident="0"]').forEach(el => { el.textContent = names[0]; });
+  if (names[1]) {
+    root.querySelectorAll('[data-live-now]').forEach(box => {
+      box.hidden = false;
+      box.querySelector('[data-incident="1"]').textContent = names[1];
+    });
+  }
+}
+
 /** Real app behaviour: crop when the picture is close to the frame's shape, else contain over a blur. */
 function wireHeroImages(scope) {
   scope.querySelectorAll('.zd-hero').forEach(hero => {
@@ -429,6 +501,7 @@ function startRotation(deck) {
  */
 export function hydrateMockups(root) {
   fitScreens(root);
+  loadIncidentNames().then(names => applyIncidentNames(root, names));
   const live = [...root.querySelectorAll('.zd-screen')].filter(el => LIVE_KINDS.has(el.dataset.mock));
   if (live.length === 0) return;
 

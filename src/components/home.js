@@ -3,7 +3,7 @@ import { CONTAINER } from './header.js';
 import { mockupHtml, hydrateMockups } from './appMockups.js';
 
 const FEATURES = [
-  ['Seven desks', 'Security, AI, software, robotics, defense, silicon and finance.'],
+  ['Seven desks', 'Security, AI/ML, engineering, robotics, defense, VLSI and finance.'],
   ['Alerts that matter', 'A push for a real zero-day or a market crash, not every launch.'],
   ['Private by default', 'No account needed, no trackers. Works offline.'],
 ];
@@ -12,8 +12,8 @@ const FEATURES = [
 // shown instead when the feed API is unavailable.
 const SCREENS = [
   { kind: 'feed', src: '/screens/feed.webp', title: 'A clean feed', body: 'One story per screen with the image, the gist and the source.', alt: 'ZeroDaily app feed showing a full-screen story card' },
-  { kind: 'desks', src: '/screens/desks.webp', title: 'Pick your desks', body: 'Tap a desk to follow security, AI, engineering and more.', alt: 'ZeroDaily app feed filtered to the Cybersecurity desk' },
-  { kind: 'onboarding', src: '/screens/onboarding.webp', title: 'Make it yours', body: 'Choose the topics you care about. Change them any time.', alt: 'ZeroDaily topic picker with seven desks' },
+  { kind: 'desks', src: '/screens/desks.webp', title: 'Pick a topic', body: 'Open the menu to jump to security, AI/ML, VLSI and more.', alt: 'ZeroDaily app with the topic menu open over the feed' },
+  { kind: 'onboarding', src: '/screens/onboarding.webp', title: 'Make it yours', body: 'Choose the topics you care about. Change them any time.', alt: 'ZeroDaily topic picker with seven topics' },
   { kind: 'saved', src: '/screens/saved.webp', title: 'Saved for offline', body: 'Bookmark a story and read it later, even without a signal.', alt: 'ZeroDaily saved offline stories list' },
   { kind: 'settings', src: '/screens/settings.webp', title: 'Alerts you control', body: 'Choose exactly which topics are allowed to buzz your phone.', alt: 'ZeroDaily settings with theme and notification channels' },
 ];
@@ -41,8 +41,8 @@ export function renderHome() {
           Tech news, minus the noise.
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-ink-soft dark:text-paper-soft leading-relaxed max-w-xl">
-          Short, honest summaries of what actually happened in security, AI, software,
-          hardware and markets. Read the gist, skip the fluff.
+          Short, honest summaries of what actually happened in security, AI/ML, engineering,
+          VLSI and markets. Read the gist, skip the fluff.
         </p>
 
         <div class="mt-9 flex flex-wrap items-center gap-3">

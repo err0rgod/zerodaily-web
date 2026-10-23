@@ -1,5 +1,7 @@
 /* ==========================================================================
-   App mockups (appMockups.js) — the ZeroDaily Android app 1.8.1.
+   App mockups (appMockups.js) — the ZeroDaily Android app 1.10.0.
+   No per-topic colours: neutral surfaces; the feed header tabs and the sidebar selection
+   are neutral too (bold text, monochrome underline / check, grey background).
    Laid out at the app's 390 px width with the px values of its React Native
    styles, then scaled to the phone frame. Colours = app src/constants/theme.ts
    (light theme on the light site, dark theme under `.dark`).
@@ -25,14 +27,6 @@
   --sw-off-thumb: #94A3B8;
   --sw-on-thumb: #0F172A;
   --skel: #E2E8F0;
-  --c-all: #059669;
-  --c-cybersec: #DC2626;
-  --c-ai: #9333EA;
-  --c-programming: #059669;
-  --c-robotics: #D97706;
-  --c-defense_aerospace: #0891B2;
-  --c-hardware: #EA580C;
-  --c-finance: #0D9488;
 
   position: absolute;
   left: 0;
@@ -73,14 +67,6 @@
   --sw-off-thumb: #71717A;
   --sw-on-thumb: #FFFFFF;
   --skel: #1A1A1A;
-  --c-all: #10B981;
-  --c-cybersec: #EF4444;
-  --c-ai: #A855F7;
-  --c-programming: #10B981;
-  --c-robotics: #F59E0B;
-  --c-defense_aerospace: #06B6D4;
-  --c-hardware: #F97316;
-  --c-finance: #14B8A6;
 }
 
 .zd-screen { position: relative; width: 100%; height: 100%; overflow: hidden; }
@@ -100,19 +86,44 @@
 .zd-gesture { flex-shrink: 0; height: 20px; display: flex; align-items: center; justify-content: center; background: var(--bg); }
 .zd-gesture span { width: 108px; height: 4px; border-radius: 2px; background: var(--tp); opacity: 0.35; }
 
-/* Category pills (CategoryPills.tsx) */
-.zd-pills { flex-shrink: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 8px 0; overflow: hidden; }
-.zd-pills-row { display: flex; gap: 8px; padding: 0 14px; white-space: nowrap; }
-.zd-pills-scrolled { transform: translateX(-62px); }
-.zd-pill {
-  display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
-  padding: 6px 12px; border-radius: 9999px; border: 1px solid var(--border);
-  background: var(--surface); color: var(--ts); font-size: 12.5px; font-weight: 500; letter-spacing: 0.1px;
+/* Feed header: menu button, Hot, Breaking, incident tabs (never scrolls sideways) */
+.zd-feed { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.zd-fhead {
+  flex-shrink: 0; height: 48px; display: flex; align-items: center; gap: 6px; padding: 0 10px;
+  background: var(--bg); border-bottom: 1px solid var(--border);
 }
-.zd-pill.is-active {
-  color: var(--accent); border-color: var(--accent); font-weight: 700;
-  background: color-mix(in srgb, var(--accent) 9.4%, transparent);
+.zd-menu { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; color: var(--tp); }
+.zd-ftabs { display: flex; align-items: stretch; gap: 14px; height: 100%; padding-left: 2px; min-width: 0; flex: 1; overflow: hidden; }
+.zd-ftab {
+  position: relative; display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 600; color: var(--ts);
 }
+.zd-ftab.is-shrink { flex: 0 1 auto; min-width: 0; }
+.zd-ftab-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zd-ftab-count { font-size: 12px; font-weight: 600; color: var(--tm); }
+.zd-ftab.is-active { color: var(--tp); font-weight: 800; }
+.zd-ftab-sep { display: flex; align-items: center; margin: 0 -6px; color: var(--tm); font-weight: 700; }
+.zd-ftab.is-active::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2.5px; border-radius: 2px; background: var(--tp);
+}
+
+/* Topic sidebar (1.10.0) over the dimmed feed */
+.zd-dim { position: absolute; inset: 0; z-index: 5; background: rgba(0, 0, 0, 0.45); }
+.zd-side {
+  position: absolute; left: 0; top: 0; bottom: 0; z-index: 6; width: 76%;
+  display: flex; flex-direction: column; padding: 18px 12px;
+  background: var(--surface); border-right: 1px solid var(--border); box-shadow: 6px 0 24px rgba(0, 0, 0, 0.25);
+}
+.zd-ui .zd-side-brand { font-size: 20px; font-weight: 900; letter-spacing: -0.3px; padding: 4px 12px 18px; }
+.zd-ui .zd-side-label { padding: 0 12px; }
+.zd-side-item {
+  display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px; margin-bottom: 2px;
+  font-size: 15.5px; font-weight: 600; color: var(--tp);
+}
+.zd-side-count { margin-left: auto; margin-right: 6px; font-size: 13px; font-weight: 600; color: var(--tm); }
+.zd-live-now { margin-bottom: 14px; }
+.zd-live-now[hidden] { display: none; }
+.zd-side-item.is-active { color: var(--tp); font-weight: 800; background: var(--box-on); }
 
 /* Card deck + full-screen card (NewsCard.tsx) */
 .zd-deck { position: relative; flex: 1; min-height: 0; background: var(--card); }
@@ -201,8 +212,9 @@
 .zd-box-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .zd-box-icon {
   width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-  color: var(--accent); background: color-mix(in srgb, var(--accent) 9.4%, transparent);
+  color: var(--ts); background: var(--box-on);
 }
+.zd-box.is-on .zd-box-icon { color: var(--primary); background: var(--primary-soft); }
 .zd-check {
   width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border);
   display: flex; align-items: center; justify-content: center; color: #FFFFFF;

@@ -6,7 +6,7 @@
 [![Latest APK](https://img.shields.io/badge/Android%20APK-Download-1b1a17)](https://zerodaily.in/download)
 
 The website for **ZeroDaily**, an Android app that delivers short, no-spin tech news across seven
-desks: security, AI, software, robotics, defense, silicon and finance. The site introduces the app,
+desks: security, AI/ML, engineering, robotics, defense, VLSI and finance. The site introduces the app,
 shows the latest stories, links the APK download, and runs the waitlist and feedback forms.
 
 ## Pages
