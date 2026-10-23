@@ -108,32 +108,43 @@ function statusBar() {
 
 const gestureBar = '<div class="zd-gesture"><span></span></div>';
 
+/** Static example shown until (or unless) the live incident list is available. */
+const FALLBACK_INCIDENT = 'PHP Flaw';
+
 /**
- * Feed header (1.10.0): menu button, then the Hot and Breaking tabs, always. When a topic is
- * open its name is added after them and marked active. Neutral styling, no topic colours.
+ * Feed header: menu button, Hot, Breaking, then the live incident tabs (with a small unread
+ * count). Topics live only in the sidebar; when one is open its name follows after a dot.
+ * The header never scrolls sideways: tabs shrink and truncate. Neutral styling, no colours.
  */
 function feedHeader(active = 'hot', topic = '') {
-  const tab = (key, label, count = '') => `
-    <span class="zd-ftab${key === active ? ' is-active' : ''}">
-      <span>${label}</span>${count ? `<span class="zd-ftab-count">${count}</span>` : ''}
+  const tab = (key, label, { count = '', incident = false } = {}) => `
+    <span class="zd-ftab${key === active ? ' is-active' : ''}${incident ? ' is-shrink' : ''}">
+      <span class="zd-ftab-label"${incident ? ' data-incident="0"' : ''}>${label}</span>${count ? `<span class="zd-ftab-count">${count}</span>` : ''}
     </span>`;
   return `
     <div class="zd-fhead">
       <span class="zd-menu">${icon('menu', 22)}</span>
       <span class="zd-ftabs">
-        ${tab('hot', 'Hot')}${tab('breaking', 'Breaking', '3')}
-        ${topic ? `<span class="zd-ftab-sep">·</span>${tab('topic', topic)}` : ''}
+        ${tab('hot', 'Hot')}${tab('breaking', 'Breaking', { count: '3' })}${tab('incident', FALLBACK_INCIDENT, { count: '3', incident: true })}
+        ${topic ? `<span class="zd-ftab-sep">·</span>${tab('topic', topic).replace('zd-ftab', 'zd-ftab is-shrink')}` : ''}
       </span>
     </div>`;
 }
 
-/** Topic sidebar (1.10.0), slid in from the left over the dimmed feed. */
+/**
+ * Sidebar, slid in from the left over the dimmed feed. "Live now" (incident tabs that did not
+ * fit in the header) comes first, then the topics.
+ */
 function sidebar(selected) {
   const items = [{ key: 'all', name: 'Hot' }, ...DESKS];
   return `
     <div class="zd-dim"></div>
     <aside class="zd-side">
       <p class="zd-side-brand">ZeroDaily</p>
+      <div class="zd-live-now" data-live-now hidden>
+        <p class="zd-section zd-side-label">LIVE NOW</p>
+        <span class="zd-side-item"><span data-incident="1"></span><span class="zd-side-count">9+</span></span>
+      </div>
       <p class="zd-section zd-side-label">TOPICS</p>
       ${items.map(d => `
         <span class="zd-side-item${d.key === selected ? ' is-active' : ''}">
@@ -408,6 +419,41 @@ async function loadStories() {
   }
 }
 
+/**
+ * Names of the live incident tabs from /incidents/live (same plain GET as the story requests).
+ * Resolves to [] on any failure or empty list; the mockups then keep the static example.
+ */
+async function loadIncidentNames() {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FEED_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${API}/incidents/live`, { headers: { Accept: 'application/json' }, signal: controller.signal });
+    if (!res.ok) return [];
+    const json = await res.json();
+    const list = Array.isArray(json.incidents) ? json.incidents : [];
+    return list
+      .map(i => (typeof i?.name === 'string' ? i.name.trim() : ''))
+      .filter(Boolean)
+      .slice(0, 2);
+  } catch {
+    return [];
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** First incident becomes the header tab; a second one is shown under "Live now" in the sidebar. */
+function applyIncidentNames(root, names) {
+  if (names.length === 0) return;
+  root.querySelectorAll('[data-incident="0"]').forEach(el => { el.textContent = names[0]; });
+  if (names[1]) {
+    root.querySelectorAll('[data-live-now]').forEach(box => {
+      box.hidden = false;
+      box.querySelector('[data-incident="1"]').textContent = names[1];
+    });
+  }
+}
+
 /** Real app behaviour: crop when the picture is close to the frame's shape, else contain over a blur. */
 function wireHeroImages(scope) {
   scope.querySelectorAll('.zd-hero').forEach(hero => {
@@ -455,6 +501,7 @@ function startRotation(deck) {
  */
 export function hydrateMockups(root) {
   fitScreens(root);
+  loadIncidentNames().then(names => applyIncidentNames(root, names));
   const live = [...root.querySelectorAll('.zd-screen')].filter(el => LIVE_KINDS.has(el.dataset.mock));
   if (live.length === 0) return;
 

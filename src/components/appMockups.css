@@ -86,21 +86,23 @@
 .zd-gesture { flex-shrink: 0; height: 20px; display: flex; align-items: center; justify-content: center; background: var(--bg); }
 .zd-gesture span { width: 108px; height: 4px; border-radius: 2px; background: var(--tp); opacity: 0.35; }
 
-/* Feed header (1.10.0): menu button + Hot / Breaking tabs */
+/* Feed header: menu button, Hot, Breaking, incident tabs (never scrolls sideways) */
 .zd-feed { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .zd-fhead {
   flex-shrink: 0; height: 48px; display: flex; align-items: center; gap: 6px; padding: 0 10px;
   background: var(--bg); border-bottom: 1px solid var(--border);
 }
 .zd-menu { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; color: var(--tp); }
-.zd-ftabs { display: flex; align-items: stretch; gap: 18px; height: 100%; padding-left: 4px; }
+.zd-ftabs { display: flex; align-items: stretch; gap: 14px; height: 100%; padding-left: 2px; min-width: 0; flex: 1; overflow: hidden; }
 .zd-ftab {
   position: relative; display: flex; align-items: center; gap: 6px;
   font-size: 15px; font-weight: 600; color: var(--ts);
 }
+.zd-ftab.is-shrink { flex: 0 1 auto; min-width: 0; }
+.zd-ftab-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .zd-ftab-count { font-size: 12px; font-weight: 600; color: var(--tm); }
 .zd-ftab.is-active { color: var(--tp); font-weight: 800; }
-.zd-ftab-sep { display: flex; align-items: center; margin: 0 -8px; color: var(--tm); font-weight: 700; }
+.zd-ftab-sep { display: flex; align-items: center; margin: 0 -6px; color: var(--tm); font-weight: 700; }
 .zd-ftab.is-active::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2.5px; border-radius: 2px; background: var(--tp);
 }
@@ -118,6 +120,9 @@
   display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px; margin-bottom: 2px;
   font-size: 15.5px; font-weight: 600; color: var(--tp);
 }
+.zd-side-count { margin-left: auto; margin-right: 6px; font-size: 13px; font-weight: 600; color: var(--tm); }
+.zd-live-now { margin-bottom: 14px; }
+.zd-live-now[hidden] { display: none; }
 .zd-side-item.is-active { color: var(--tp); font-weight: 800; background: var(--box-on); }
 
 /* Card deck + full-screen card (NewsCard.tsx) */
