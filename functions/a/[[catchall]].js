@@ -19,7 +19,8 @@ export async function onRequest(context) {
       const timeout = setTimeout(() => controller.abort(), 2000);
 
       const apiRes = await fetch(apiUrl, {
-        headers: { Accept: "application/json" },
+        // api.zerodaily.in challenges unknown clients; "ZeroDaily-" user agents are allowed.
+        headers: { Accept: "application/json", "User-Agent": "ZeroDaily-Web/1.0" },
         signal: controller.signal,
         cf: { cacheTtl: 3600, cacheEverything: true }
       });

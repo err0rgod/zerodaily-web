@@ -41,6 +41,7 @@ Client routing is a plain `if` chain in `src/main.js` on `location.pathname` (tr
 | `/feedback` | `renderFeedbackView()` | standalone centered page (no header/footer) |
 | `/contact` | `renderContactView()` | header + contact + footer |
 | `/a/<id>`, `/story/<id>`, `?id=` / `?article_id=` | home + shared-story modal | see "Shared story links" |
+| `/sitemap.xml` | Pages Function `functions/sitemap.xml.js` (not the SPA) | XML, see "Sitemap" in §4 |
 
 Static pages in `public/` (not part of the SPA), each present twice with identical content —
 `public/<name>.html` and `public/<name>/index.html` (the folder form avoids a Pages 308 loop). Keep both copies in sync:
@@ -53,7 +54,8 @@ Static pages in `public/` (not part of the SPA), each present twice with identic
 `public/robots.txt`: all crawlers may index the site except `/api/`; AI training / AI crawler
 user-agents (GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, CCBot,
 Google-Extended, Bytespider, PerplexityBot, Meta-ExternalAgent, Amazonbot, Applebot-Extended,
-cohere-ai, DeepSeekBot, KimiBot, GrokBot, ChatGLM-Spider) get `Disallow: /`. There is no sitemap yet.
+cohere-ai, DeepSeekBot, KimiBot, GrokBot, ChatGLM-Spider) get `Disallow: /`. It ends with
+`Sitemap: https://zerodaily.in/sitemap.xml` (served by a Pages Function, see §4).
 robots.txt is advisory; the Terms of Use carry the legal prohibition.
 
 Redirects (`public/_redirects`): `/download`, `/download/apk` and `/apk` 302 to
@@ -159,6 +161,22 @@ Handles `/a/<article-id>`: fetches the article from `https://api.zerodaily.in/ap
 In the browser, `sharedStoryModal.js` shows a preview card, tries to open the Android app
 (`intent://` / `zerodaily://`), and copies `zerodaily:<id>` to the clipboard for deferred deep linking.
 (`/story/<id>` is recognized by the client but has no meta-rewriting function.)
+The article fetch sends `User-Agent: ZeroDaily-Web/1.0`: `api.zerodaily.in` has a Cloudflare rule that
+challenges unknown clients (Workers `fetch` sends no browser UA) and lets user agents containing
+`ZeroDaily-` through. Without it the lookup gets `403` and the page keeps the generic title.
+
+### Sitemap — `functions/sitemap.xml.js`
+
+`GET /sitemap.xml` returns `application/xml` (`Cache-Control: public, max-age=3600`):
+
+- Static pages: `/` (hourly, 1.0), `/wire` (hourly), `/join`, `/feedback`, `/contact`, `/privacy`,
+  `/terms` (monthly). `/delete-account` and `/api/*` are deliberately left out. Add new public
+  routes to `STATIC_PAGES`.
+- The latest 200 stories as `https://zerodaily.in/a/<short_code>` with `<lastmod>` = published time,
+  from `https://api.zerodaily.in/api/v1/search-index?days=7` (compact items `{s, h, c, p, b}`),
+  fetched with `User-Agent: ZeroDaily-Sitemap/1.0` (4 s timeout, edge-cached 15 min).
+- If the backend fetch fails, the static pages are still returned (never a 5xx).
+- Submitted in Google Search Console as `https://zerodaily.in/sitemap.xml`.
 
 ---
 

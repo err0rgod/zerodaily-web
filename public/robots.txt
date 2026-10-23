@@ -25,3 +25,5 @@ User-agent: KimiBot
 User-agent: GrokBot
 User-agent: ChatGLM-Spider
 Disallow: /
+
+Sitemap: https://zerodaily.in/sitemap.xml
