@@ -5,7 +5,7 @@ import { mockupHtml, hydrateMockups } from './appMockups.js';
 const FEATURES = [
   ['Seven desks', 'Security, AI/ML, engineering, robotics, defense, VLSI and finance.'],
   ['Alerts that matter', 'A push for a real zero-day or a market crash, not every launch.'],
-  ['Private by default', 'No account needed, no trackers. Works offline.'],
+  ['Works offline', 'Read saved stories later, even without a signal.'],
 ];
 
 // Each phone is a live HTML mockup of the app (appMockups.js); `src` is the static screenshot
@@ -41,7 +41,7 @@ export function renderHome() {
           Zero fluff. Daily stop for Tech News.
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-ink-soft dark:text-paper-soft leading-relaxed max-w-xl">
-          The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.
+          The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance.
         </p>
 
         <div class="mt-9 flex flex-wrap items-center gap-3">
@@ -58,8 +58,6 @@ export function renderHome() {
             Read Today's Wire &rarr;
           </a>
         </div>
-
-        <p class="mt-4 text-sm text-ink-faint dark:text-paper-faint">Free. No account needed, no trackers.</p>
       </div>
 
       <div class="relative mx-auto w-full max-w-[26rem] lg:max-w-none h-[28rem] sm:h-[40rem]">

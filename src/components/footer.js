@@ -48,7 +48,7 @@ export function renderFooter() {
         </a>
         <p class="mt-4 font-serif text-xl leading-snug text-ink dark:text-paper-ink">Zero fluff. Daily stop for Tech News.</p>
         <p class="mt-2 text-sm leading-relaxed text-ink-soft dark:text-paper-soft">
-          The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.
+          The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance.
         </p>
         <a href="mailto:${CONTACT_EMAIL}" class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink dark:text-paper-ink hover:text-brand dark:hover:text-brand-dark transition-colors">
           ${MAIL_ICON}<span>${CONTACT_EMAIL}</span>
@@ -74,7 +74,7 @@ export function renderFooter() {
     <div class="border-t border-rule dark:border-night-rule">
       <div class="${CONTAINER} py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-faint dark:text-paper-faint">
         <p>&copy; ${year} ZeroDaily. All rights reserved.</p>
-        <p>Seven desks &middot; Updated hourly</p>
+        <p>Seven desks &middot; Updates every minute</p>
       </div>
     </div>
   `;
