@@ -13,6 +13,16 @@ backend repo's `AGENTS.md` (`D:\zerodaily`, `api.zerodaily.in`).
 
 - **Never add AI attribution.** No `Co-Authored-By: Claude ...` (or any AI co-author) trailer in commit messages, and no "Generated with Claude Code" or similar AI credit lines in PR titles or descriptions. Commits and PRs are authored by the repo owner only. This applies to every agent and tool working in this repo.
 
+## Brand line
+
+One description of ZeroDaily everywhere (home hero, footer, `index.html` meta, share-page fallback, manifest, README):
+
+- **Tagline (exact):** `Zero fluff. Daily stop for Tech News.`
+- **Description (exact):** `The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.`
+
+Do not invent other taglines. Page-specific descriptions (privacy, terms, delete-account, feedback) stay about their own topic.
+Account deletion has a 7-day grace period (delete-account and privacy pages).
+
 ## 1. Quick orientation
 
 ### Commands

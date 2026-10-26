@@ -8,8 +8,8 @@ export async function onRequest(context) {
   const match = url.pathname.match(/^\/(?:a|story)\/(.+?)(?:[?#]|$)/i);
   const articleId = match ? decodeURIComponent(match[1]) : null;
 
-  let heading = "ZeroDaily — Tech news, minus the noise";
-  let description = "Download ZeroDaily for fastest tech news — short, no-spin briefings.";
+  let heading = "ZeroDaily — Zero fluff. Daily stop for Tech News.";
+  let description = "Zero fluff. Daily stop for Tech News. The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.";
   let imageUrl = "https://zerodaily.in/og-image.png";
 
   if (articleId) {
@@ -32,8 +32,8 @@ export async function onRequest(context) {
           heading = json.data.heading || heading;
           const snippet = json.data.shortSummary || json.data.fullSummary || "";
           description = snippet
-            ? `Download ZeroDaily for fastest tech news — ${snippet.slice(0, 160)}...`
-            : "Download ZeroDaily for fastest tech news";
+            ? `${snippet.slice(0, 160)}...`
+            : "Zero fluff. Daily stop for Tech News. The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.";
           imageUrl = json.data.image_url || imageUrl;
         }
       }

@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Request Account &amp; Data Deletion — ZeroDaily</title>
-  <meta name="description" content="Delete your ZeroDaily account and data from the web. Confirm your email with a 6-digit code; deletion happens after a 24-hour grace period." />
+  <meta name="description" content="Delete your ZeroDaily account and data from the web. Confirm your email with a 6-digit code; your account is deleted 7 days after you confirm." />
 
   <!-- Open Graph / Meta -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://zerodaily.in/delete-account" />
   <meta property="og:site_name" content="ZeroDaily" />
   <meta property="og:title" content="Account &amp; Data Deletion Portal — ZeroDaily" />
-  <meta property="og:description" content="Delete your ZeroDaily account and data from the web. Confirm your email with a 6-digit code; deletion happens after a 24-hour grace period." />
+  <meta property="og:description" content="Delete your ZeroDaily account and data from the web. Confirm your email with a 6-digit code; your account is deleted 7 days after you confirm." />
   <meta property="og:image" content="https://zerodaily.in/og-image.png" />
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -744,7 +744,7 @@
     </p>
 
     <div class="meta-line">
-      <span><strong>Grace window:</strong> 24 hours</span>
+      <span><strong>Grace window:</strong> 7 days</span>
     </div>
 
     <!-- Step 1: email -->
@@ -795,7 +795,7 @@
     <article class="prose-section">
       <h2>What happens next</h2>
       <p>
-        Your account is scheduled for deletion 24 hours from the moment you confirm. If you sign in to the app before then, the deletion is cancelled. After that, it is removed automatically, normally within 2 days.
+        Your account is deleted 7 days after you confirm. Signing in to the app before then cancels the deletion.
       </p>
 
       <h3>What gets deleted</h3>
@@ -933,7 +933,7 @@
           setBusy($('verify-btn'), false, 'Delete my account');
           if (r.ok) {
             step2.classList.add('hidden');
-            $('done-msg').textContent = (r.data && r.data.message) || 'Your account is scheduled for deletion in 24 hours. Signing in to the app before then cancels it.';
+            $('done-msg').textContent = (r.data && r.data.message) || 'Your account is deleted 7 days after you confirm. Signing in to the app before then cancels the deletion.';
             done.classList.remove('hidden');
           } else if (r.status === 400) {
             show($('verify-msg'), 'That code is wrong or expired.', true);

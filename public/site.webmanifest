@@ -1,7 +1,7 @@
 {
   "name": "ZeroDaily",
   "short_name": "ZeroDaily",
-  "description": "Tech news, minus the noise.",
+  "description": "The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#010101",
