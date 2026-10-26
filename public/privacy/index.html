@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — ZeroDaily</title>
-  <meta name="description" content="ZeroDaily Privacy Policy. Complete disclosures on Google Sign-In, Firebase Auth, FCM topic push notifications, reading telemetry, data retention, and user rights." />
+  <meta name="description" content="What data ZeroDaily collects, who processes it, how long we keep it, and how to delete your account." />
 
   <!-- Open Graph / Meta -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://zerodaily.in/privacy" />
   <meta property="og:site_name" content="ZeroDaily" />
   <meta property="og:title" content="Privacy Policy — ZeroDaily" />
-  <meta property="og:description" content="Transparent, Google Play compliant privacy policy. Zero third-party ad trackers, zero device token databases, and strict 24-hour account deletion grace periods." />
+  <meta property="og:description" content="What data ZeroDaily collects, who processes it, how long we keep it, and how to delete your account." />
   <meta property="og:image" content="https://zerodaily.in/og-image.png" />
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -509,241 +509,121 @@
   <main class="main-wrap">
     <div class="edition-bar">
       <span>ZeroDaily Legal Gazette</span>
-      <span>Effective: October 2026</span>
-      <span>App Version: v1.6.3</span>
+      <span>Last updated: 26 October 2026</span>
     </div>
 
-    <h1 class="headline">Privacy Policy &amp; Data Governance</h1>
+    <h1 class="headline">Privacy Policy</h1>
     <p class="deck">
-      A transparent accounting of the data we handle, the third-party infrastructure we rely upon, and the rights you retain over your information.
+      What data ZeroDaily handles, who helps us run the service, how long we keep things, and how you can have your data deleted.
     </p>
 
     <div class="meta-line">
-      <span><strong>Last Updated:</strong> October 7, 2026</span>
-      <span>&bull;</span>
-      <span><strong>Status:</strong> Google Play 2024 Compliant</span>
-      <span class="meta-tag">Zero Ad Brokers</span>
-      <span class="meta-tag">Topic-Only FCM</span>
+      <span><strong>Last updated:</strong> 26 October 2026</span>
     </div>
 
-    <!-- Highlights Grid -->
-    <section class="highlights-section" aria-label="Privacy Highlights">
-      <div class="section-eyebrow">Executive Summary &bull; Core Commitments</div>
-      <div class="highlights-grid">
-        <div class="highlight-card">
-          <div class="highlight-title">Zero Ad Trackers</div>
-          <div class="highlight-desc">
-            We do not embed Google AdMob, Meta Audience Network, Adjust, or AppsFlyer. We never sell or broker your reading history.
-          </div>
-        </div>
-        <div class="highlight-card">
-          <div class="highlight-title">No Device Token Database</div>
-          <div class="highlight-desc">
-            Push notifications utilize Firebase Cloud Messaging (FCM) topic subscriptions. We do not store hardware device tokens in user profiles.
-          </div>
-        </div>
-        <div class="highlight-card">
-          <div class="highlight-title">On-Device Telemetry</div>
-          <div class="highlight-desc">
-            Reading dwell time (&ge; 2.0s threshold) and category weights are retained on-device for 30 days to optimize your feed and avoid duplicates.
-          </div>
-        </div>
-        <div class="highlight-card">
-          <div class="highlight-title">24-Hour Deletion Grace</div>
-          <div class="highlight-desc">
-            Full account deletion requests enter a 24-hour grace window, after which all profile records, bookmarks, and weights are permanently purged.
-          </div>
-        </div>
+    <nav class="toc-card" aria-label="Table of contents">
+      <div class="toc-title">Contents</div>
+      <div class="toc-grid">
+        <a href="#who">1. Who we are</a>
+        <a href="#service">2. What the service is</a>
+        <a href="#collected">3. Data we collect</a>
+        <a href="#not-collected">4. What we do not do</a>
+        <a href="#processors">5. Where your data goes</a>
+        <a href="#retention">6. How long we keep data</a>
+        <a href="#rights">7. Your rights and deletion</a>
+        <a href="#children">8. Children</a>
+        <a href="#security">9. Security</a>
+        <a href="#changes">10. Changes</a>
       </div>
-    </section>
+    </nav>
 
-    <!-- Section 1 -->
-    <article class="prose-section">
-      <h2>1. Introduction &amp; Privacy Philosophy</h2>
+    <article class="prose-section" id="who">
+      <h2>1. Who we are</h2>
       <p>
-        ZeroDaily (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;the Service&rdquo;) is an independent technology news intelligence service delivering short, no-spin summaries across seven editorial desks (Cybersecurity, Artificial Intelligence, Software Engineering, Robotics, Defense &amp; Aerospace, Silicon, and Financial Markets).
-      </p>
-      <p>
-        Our business model is built on concise editorial curation, not surveillance capitalism. We collect only the minimum data required to authenticate you, synchronize your saved stories across devices, and deliver breaking news alerts you explicitly request. We do not construct advertising dossiers, sell behavioral profiles, or license data to brokers.
+        ZeroDaily (<a href="https://zerodaily.in">zerodaily.in</a>) publishes the ZeroDaily Android app, this website and the API behind them. Contact us at <a href="mailto:hi@zerodaily.in">hi@zerodaily.in</a>. Privacy and data requests go to <a href="mailto:privacy@zerodaily.in">privacy@zerodaily.in</a>.
       </p>
     </article>
 
-    <!-- Section 2 -->
-    <article class="prose-section">
-      <h2>2. Information We Collect &amp; How It Is Handled</h2>
+    <article class="prose-section" id="service">
+      <h2>2. What the service is</h2>
       <p>
-        Depending on whether you browse as an anonymous guest or sign in with an account, we process the following categories of data:
-      </p>
-
-      <h3>A. Authentication &amp; Account Identity</h3>
-      <p>
-        You may use ZeroDaily without creating an account (Anonymous Guest Mode). When you choose to create an account or sign in via <strong>Google Sign-In</strong> or Firebase Email Authentication, Google Firebase processes the authentication exchange. We receive and store:
-      </p>
-      <ul>
-        <li><strong>Unique User Identifier (Firebase UID):</strong> An alphanumeric token generated by Firebase to identify your account.</li>
-        <li><strong>Email Address:</strong> Used for account recovery, authentication confirmation, and compliance communications.</li>
-        <li><strong>Display Name &amp; Profile Photo URL:</strong> Provided by your Google account profile to personalize your in-app settings header.</li>
-      </ul>
-      <div class="callout">
-        <strong>Password Security:</strong> ZeroDaily servers never see, handle, or store your passwords. All credential verification is executed directly by Google Firebase Auth over TLS 1.3 encrypted connections.
-      </div>
-
-      <h3>B. Push Notification Architecture (Firebase Cloud Messaging)</h3>
-      <p>
-        ZeroDaily distributes breaking news briefings and editorial alerts using <strong>Firebase Cloud Messaging (FCM)</strong>. We have specifically architected our notification delivery to minimize personal data footprint:
-      </p>
-      <ul>
-        <li><strong>Topic-Based Subscriptions:</strong> Instead of indexing individual personal device tokens in a centralized user tracking database, your client app subscribes directly to broadcast topic channels (e.g., <code>topic_breaking_all</code>, <code>topic_cybersec</code>, <code>topic_ai</code>).</li>
-        <li><strong>Zero Device Token Database:</strong> ZeroDaily backend servers do not maintain an inventory of APNs/FCM hardware tokens linked to personal identities.</li>
-        <li><strong>Granular Category Control:</strong> You can enable or disable individual categories or silence all push notifications at any time via the in-app Settings modal or your Android system settings (Android 13+ <code>POST_NOTIFICATIONS</code> runtime permission).</li>
-      </ul>
-
-      <h3>C. Reading Telemetry &amp; On-Device Personalization</h3>
-      <p>
-        To prevent showing you stories you have already completed, calculate read counts, and calibrate your editorial category affinity, the mobile app records pseudonymous interaction events:
-      </p>
-      <ul>
-        <li><strong>Dwell Time Threshold (&ge; 2.0s):</strong> When you view an article card for 2.0 seconds or longer, an on-device dwell event is recorded in local storage (<code>@zerodaily_read_history</code> via AsyncStorage). Stories skimmed under 2.0s are not cataloged as read.</li>
-        <li><strong>Interaction Signals:</strong> Events including bookmarking, sharing, expanding a full roast punchline, and likes are logged pseudonymously to tune feed anti-clumping algorithms.</li>
-        <li><strong>Local Storage &amp; 30-Day Retention:</strong> Reading history and category affinity scores (<code>algo_weights</code>) reside primarily in your physical device's local storage and automatically roll off after 30 days.</li>
-        <li><strong>Notification CTR Diagnostics:</strong> When tapping a breaking news push alert, an anonymous click-through signal measures dwell duration and swipe count until the app is backgrounded, evaluating whether the editorial summary matched reader expectations.</li>
-      </ul>
-
-      <!-- Disclosure Table -->
-      <div class="disclosure-table-wrapper">
-        <table class="disclosure-table">
-          <thead>
-            <tr>
-              <th>Data Category</th>
-              <th>Specific Fields</th>
-              <th>Storage Location</th>
-              <th>Retention Period</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Account Identity</td>
-              <td>Google UID, Email, Display Name, Photo URL</td>
-              <td>Firebase Auth &amp; Firestore</td>
-              <td>Until deleted (24h grace period)</td>
-            </tr>
-            <tr>
-              <td>Push Notifications</td>
-              <td>FCM Topic Subscriptions (e.g. <code>topic_ai</code>)</td>
-              <td>Firebase Cloud Messaging Fabric</td>
-              <td>Until category unsubscribed</td>
-            </tr>
-            <tr>
-              <td>Reading Telemetry</td>
-              <td>Dwell time (&ge; 2.0s), story IDs read, bookmarks</td>
-              <td>On-device AsyncStorage &amp; Cloud Sync</td>
-              <td>30-day sliding window on-device</td>
-            </tr>
-            <tr>
-              <td>Security Logs</td>
-              <td>IP address, client user agent, API timestamp</td>
-              <td>Cloudflare / Edge Access Logs</td>
-              <td>Up to 30 days (security auditing)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </article>
-
-    <!-- Section 3 -->
-    <article class="prose-section">
-      <h2>3. How We Use and Share Information</h2>
-      <p>We process your data exclusively for the following functional purposes:</p>
-      <ul>
-        <li>Delivering, rendering, and caching editorial briefings across our seven coverage desks.</li>
-        <li>Synchronizing saved bookmarks across multiple devices when signed into your account.</li>
-        <li>Broadcasting breaking alerts matching your opted-in notification categories.</li>
-        <li>Preventing repetitive or already-read briefings from cluttering your daily feed.</li>
-        <li>Protecting the integrity, rate limits, and security of our backend APIs against scraping and malicious automated traffic.</li>
-      </ul>
-      <div class="callout">
-        <strong>Absolute Prohibition on Data Brokerage:</strong> ZeroDaily does not sell, rent, monetize, or trade your personal data, email address, reading telemetry, or device identifiers to any data broker, advertising network, or commercial third party under any circumstances.
-      </div>
-    </article>
-
-    <!-- Section 4 -->
-    <article class="prose-section">
-      <h2>4. Third-Party Infrastructure &amp; Service Providers</h2>
-      <p>
-        We rely on trusted enterprise cloud infrastructure providers to operate the service securely:
-      </p>
-      <ul>
-        <li><strong>Google Cloud Platform &amp; Firebase (USA):</strong> Provides Firebase Authentication, Cloud Firestore (for synced user bookmarks and profiles), and Firebase Cloud Messaging (FCM) for push notifications. All interactions are subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
-        <li><strong>Cloudflare, Inc. (USA / Global Anycast):</strong> Provides edge content delivery, DDoS mitigation, DNS resolution, and security headers for <code>zerodaily.in</code> and API gateways.</li>
-        <li><strong>GitHub (Microsoft):</strong> Hosts our source code in private repositories. The Android APK is not served from GitHub; it is distributed from our own CDN at <code>media.zerodaily.in</code> (Cloudflare in front of AWS S3).</li>
-      </ul>
-    </article>
-
-    <!-- Section 5 -->
-    <article class="prose-section">
-      <h2>5. Data Retention, Account Deletion &amp; Grace Period</h2>
-      <p>
-        We maintain strict data minimization principles:
-      </p>
-      <ul>
-        <li><strong>In-App Self-Serve Deletion:</strong> You can delete your account at any time by opening the mobile app, navigating to <strong>Settings &rarr; Account &rarr; Delete Account</strong>.</li>
-        <li><strong>Web-Based Deletion Portal:</strong> In compliance with the Google Play 2024 User Data Policy, you may request account deletion directly from the web without having the app installed by visiting our dedicated <a href="/delete-account">Account Deletion Request Portal</a>.</li>
-        <li><strong>24-Hour Recovery Grace Period:</strong> When an account deletion is initiated, the account status is immediately marked <code>is_pending_deletion: true</code>, active session tokens are revoked, and push notification topics are unsubscribed. A 24-hour grace window begins. If you change your mind, logging back into the app within 24 hours cancels the deletion request.</li>
-        <li><strong>Permanent Purge:</strong> Once the 24-hour grace period elapses, your user profile, Google OAuth linkage, cloud bookmarks, reading telemetry, and algorithmic weights are permanently expunged from our databases.</li>
-        <li><strong>Local Cache Removal:</strong> Because on-device reading logs are stored locally on your device in Android AsyncStorage, you can erase them immediately by clearing the app data in <em>Android Settings &rarr; Apps &rarr; ZeroDaily &rarr; Storage &rarr; Clear Data</em> or by uninstalling the application.</li>
-      </ul>
-    </article>
-
-    <!-- Section 6 -->
-    <article class="prose-section">
-      <h2>6. Your Legal Rights (GDPR, CCPA/CPRA, and Indian DPDP)</h2>
-      <p>
-        Depending on your geographical jurisdiction, you are entitled to specific statutory rights regarding your personal information:
-      </p>
-      <ul>
-        <li><strong>European Economic Area &amp; UK (GDPR / UK GDPR):</strong> Under Articles 15 through 22, you possess the right to access your personal data, rectify inaccuracies, request erasure (&ldquo;Right to be Forgotten&rdquo;), restrict or object to processing, and request portability of your data in a structured, machine-readable format.</li>
-        <li><strong>California Residents (CCPA / CPRA):</strong> You have the right to know what personal information is collected, disclosed, or retained; the right to delete your personal information; the right to non-discrimination for exercising your rights; and the right to opt-out of the sale or sharing of personal data (we do not sell or share your data).</li>
-        <li><strong>Indian Residents (Digital Personal Data Protection Act 2023 - DPDP):</strong> You possess the right to access a summary of personal data processed, the right to correction and erasure of personal data, the right to nominate an individual in the event of death or incapacity, and the right to readily accessible grievance redressal.</li>
-      </ul>
-      <p>
-        To exercise any statutory right, please submit a request via our <a href="/delete-account">Web Deletion Portal</a> or email our Data Protection Officer at <a href="mailto:privacy@zerodaily.in">privacy@zerodaily.in</a>. We respond to all verified requests within thirty (30) calendar days.
+        ZeroDaily is satirical commentary on real technology news. Stories are summarised with the help of AI. The AI provider, DeepSeek, processes public news articles only; no user data is sent to it. Every story links to its original source.
       </p>
     </article>
 
-    <!-- Section 7 -->
-    <article class="prose-section">
-      <h2>7. Security Measures &amp; Encryption Standards</h2>
-      <p>
-        We employ industry-standard administrative, physical, and technical safeguards:
-      </p>
+    <article class="prose-section" id="collected">
+      <h2>3. Data we collect</h2>
       <ul>
-        <li>All client-to-server and cloud-to-cloud communications are encrypted in transit using <strong>Transport Layer Security (TLS 1.3 / TLS 1.2)</strong>.</li>
-        <li>Data stored in Google Cloud Firestore is encrypted at rest using <strong>AES-256</strong>.</li>
-        <li>Web pages enforce strict security headers: <code>X-Frame-Options: DENY</code>, <code>X-Content-Type-Options: nosniff</code>, and <code>Referrer-Policy: strict-origin-when-cross-origin</code>.</li>
+        <li><strong>Account details.</strong> If you sign in with Google or with email and password through Firebase Authentication, we receive your email address, display name and profile photo. Passwords are handled by Firebase Authentication. For some older accounts, a password is stored on our servers only as a bcrypt hash.</li>
+        <li><strong>User ID.</strong> Every account or guest session has a user ID.</li>
+        <li><strong>Guest device identifier.</strong> For guest sessions the app sends a device identifier (the Android ID) so that the same phone reuses one guest profile instead of creating a new one each time.</li>
+        <li><strong>Network and device information.</strong> Your IP address, an approximate location derived from it by Cloudflare (country, region, city and timezone), and the browser or app user agent. These are stored on your user record for security and abuse prevention.</li>
+        <li><strong>Reading activity.</strong> Stories you read, time spent, likes, bookmarks, skips and shares, kept as your last 50 interactions, plus a per-topic interest score that we use to personalise your feed.</li>
+        <li><strong>Notifications.</strong> Which notifications you open, and the topics you choose to follow. Your push notification token is sent to our server only to subscribe your device to the topics you chose. We do not store it.</li>
+        <li><strong>Website forms.</strong> If you join the waitlist or send feedback on zerodaily.in, we store your email address and your message. We send you a verification code by email first.</li>
+        <li><strong>Usage statistics.</strong> Daily pseudonymous activity records (user ID and date) and aggregate counters, used to count active users and understand how the service is used.</li>
+      </ul>
+      <p>Search runs on your device: the app downloads a list of recent headlines and searches it locally, so your search terms are not sent to us.</p>
+    </article>
+
+    <article class="prose-section" id="not-collected">
+      <h2>4. What we do not do</h2>
+      <ul>
+        <li>We do not include advertising SDKs.</li>
+        <li>We do not sell your data.</li>
+        <li>We do not currently use a crash-reporting SDK.</li>
       </ul>
     </article>
 
-    <!-- Section 8 -->
-    <article class="prose-section">
-      <h2>8. Children's Privacy</h2>
-      <p>
-        ZeroDaily is intended for general tech-interested audiences and professionals. We do not knowingly collect, solicit, or maintain personal information from children under the age of 13 (or under 16 within the European Economic Area). If we learn that a child under the relevant age has provided personal data without verified parental consent, we will immediately purge that information from our servers.
-      </p>
+    <article class="prose-section" id="processors">
+      <h2>5. Where your data goes</h2>
+      <p>We use the following service providers to run ZeroDaily:</p>
+      <ul>
+        <li><strong>Amazon Web Services</strong> (United States, us-east-1): servers, database, file storage and email sending.</li>
+        <li><strong>Cloudflare:</strong> network delivery, caching and security. Cloudflare also derives the approximate location mentioned above.</li>
+        <li><strong>Google / Firebase:</strong> sign-in (Firebase Authentication) and push notifications (Firebase Cloud Messaging).</li>
+        <li><strong>Resend:</strong> delivery of verification-code emails.</li>
+        <li><strong>DeepSeek:</strong> summarising public news articles. It does not receive user data.</li>
+      </ul>
+      <p>Your data is therefore processed in the United States and wherever these providers operate.</p>
     </article>
 
-    <!-- Section 9 -->
-    <article class="prose-section">
-      <h2>9. Contact Information &amp; Data Protection Officer</h2>
-      <p>
-        If you have questions, inquiries, or grievances regarding this Privacy Policy or our data practices, please contact our compliance desk:
-      </p>
-      <div class="callout">
-        <strong>Data Protection &amp; Grievance Desk</strong><br />
-        ZeroDaily Project Legal &amp; Compliance<br />
-        Email: <a href="mailto:privacy@zerodaily.in">privacy@zerodaily.in</a><br />
-        Support: <a href="mailto:support@zerodaily.in">support@zerodaily.in</a><br />
-        General: <a href="mailto:hi@zerodaily.in">hi@zerodaily.in</a>
-      </div>
+    <article class="prose-section" id="retention">
+      <h2>6. How long we keep data</h2>
+      <ul>
+        <li><strong>Guest profiles:</strong> deleted automatically 30 days after last use.</li>
+        <li><strong>Deleted accounts:</strong> scheduled for deletion for 24 hours (signing in again cancels it), then removed automatically, normally within 2 days.</li>
+        <li><strong>Server logs:</strong> 14 days.</li>
+        <li><strong>Daily activity statistics:</strong> up to 13 months.</li>
+        <li><strong>Database backups:</strong> up to 35 days.</li>
+        <li><strong>Waitlist and feedback entries:</strong> until you ask us to delete them.</li>
+      </ul>
+    </article>
+
+    <article class="prose-section" id="rights">
+      <h2>7. Your rights and deletion</h2>
+      <p>You can delete your data at any time:</p>
+      <ul>
+        <li><strong>In the app:</strong> Settings &rarr; Delete account. Guests: Settings &rarr; Delete my data, which takes effect immediately.</li>
+        <li><strong>On the web:</strong> <a href="/delete-account">zerodaily.in/delete-account</a>.</li>
+        <li><strong>By email:</strong> <a href="mailto:privacy@zerodaily.in">privacy@zerodaily.in</a>, from the address on your account.</li>
+      </ul>
+      <p>You can also ask us for a copy of the data we hold about you, or for it to be corrected, at the same address.</p>
+    </article>
+
+    <article class="prose-section" id="children">
+      <h2>8. Children</h2>
+      <p>ZeroDaily is not directed at children under 13, and we do not knowingly collect their data. If you believe a child has given us data, write to <a href="mailto:privacy@zerodaily.in">privacy@zerodaily.in</a> and we will delete it.</p>
+    </article>
+
+    <article class="prose-section" id="security">
+      <h2>9. Security</h2>
+      <p>All traffic uses HTTPS, and data is encrypted at rest. No system is perfectly secure, but we limit access and keep only what the service needs.</p>
+    </article>
+
+    <article class="prose-section" id="changes">
+      <h2>10. Changes</h2>
+      <p>If we change this policy, we will update the date at the top of this page.</p>
     </article>
   </main>
 

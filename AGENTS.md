@@ -49,7 +49,7 @@ Static pages in `public/` (not part of the SPA), each present twice with identic
 - `/privacy` — privacy policy
 - `/terms` — Terms of Use (short, plain English): personal non-commercial reading only; no scraping,
   crawling, bulk downloading, AI training or republishing without written permission; governing law India
-- `/delete-account` — account deletion portal (Google Play requirement)
+- `/delete-account` — account deletion portal (Google Play requirement): email -> 6-digit code via `/api/account/delete/send` and `/verify`
 
 `public/robots.txt`: all crawlers may index the site except `/api/`; AI training / AI crawler
 user-agents (GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, CCBot,
@@ -159,7 +159,7 @@ Handles `/a/<article-id>`: fetches the article from `https://api.zerodaily.in/ap
 (2 s timeout) and rewrites the title and Open Graph/Twitter meta tags of `index.html` with
 `HTMLRewriter`, so link previews (WhatsApp, X, Discord, Telegram, Slack, ...) show the story.
 In the browser, `sharedStoryModal.js` shows a preview card, tries to open the Android app
-(`intent://` / `zerodaily://`), and copies `zerodaily:<id>` to the clipboard for deferred deep linking.
+(`intent://` / `zerodaily://`). It does not touch the clipboard.
 (`/story/<id>` is recognized by the client but has no meta-rewriting function.)
 The article fetch sends `User-Agent: ZeroDaily-Web/1.0`: `api.zerodaily.in` has a Cloudflare rule that
 challenges unknown clients (Workers `fetch` sends no browser UA) and lets user agents containing
