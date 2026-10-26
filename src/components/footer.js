@@ -46,7 +46,7 @@ export function renderFooter() {
           <img src="/favicon.svg" alt="" class="w-7 h-7 rounded-md" />
           <span class="text-lg font-semibold tracking-tight text-ink dark:text-paper-ink">ZeroDaily</span>
         </a>
-        <p class="mt-4 font-serif text-xl leading-snug text-ink dark:text-paper-ink">Tech news, minus the noise.</p>
+        <p class="mt-4 font-serif text-xl leading-snug text-ink dark:text-paper-ink">Zero fluff. Daily stop for Tech News.</p>
         <p class="mt-2 text-sm leading-relaxed text-ink-soft dark:text-paper-soft">
           The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.
         </p>

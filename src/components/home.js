@@ -38,11 +38,10 @@ export function renderHome() {
     <section class="${CONTAINER} pt-14 pb-16 sm:pt-20 sm:pb-24 grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:items-center overflow-hidden">
       <div>
         <h1 class="font-serif text-5xl sm:text-6xl lg:text-7xl font-semibold text-ink dark:text-paper-ink tracking-tight leading-[1.02] text-balance">
-          Tech news, minus the noise.
+          Zero fluff. Daily stop for Tech News.
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-ink-soft dark:text-paper-soft leading-relaxed max-w-xl">
-          Short, honest summaries of what actually happened in security, AI/ML, engineering,
-          VLSI and markets. Read the gist, skip the fluff.
+          The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.
         </p>
 
         <div class="mt-9 flex flex-wrap items-center gap-3">
