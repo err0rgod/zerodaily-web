@@ -1,10 +1,10 @@
 /**
  * Cloudflare Pages Function: /api/*
  * Same-origin proxy from zerodaily.in to the ZeroDaily API for the visitor flows
- * (waitlist join, feedback). Only the routes below are forwarded.
+ * (waitlist join, feedback, account deletion). Only the routes below are forwarded.
  */
 const BACKEND = 'https://gnur4xlnhnucw6kghv4lqx4cly0uioia.lambda-url.us-east-1.on.aws/api/v1';
-const ALLOWED = /^\/api\/(join(\/(save|send|verify|session))?|feedback(\/(send|verify))?)$/;
+const ALLOWED = /^\/api\/(join(\/(save|send|verify|session))?|feedback(\/(send|verify))?|account\/delete\/(send|verify))$/;
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',

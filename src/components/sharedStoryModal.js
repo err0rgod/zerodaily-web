@@ -24,8 +24,7 @@ export function getSharedArticleIdFromUrl() {
 
 /**
  * Renders a compact, aesthetic preview card when visiting a shared story URL.
- * Automatically attempts redirect to the native app if installed,
- * and copies `zerodaily:<id>` to clipboard for seamless deferred deep linking.
+ * Automatically attempts redirect to the native app if installed.
  */
 export async function handleSharedStoryView() {
   const articleId = getSharedArticleIdFromUrl();
@@ -40,13 +39,6 @@ export async function handleSharedStoryView() {
   const androidIntentUrl = `intent://a/${encodedId}#Intent;scheme=zerodaily;package=in.zerodaily.app;S.browser_fallback_url=${currentUrl};end;`;
   const customSchemeUrl = `zerodaily://a/${encodedId}`;
   const appLaunchUrl = isAndroid ? androidIntentUrl : customSchemeUrl;
-
-  // 1. Deferred deep-link handshake: write token to clipboard so app detects story on first boot
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(`zerodaily:${articleId}`).catch(() => {});
-    }
-  } catch {}
 
   // 3. Fetch story details for clean web preview
   const article = await fetchArticleDetail(articleId);

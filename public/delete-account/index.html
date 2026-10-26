@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Request Account &amp; Data Deletion — ZeroDaily</title>
-  <meta name="description" content="Request permanent account and personal data deletion from ZeroDaily. Google Play 2024 compliant web deletion portal with 24-hour grace period and receipt tracking." />
+  <meta name="description" content="Delete your ZeroDaily account and data from the web. Confirm your email with a 6-digit code; deletion happens after a 24-hour grace period." />
 
   <!-- Open Graph / Meta -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://zerodaily.in/delete-account" />
   <meta property="og:site_name" content="ZeroDaily" />
   <meta property="og:title" content="Account &amp; Data Deletion Portal — ZeroDaily" />
-  <meta property="og:description" content="Official web-based account deletion portal. Submit deletion requests outside the mobile app with immediate session deactivation and a 24-hour grace window." />
+  <meta property="og:description" content="Delete your ZeroDaily account and data from the web. Confirm your email with a 6-digit code; deletion happens after a 24-hour grace period." />
   <meta property="og:image" content="https://zerodaily.in/og-image.png" />
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -735,288 +735,92 @@
   <main class="main-wrap">
     <div class="edition-bar">
       <span>ZeroDaily Compliance Desk</span>
-      <span>Policy: Google Play 2024 User Data</span>
-      <span>Portal ID: DP-DEL-01</span>
+      <span>Account &amp; data deletion</span>
     </div>
 
-    <h1 class="headline">Account &amp; Data Deletion Request</h1>
+    <h1 class="headline">Delete your ZeroDaily account</h1>
     <p class="deck">
-      Submit a formal request to permanently delete your ZeroDaily account and associated personal data outside the mobile application without signing in.
+      Request deletion of your account and personal data from the web, without opening the app. We confirm it is you with a code sent by email.
     </p>
 
     <div class="meta-line">
-      <span><strong>Mandate:</strong> Google Play 2024 Policy</span>
-      <span>&bull;</span>
-      <span><strong>Grace Window:</strong> 24 Hours</span>
-      <span class="meta-tag">Self-Serve Web Path</span>
-      <span class="meta-tag">No App Required</span>
+      <span><strong>Grace window:</strong> 24 hours</span>
     </div>
 
-    <!-- Lifecycle Timeline -->
-    <section class="timeline-card" aria-label="Deletion Lifecycle">
-      <div class="timeline-title">Deletion Lifecycle &amp; Security Timeline</div>
-      <div class="timeline-steps">
-        <div class="timeline-step">
-          <div class="step-marker">1</div>
-          <div class="step-content">
-            <div class="step-heading">Immediate Session Invalidation</div>
-            <div class="step-body">
-              Your account status is marked <code>is_pending_deletion: true</code>. Active JWT authentication sessions are revoked, cloud bookmark sync is frozen, and your device is unsubscribed from FCM broadcast topics.
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-step">
-          <div class="step-marker">2</div>
-          <div class="step-content">
-            <div class="step-heading">24-Hour Recovery Grace Period</div>
-            <div class="step-body">
-              To prevent accidental deletion or account takeover lockouts, a 24-hour grace window begins. If you change your mind, simply log back into the mobile app within 24 hours to cancel the request.
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-step">
-          <div class="step-marker">3</div>
-          <div class="step-content">
-            <div class="step-heading">Permanent Database Purge (+24h)</div>
-            <div class="step-body">
-              Upon expiration of the grace period, your Google OAuth linkage, display profile, cloud bookmarks, reading telemetry, and algorithmic category weights (<code>algo_weights</code>) are permanently and irreversibly purged.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Submission Form Container -->
+    <!-- Step 1: email -->
     <div id="deletion-form-container" class="form-wrapper">
       <div class="form-header">
-        <h2 class="form-title">Submit Deletion Request</h2>
+        <h2 class="form-title">Step 1: Confirm your email</h2>
         <p class="form-subtitle">
-          Please enter the email address linked to your Google Sign-In or ZeroDaily account.
+          Enter the email address of your ZeroDaily account. We will send a 6-digit code to it.
         </p>
       </div>
 
-      <form id="account-deletion-form" novalidate>
-        <!-- Email Field -->
+      <form id="send-form" novalidate>
         <div class="form-group">
-          <label for="user-email" class="form-label">Account Email Address <span style="color: var(--color-brand);">&ast;</span></label>
-          <span class="form-hint">The email address associated with your Google Sign-In or ZeroDaily profile.</span>
-          <input
-            type="email"
-            id="user-email"
-            name="email"
-            required
-            autocomplete="email"
-            placeholder="e.g. yourname@gmail.com"
-            class="form-input"
-            aria-required="true"
-            aria-describedby="email-error"
-          />
-          <div id="email-error" role="alert" style="color: var(--color-danger); font-size: 0.8rem; margin-top: 6px; display: none;">
-            Please enter a valid email address.
-          </div>
+          <label for="user-email" class="form-label">Account email address</label>
+          <input type="email" id="user-email" name="email" required autocomplete="email" placeholder="e.g. yourname@gmail.com" class="form-input" />
         </div>
-
-        <!-- Scope Selection -->
-        <div class="form-group">
-          <fieldset class="radio-fieldset">
-            <legend class="radio-legend">Deletion Scope <span style="color: var(--color-brand);">&ast;</span></legend>
-            <div class="radio-options">
-              <label class="radio-card">
-                <input
-                  type="radio"
-                  name="scope"
-                  value="full_account"
-                  checked
-                />
-                <div class="radio-text">
-                  <div class="radio-title">Full Account &amp; Data Deletion (Recommended)</div>
-                  <div class="radio-desc">
-                    Permanently delete your user profile, Google authentication linkage, all saved bookmarks, reading history, and algorithmic category weights.
-                  </div>
-                </div>
-              </label>
-
-              <label class="radio-card">
-                <input
-                  type="radio"
-                  name="scope"
-                  value="telemetry_reset"
-                />
-                <div class="radio-text">
-                  <div class="radio-title">Reading Telemetry &amp; Bookmarks Reset</div>
-                  <div class="radio-desc">
-                    Keep your account login active, but erase cloud bookmarks, reading telemetry, and reset feed recommendation weights back to default.
-                  </div>
-                </div>
-              </label>
-            </div>
-          </fieldset>
-        </div>
-
-        <!-- Reason Dropdown -->
-        <div class="form-group">
-          <label for="deletion-reason" class="form-label">Primary Reason for Request (Optional)</label>
-          <select id="deletion-reason" name="reason" class="form-select">
-            <option value="">Select a reason...</option>
-            <option value="privacy_concerns">Privacy or data governance concerns</option>
-            <option value="too_many_notifications">Too many push notifications</option>
-            <option value="switching_devices">Switching devices or platforms</option>
-            <option value="no_longer_relevant">Content no longer relevant to my workflow</option>
-            <option value="other">Other reason</option>
-          </select>
-        </div>
-
-        <!-- Optional Comments -->
-        <div class="form-group">
-          <label for="deletion-comments" class="form-label">Additional Feedback (Optional)</label>
-          <textarea
-            id="deletion-comments"
-            name="comments"
-            rows="2"
-            placeholder="Help our editorial team improve ZeroDaily..."
-            class="form-textarea"
-          ></textarea>
-        </div>
-
-        <!-- Confirmation Checkbox -->
-        <div class="form-group">
-          <label class="checkbox-card">
-            <input
-              type="checkbox"
-              id="confirm-checkbox"
-              name="confirmed"
-              required
-              aria-required="true"
-            />
-            <span class="checkbox-label-text">
-              I understand that submitting this request initiates an immediate 24-hour recovery grace window, after which all selected cloud data will be permanently and unrecoverably purged from ZeroDaily servers.
-            </span>
-          </label>
-          <div id="checkbox-error" role="alert" style="color: var(--color-danger); font-size: 0.8rem; margin-top: 6px; display: none;">
-            You must check this box to confirm and authorize the deletion request.
-          </div>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" id="submit-btn" class="form-btn">
-          <span>Submit Deletion Request</span>
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-          </svg>
-        </button>
+        <div id="send-msg" role="alert" style="font-size: 0.85rem; margin-bottom: 12px; display: none;"></div>
+        <button type="submit" id="send-btn" class="form-btn"><span>Send code</span></button>
       </form>
     </div>
 
-    <!-- Receipt Confirmation Box (Hidden until submitted) -->
-    <div id="receipt-container" class="receipt-wrapper hidden" aria-live="polite">
-      <div class="receipt-header">
-        <div>
-          <span class="receipt-badge">
-            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-            </svg>
-            Request Queued &bull; Grace Period Active
-          </span>
-        </div>
-        <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-ink-faint);">
-          STAGE 1 COMPLETE
-        </div>
-      </div>
-
-      <div class="receipt-id-box">
-        <div class="receipt-id-label">Reference Ticket Identifier</div>
-        <div id="receipt-ticket-id" class="receipt-id-val">ZD-DEL-000000</div>
-      </div>
-
-      <div class="receipt-details-list">
-        <div class="receipt-detail-item">
-          <span class="receipt-detail-label">Account Target:</span>
-          <span id="receipt-target-email" class="receipt-detail-val">user@example.com</span>
-        </div>
-        <div class="receipt-detail-item">
-          <span class="receipt-detail-label">Deletion Scope:</span>
-          <span id="receipt-scope" class="receipt-detail-val">Full Account &amp; Data Deletion</span>
-        </div>
-        <div class="receipt-detail-item">
-          <span class="receipt-detail-label">Submission Timestamp:</span>
-          <span id="receipt-timestamp" class="receipt-detail-val">October 7, 2026, 12:00 UTC</span>
-        </div>
-        <div class="receipt-detail-item">
-          <span class="receipt-detail-label">Scheduled Permanent Purge:</span>
-          <span id="receipt-purge-time" class="receipt-detail-val" style="color: var(--color-brand);">October 8, 2026, 12:00 UTC</span>
-        </div>
-        <div class="receipt-detail-item">
-          <span class="receipt-detail-label">Grace Period Window:</span>
-          <span class="receipt-detail-val">24 Hours (Active)</span>
-        </div>
-      </div>
-
-      <div class="callout" style="margin-top: 0; margin-bottom: 20px;">
-        <strong>How to Cancel During the Grace Window:</strong>
-        <p style="margin-top: 6px; margin-bottom: 0;">
-          If you change your mind, simply open the ZeroDaily mobile app and log in with this Google account within 24 hours. Alternatively, forward your Ticket Identifier to <a href="mailto:privacy@zerodaily.in">privacy@zerodaily.in</a>.
+    <!-- Step 2: code -->
+    <div id="verify-container" class="form-wrapper hidden">
+      <div class="form-header">
+        <h2 class="form-title">Step 2: Enter the code</h2>
+        <p class="form-subtitle">
+          If an account exists for that address, a 6-digit code is on its way. Enter it below to confirm the deletion.
         </p>
       </div>
 
-      <div class="receipt-actions">
-        <button type="button" id="copy-ticket-btn" class="btn-secondary">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
-          </svg>
-          <span id="copy-btn-text">Copy Ticket ID</span>
-        </button>
-        <button type="button" onclick="window.print()" class="btn-secondary">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-          </svg>
-          Print Receipt
-        </button>
-        <a id="receipt-mailto-link" href="#" class="btn-secondary">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-          </svg>
-          Email Support
-        </a>
-      </div>
+      <form id="verify-form" novalidate>
+        <div class="form-group">
+          <label for="user-code" class="form-label">6-digit code</label>
+          <input type="text" id="user-code" name="code" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="123456" class="form-input" />
+        </div>
+        <div id="verify-msg" role="alert" style="font-size: 0.85rem; margin-bottom: 12px; display: none;"></div>
+        <button type="submit" id="verify-btn" class="form-btn"><span>Delete my account</span></button>
+        <p style="margin-top: 12px; font-size: 0.85rem;"><a href="#" id="back-link">Use a different email or request a new code</a></p>
+      </form>
     </div>
 
-    <!-- Transparent Technical Disclosures Section -->
+    <!-- Result -->
+    <div id="done-container" class="callout hidden" aria-live="polite">
+      <strong>Deletion requested</strong>
+      <p id="done-msg" style="margin-top: 6px; margin-bottom: 0;"></p>
+    </div>
+
     <article class="prose-section">
-      <h2>Technical Disclosures &amp; Local Device Cache</h2>
+      <h2>What happens next</h2>
       <p>
-        ZeroDaily adheres strictly to the Google Play 2024 User Data Policy regarding external account deletion and data retention transparency:
+        Your account is scheduled for deletion 24 hours from the moment you confirm. If you sign in to the app before then, the deletion is cancelled. After that, it is removed automatically, normally within 2 days.
       </p>
 
-      <h3>1. What Cloud Data is Permanently Purged</h3>
-      <p>
-        When the 24-hour grace period expires, our automated backend processes permanently delete:
-      </p>
+      <h3>What gets deleted</h3>
       <ul>
-        <li>Your Firebase User Account and Google OAuth identity linkage.</li>
-        <li>Your display name, email address, and profile photo reference.</li>
-        <li>Your synchronized cloud bookmarks and saved article collections.</li>
-        <li>Your historical category affinity weights (<code>algo_weights</code>) and personalization vectors.</li>
+        <li>Your account, including email, display name and profile photo reference.</li>
+        <li>Your reading activity, bookmarks and per-topic interest scores.</li>
+        <li>Your topic preferences.</li>
+        <li>Your waitlist entry, if you joined with this email.</li>
       </ul>
 
-      <h3>2. On-Device Local Cache Removal Instructions</h3>
-      <p>
-        ZeroDaily utilizes an on-device local storage engine (<code>AsyncStorage</code>) to track read history (<code>@zerodaily_read_history</code>) to prevent duplicate card rendering. This local cache resides on your physical smartphone and is not accessible remotely by our servers.
-      </p>
-      <div class="callout">
-        <strong>To purge local device data immediately:</strong><br />
-        Open your phone's <strong>Settings &rarr; Apps &rarr; ZeroDaily &rarr; Storage &rarr; Clear Data</strong>, or uninstall the application. This immediately purges all on-device offline caches and tokens.
-      </div>
+      <h3>What is kept, and for how long</h3>
+      <ul>
+        <li>Database backups, for up to 35 days.</li>
+        <li>Server logs, for 14 days.</li>
+        <li>Anonymous statistics that cannot be tied back to you.</li>
+      </ul>
 
-      <h3>3. Security Audit Logs</h3>
+      <h3>Guests</h3>
       <p>
-        Pseudonymized HTTP gateway logs (containing IP address and request timestamp) are retained by Cloudflare and edge infrastructure for up to thirty (30) days solely for the legitimate interest of detecting distributed denial-of-service (DDoS) attacks, brute-force exploits, and maintaining infrastructure availability. These logs are never linked to personal profiles and are automatically rotated.
+        If you use ZeroDaily without an account, you can delete your data instantly in the app: Settings &rarr; Delete my data. Guest profiles are also deleted automatically 30 days after last use.
       </p>
 
-      <h3>4. Direct Offline Fallback</h3>
+      <h3>Prefer email?</h3>
       <p>
-        If you experience connectivity issues with this web form or require manual processing by our Data Protection Officer, you may initiate your request directly by emailing <a href="mailto:privacy@zerodaily.in?subject=Account%20Deletion%20Request">privacy@zerodaily.in</a> from the email account registered with ZeroDaily.
+        Write to <a href="mailto:privacy@zerodaily.in?subject=Account%20Deletion%20Request">privacy@zerodaily.in</a> from the email address of the account. See our <a href="/privacy">Privacy Policy</a> for details.
       </p>
     </article>
   </main>
@@ -1038,10 +842,8 @@
     </div>
   </footer>
 
-  <!-- Interactive Scripts -->
   <script>
     (function() {
-      // 1. Theme Toggle Script
       var toggleBtn = document.getElementById('theme-toggle');
       var moonIcon = document.getElementById('theme-icon-moon');
       var sunIcon = document.getElementById('theme-icon-sun');
@@ -1055,154 +857,108 @@
           toggleBtn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
         }
       }
-
-      var isCurrentlyDark = document.documentElement.classList.contains('dark');
-      updateIcons(isCurrentlyDark);
-
+      updateIcons(document.documentElement.classList.contains('dark'));
       if (toggleBtn) {
         toggleBtn.addEventListener('click', function() {
           var willBeDark = !document.documentElement.classList.contains('dark');
           document.documentElement.classList.toggle('dark', willBeDark);
           document.documentElement.style.colorScheme = willBeDark ? 'dark' : 'light';
-          try {
-            localStorage.setItem('zd-theme', willBeDark ? 'dark' : 'light');
-          } catch(e) {}
+          try { localStorage.setItem('zd-theme', willBeDark ? 'dark' : 'light'); } catch(e) {}
           var metaTheme = document.querySelector('meta[name="theme-color"]');
           if (metaTheme) metaTheme.setAttribute('content', willBeDark ? '#0d0e12' : '#faf8f3');
           updateIcons(willBeDark);
         });
       }
 
-      // 2. Interactive Form & Receipt Handler
-      var form = document.getElementById('account-deletion-form');
-      var emailInput = document.getElementById('user-email');
-      var emailError = document.getElementById('email-error');
-      var confirmCheckbox = document.getElementById('confirm-checkbox');
-      var checkboxError = document.getElementById('checkbox-error');
-      var submitBtn = document.getElementById('submit-btn');
+      // Account deletion: email -> code -> deletion scheduled
+      var $ = function(id) { return document.getElementById(id); };
+      var sendForm = $('send-form'), verifyForm = $('verify-form');
+      var step1 = $('deletion-form-container'), step2 = $('verify-container'), done = $('done-container');
+      var email = '';
 
-      var formContainer = document.getElementById('deletion-form-container');
-      var receiptContainer = document.getElementById('receipt-container');
+      function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
-      var receiptTicketId = document.getElementById('receipt-ticket-id');
-      var receiptTargetEmail = document.getElementById('receipt-target-email');
-      var receiptScope = document.getElementById('receipt-scope');
-      var receiptTimestamp = document.getElementById('receipt-timestamp');
-      var receiptPurgeTime = document.getElementById('receipt-purge-time');
-      var receiptMailto = document.getElementById('receipt-mailto-link');
-      var copyTicketBtn = document.getElementById('copy-ticket-btn');
-      var copyBtnText = document.getElementById('copy-btn-text');
-
-      var generatedTicketId = '';
-
-      function isValidEmail(val) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+      function show(el, text, isError) {
+        el.textContent = text;
+        el.style.color = isError ? 'var(--color-danger)' : 'var(--color-ink-soft)';
+        el.style.display = text ? 'block' : 'none';
       }
 
-      // Clear inline errors on input
-      emailInput.addEventListener('input', function() {
-        if (isValidEmail(emailInput.value)) {
-          emailError.style.display = 'none';
-          emailInput.style.borderColor = '';
-        }
-      });
-      confirmCheckbox.addEventListener('change', function() {
-        if (confirmCheckbox.checked) {
-          checkboxError.style.display = 'none';
-        }
-      });
+      function setBusy(btn, busy, label) {
+        btn.disabled = busy;
+        btn.firstElementChild.textContent = busy ? 'Please wait...' : label;
+      }
 
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        var emailVal = emailInput.value.trim();
-        var isEmailValid = isValidEmail(emailVal);
-        var isConfirmed = confirmCheckbox.checked;
-
-        var hasError = false;
-
-        if (!isEmailValid) {
-          emailError.style.display = 'block';
-          emailInput.style.borderColor = 'var(--color-danger)';
-          emailInput.focus();
-          hasError = true;
-        } else {
-          emailError.style.display = 'none';
-          emailInput.style.borderColor = '';
-        }
-
-        if (!isConfirmed) {
-          checkboxError.style.display = 'block';
-          if (!hasError) confirmCheckbox.focus();
-          hasError = true;
-        } else {
-          checkboxError.style.display = 'none';
-        }
-
-        if (hasError) return;
-
-        // UI loading state
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>Processing Request...</span>';
-
-        setTimeout(function() {
-          // Generate realistic reference ticket ID
-          var randomNum = Math.floor(100000 + Math.random() * 900000);
-          generatedTicketId = 'ZD-DEL-' + randomNum;
-
-          var now = new Date();
-          var purgeDate = new Date(now.getTime() + (24 * 60 * 60 * 1000));
-
-          var scopeRadio = form.querySelector('input[name="scope"]:checked');
-          var scopeText = (scopeRadio && scopeRadio.value === 'telemetry_reset')
-            ? 'Reading Telemetry & Bookmarks Reset'
-            : 'Full Account & Personal Data Deletion';
-
-          receiptTicketId.textContent = generatedTicketId;
-          receiptTargetEmail.textContent = emailVal;
-          receiptScope.textContent = scopeText;
-          receiptTimestamp.textContent = now.toUTCString();
-          receiptPurgeTime.textContent = purgeDate.toUTCString();
-
-          // Prepare mailto link
-          var subject = encodeURIComponent('Account Deletion Grace Period Support [' + generatedTicketId + ']');
-          var body = encodeURIComponent(
-            'Hello ZeroDaily Compliance,\n\n' +
-            'I have submitted an account deletion request:\n' +
-            'Ticket ID: ' + generatedTicketId + '\n' +
-            'Email: ' + emailVal + '\n' +
-            'Scope: ' + scopeText + '\n\n' +
-            'Please verify or provide status updates regarding my request.'
-          );
-          receiptMailto.href = 'mailto:privacy@zerodaily.in?subject=' + subject + '&body=' + body;
-
-          // Transition to receipt view
-          formContainer.classList.add('hidden');
-          receiptContainer.classList.remove('hidden');
-          receiptContainer.scrollIntoView({ behavior: 'smooth' });
-        }, 600);
-      });
-
-      if (copyTicketBtn) {
-        copyTicketBtn.addEventListener('click', function() {
-          if (!generatedTicketId) return;
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(generatedTicketId).then(function() {
-              copyBtnText.textContent = 'Copied!';
-              setTimeout(function() { copyBtnText.textContent = 'Copy Ticket ID'; }, 2000);
-            });
-          } else {
-            var temp = document.createElement('input');
-            temp.value = generatedTicketId;
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand('copy');
-            document.body.removeChild(temp);
-            copyBtnText.textContent = 'Copied!';
-            setTimeout(function() { copyBtnText.textContent = 'Copy Ticket ID'; }, 2000);
-          }
+      function post(route, body) {
+        return fetch('/api/' + route, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(body)
+        }).then(function(res) {
+          return res.json().catch(function() { return null; }).then(function(data) {
+            return { status: res.status, ok: res.ok, data: data };
+          });
         });
       }
+
+      sendForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var val = $('user-email').value.trim().toLowerCase();
+        if (!isValidEmail(val)) { show($('send-msg'), 'Please enter a valid email address.', true); return; }
+        show($('send-msg'), '', false);
+        setBusy($('send-btn'), true, 'Send code');
+        post('account/delete/send', { email: val }).then(function(r) {
+          setBusy($('send-btn'), false, 'Send code');
+          if (r.ok) {
+            email = val;
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+            $('user-code').focus();
+          } else if (r.status === 429) {
+            show($('send-msg'), 'Too many attempts. Please wait a little and try again.', true);
+          } else if (r.status === 502) {
+            show($('send-msg'), 'We could not send the email. Please try again in a moment.', true);
+          } else {
+            show($('send-msg'), 'Something went wrong. Please try again.', true);
+          }
+        }).catch(function() {
+          setBusy($('send-btn'), false, 'Send code');
+          show($('send-msg'), 'Unable to reach ZeroDaily. Check your connection and try again.', true);
+        });
+      });
+
+      verifyForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var code = $('user-code').value.replace(/\s+/g, '');
+        if (!/^\d{6}$/.test(code)) { show($('verify-msg'), 'Enter the 6-digit code from the email.', true); return; }
+        show($('verify-msg'), '', false);
+        setBusy($('verify-btn'), true, 'Delete my account');
+        post('account/delete/verify', { email: email, code: code }).then(function(r) {
+          setBusy($('verify-btn'), false, 'Delete my account');
+          if (r.ok) {
+            step2.classList.add('hidden');
+            $('done-msg').textContent = (r.data && r.data.message) || 'Your account is scheduled for deletion in 24 hours. Signing in to the app before then cancels it.';
+            done.classList.remove('hidden');
+          } else if (r.status === 400) {
+            show($('verify-msg'), 'That code is wrong or expired.', true);
+          } else if (r.status === 429) {
+            show($('verify-msg'), 'Too many attempts. Please wait a little and try again.', true);
+          } else {
+            show($('verify-msg'), 'Something went wrong. Please try again.', true);
+          }
+        }).catch(function() {
+          setBusy($('verify-btn'), false, 'Delete my account');
+          show($('verify-msg'), 'Unable to reach ZeroDaily. Check your connection and try again.', true);
+        });
+      });
+
+      $('back-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        $('user-code').value = '';
+        show($('verify-msg'), '', false);
+        step2.classList.add('hidden');
+        step1.classList.remove('hidden');
+      });
     })();
   </script>
 </body>
