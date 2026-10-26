@@ -203,7 +203,7 @@ challenges unknown clients (Workers `fetch` sends no browser UA) and lets user a
 ## 6. Other facts
 
 - **Contact:** footer and `/contact` use `hi@zerodaily.in` (`CONTACT_EMAIL`); privacy requests use
-  `privacy@zerodaily.in`.
+  `hi@zerodaily.in`.
 - **NVIDIA Inception:** the footer shows a text badge "Member of NVIDIA Inception" (green dot, links to
   nvidia.com/startups). The official badge artwork is still to be swapped in.
 - **Android App Links:** `public/.well-known/assetlinks.json` (and a copy at `public/assetlinks.json`)
