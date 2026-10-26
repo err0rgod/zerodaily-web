@@ -19,13 +19,6 @@ async function hydrateReleaseData() {
     el.href = release.apkUrl;
   });
 
-  const appSha = document.getElementById('app-sha');
-  if (appSha && release.sha256) {
-    const value = appSha.querySelector('code');
-    if (value) value.textContent = release.sha256;
-    appSha.hidden = false;
-  }
-
   if (release.version === 'Latest') return;
 
   const appSpecsTag = document.getElementById('app-specs-tag');

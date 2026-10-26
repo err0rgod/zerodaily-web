@@ -66,7 +66,7 @@ Redirects (`public/_redirects`): `/download`, `/download/apk` and `/apk` 302 to
 
 | File | Purpose |
 | :--- | :--- |
-| `main.js` | Router (above) and `hydrateReleaseData()`, which reads `latest.json`, points every `[data-apk-link="true"]` at the versioned APK, fills version/size/date into `#app-specs-tag` and shows the SHA-256 in `#app-sha`. |
+| `main.js` | Router (above) and `hydrateReleaseData()`, which reads `latest.json`, points every `[data-apk-link="true"]` at the versioned APK and fills version/size/date into `#app-specs-tag` (the SHA-256 is no longer shown on the site). |
 | `api.js` | Read-only data: `escapeHtml`, `safeUrl`, categories, wire fetch (`/api/v1/notifications/history?limit=10`) with fallback dispatches, `fetchArticleDetail`, `fetchLatestAppRelease` (APK metadata; `DIRECT_APK_URL`, `APK_METADATA_URL`). |
 | `webApi.js` | `apiPost(route, body, { token })` for visitor endpoints: tries same-origin `/api` first, then `https://api.zerodaily.in/api/v1`. A 4xx is reported immediately (`ApiError` with `.status`); only network errors and 5xx try the next host. |
 | `session.js` | Verified-visitor session in `localStorage` (`getSession`, `saveSession`, `clearSession`). |
