@@ -1,7 +1,6 @@
 import { CONTAINER } from './header.js';
 import { CONTACT_EMAIL } from './footer.js';
 
-const PRIVACY_EMAIL = 'privacy@zerodaily.in';
 
 const ROWS = [
   {
@@ -25,8 +24,8 @@ const ROWS = [
   {
     label: 'Privacy questions',
     detail: 'Your data, account deletion and privacy requests',
-    value: PRIVACY_EMAIL,
-    href: `mailto:${PRIVACY_EMAIL}`,
+    value: CONTACT_EMAIL,
+    href: `mailto:${CONTACT_EMAIL}?subject=Privacy%20request`,
   },
   {
     label: 'Website',
