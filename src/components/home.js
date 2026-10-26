@@ -117,9 +117,6 @@ export function renderHome() {
                 <span>Download APK</span>
               </a>
             </div>
-            <p id="app-sha" hidden class="mt-4 text-xs text-ink-faint dark:text-paper-faint">
-              SHA-256 <code class="font-mono break-all text-ink-soft dark:text-paper-soft"></code>
-            </p>
           </div>
         </div>
       </div>
