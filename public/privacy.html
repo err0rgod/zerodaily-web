@@ -528,19 +528,18 @@
         <a href="#service">2. What the service is</a>
         <a href="#collected">3. Data we collect</a>
         <a href="#not-collected">4. What we do not do</a>
-        <a href="#processors">5. Where your data goes</a>
-        <a href="#retention">6. How long we keep data</a>
-        <a href="#rights">7. Your rights and deletion</a>
-        <a href="#children">8. Children</a>
-        <a href="#security">9. Security</a>
-        <a href="#changes">10. Changes</a>
+        <a href="#processors">5. How your data is handled</a>
+        <a href="#rights">6. Your rights and deletion</a>
+        <a href="#children">7. Children</a>
+        <a href="#security">8. Security</a>
+        <a href="#changes">9. Changes</a>
       </div>
     </nav>
 
     <article class="prose-section" id="who">
       <h2>1. Who we are</h2>
       <p>
-        ZeroDaily (<a href="https://zerodaily.in">zerodaily.in</a>) publishes the ZeroDaily Android app, this website and the API behind them. Contact us at <a href="mailto:hi@zerodaily.in">hi@zerodaily.in</a>. Privacy and data requests go to <a href="mailto:hi@zerodaily.in">hi@zerodaily.in</a>.
+        ZeroDaily (<a href="https://zerodaily.in">zerodaily.in</a>) publishes the ZeroDaily Android app, this website and the API behind them. Contact us at <a href="mailto:hi@zerodaily.in">hi@zerodaily.in</a>, including for privacy and data requests.
       </p>
     </article>
 
@@ -554,16 +553,16 @@
     <article class="prose-section" id="collected">
       <h2>3. Data we collect</h2>
       <ul>
-        <li><strong>Account details.</strong> If you sign in with Google or with email and password through Firebase Authentication, we receive your email address, display name and profile photo. Passwords are handled by Firebase Authentication. For some older accounts, a password is stored on our servers only as a bcrypt hash.</li>
+        <li><strong>Account details.</strong> If you sign in with Google or with email and password, we receive your email address, display name and profile photo. Passwords are never stored in readable form.</li>
         <li><strong>User ID.</strong> Every account or guest session has a user ID.</li>
-        <li><strong>Guest device identifier.</strong> For guest sessions the app sends a device identifier (the Android ID) so that the same phone reuses one guest profile instead of creating a new one each time.</li>
-        <li><strong>Network and device information.</strong> Your IP address, an approximate location derived from it by Cloudflare (country, region, city and timezone), and the browser or app user agent. These are stored on your user record for security and abuse prevention.</li>
-        <li><strong>Reading activity.</strong> Stories you read, time spent, likes, bookmarks, skips and shares, kept as your last 50 interactions, plus a per-topic interest score that we use to personalise your feed.</li>
+        <li><strong>Guest device identifier.</strong> For guest sessions the app sends a device identifier so that the same phone reuses one guest profile instead of creating a new one each time.</li>
+        <li><strong>Network and device information.</strong> Your IP address, an approximate location derived from it (country, region, city and timezone), and the browser or app user agent. These are stored on your user record for security and abuse prevention.</li>
+        <li><strong>Reading activity.</strong> Stories you read, time spent, likes, bookmarks, skips and shares, plus a per-topic interest score that we use to personalise your feed.</li>
         <li><strong>Notifications.</strong> Which notifications you open, and the topics you choose to follow. Your push notification token is sent to our server only to subscribe your device to the topics you chose. We do not store it.</li>
         <li><strong>Website forms.</strong> If you join the waitlist or send feedback on zerodaily.in, we store your email address and your message. We send you a verification code by email first.</li>
         <li><strong>Usage statistics.</strong> Daily pseudonymous activity records (user ID and date) and aggregate counters, used to count active users and understand how the service is used.</li>
       </ul>
-      <p>Search runs on your device: the app downloads a list of recent headlines and searches it locally, so your search terms are not sent to us.</p>
+      <p>Search runs on your device, so your search terms are not sent to us.</p>
     </article>
 
     <article class="prose-section" id="not-collected">
@@ -576,53 +575,33 @@
     </article>
 
     <article class="prose-section" id="processors">
-      <h2>5. Where your data goes</h2>
-      <p>We use the following service providers to run ZeroDaily:</p>
-      <ul>
-        <li><strong>Amazon Web Services</strong> (United States, us-east-1): servers, database, file storage and email sending.</li>
-        <li><strong>Cloudflare:</strong> network delivery, caching and security. Cloudflare also derives the approximate location mentioned above.</li>
-        <li><strong>Google / Firebase:</strong> sign-in (Firebase Authentication) and push notifications (Firebase Cloud Messaging).</li>
-        <li><strong>Resend:</strong> delivery of verification-code emails.</li>
-        <li><strong>An AI service provider:</strong> summarising public news articles. It does not receive user data.</li>
-      </ul>
-      <p>Your data is therefore processed in the United States and wherever these providers operate.</p>
-    </article>
-
-    <article class="prose-section" id="retention">
-      <h2>6. How long we keep data</h2>
-      <ul>
-        <li><strong>Guest profiles:</strong> deleted automatically 30 days after last use.</li>
-        <li><strong>Deleted accounts:</strong> scheduled for deletion for 24 hours (signing in again cancels it), then removed automatically, normally within 2 days.</li>
-        <li><strong>Server logs:</strong> 14 days.</li>
-        <li><strong>Daily activity statistics:</strong> up to 13 months.</li>
-        <li><strong>Database backups:</strong> up to 35 days.</li>
-        <li><strong>Waitlist and feedback entries:</strong> until you ask us to delete them.</li>
-      </ul>
+      <h2>5. How your data is handled</h2>
+      <p>Your data stays under our control, on the secure infrastructure that runs ZeroDaily. We rely on trusted technology providers only to operate the service on our behalf, such as hosting, sign-in, email and notifications. They act on our instructions and may not use your data for their own purposes. We never share your data with advertisers or data brokers.</p>
     </article>
 
     <article class="prose-section" id="rights">
-      <h2>7. Your rights and deletion</h2>
+      <h2>6. Your rights and deletion</h2>
       <p>You can delete your data at any time:</p>
       <ul>
         <li><strong>In the app:</strong> Settings &rarr; Delete account. Guests: Settings &rarr; Delete my data, which takes effect immediately.</li>
         <li><strong>On the web:</strong> <a href="/delete-account">zerodaily.in/delete-account</a>.</li>
         <li><strong>By email:</strong> <a href="mailto:hi@zerodaily.in">hi@zerodaily.in</a>, from the address on your account.</li>
       </ul>
-      <p>You can also ask us for a copy of the data we hold about you, or for it to be corrected, at the same address.</p>
+      <p>You can also ask us for a copy of the data we hold about you, or for it to be corrected, at the same address. We keep personal data only for as long as it is needed to run the service.</p>
     </article>
 
     <article class="prose-section" id="children">
-      <h2>8. Children</h2>
+      <h2>7. Children</h2>
       <p>ZeroDaily is not directed at children under 13, and we do not knowingly collect their data. If you believe a child has given us data, write to <a href="mailto:hi@zerodaily.in">hi@zerodaily.in</a> and we will delete it.</p>
     </article>
 
     <article class="prose-section" id="security">
-      <h2>9. Security</h2>
+      <h2>8. Security</h2>
       <p>All traffic uses HTTPS, and data is encrypted at rest. No system is perfectly secure, but we limit access and keep only what the service needs.</p>
     </article>
 
     <article class="prose-section" id="changes">
-      <h2>10. Changes</h2>
+      <h2>9. Changes</h2>
       <p>If we change this policy, we will update the date at the top of this page.</p>
     </article>
   </main>
