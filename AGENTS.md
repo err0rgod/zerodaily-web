@@ -216,8 +216,8 @@ challenges unknown clients (Workers `fetch` sends no browser UA) and lets user a
   `hi@zerodaily.in`.
 - **Program badges (footer, since 2026-10-29):** two pill links, "Member of NVIDIA Inception" (→ nvidia.com/en-us/startups)
   and "Member of AWS Activate" (→ aws.amazon.com/startups), each with the company mark as an inline single-colour
-  SVG (`fill="currentColor"`, paths from Simple Icons 13.21.0: `nvidia`, `amazonwebservices`), so they follow the theme and the
-  no-colour design rule. If the official program badge artwork from the NVIDIA Inception / AWS Activate portals is ever needed,
+  SVG (paths from Simple Icons 13.21.0: `nvidia`, `amazonwebservices`) in the **brand colours** NVIDIA green `#76B900` and AWS orange
+  `#FF9900`. These two logos are the owner's deliberate exception (2026-10-29) to the no-colour design rule; the pill text stays neutral. If the official program badge artwork from the NVIDIA Inception / AWS Activate portals is ever needed,
   swap the SVGs in `src/components/footer.js`.
 - **No word-count claim:** the description no longer says "each in 60 words" (removed 2026-10-29). The footer bottom line
   says "Seven desks · Updated every 15 minutes" (the scraper runs every 15 minutes since 2026-10-28).
