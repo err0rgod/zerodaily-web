@@ -9,7 +9,7 @@ export async function onRequest(context) {
   const articleId = match ? decodeURIComponent(match[1]) : null;
 
   let heading = "ZeroDaily — Zero fluff. Daily stop for Tech News.";
-  let description = "Zero fluff. Daily stop for Tech News. The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.";
+  let description = "Zero fluff. Daily stop for Tech News. The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance.";
   let imageUrl = "https://zerodaily.in/og-image.png";
 
   if (articleId) {
@@ -33,7 +33,7 @@ export async function onRequest(context) {
           const snippet = json.data.shortSummary || json.data.fullSummary || "";
           description = snippet
             ? `${snippet.slice(0, 160)}...`
-            : "Zero fluff. Daily stop for Tech News. The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.";
+            : "Zero fluff. Daily stop for Tech News. The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance.";
           imageUrl = json.data.image_url || imageUrl;
         }
       }

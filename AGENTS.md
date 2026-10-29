@@ -18,7 +18,7 @@ backend repo's `AGENTS.md` (`D:\zerodaily`, `api.zerodaily.in`).
 One description of ZeroDaily everywhere (home hero, footer, `index.html` meta, share-page fallback, manifest, README):
 
 - **Tagline (exact):** `Zero fluff. Daily stop for Tech News.`
-- **Description (exact):** `The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.`
+- **Description (exact):** `The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance.`
 
 Do not invent other taglines. Page-specific descriptions (privacy, terms, delete-account, feedback) stay about their own topic.
 Account deletion has a 7-day grace period (delete-account and privacy pages).
@@ -214,8 +214,13 @@ challenges unknown clients (Workers `fetch` sends no browser UA) and lets user a
 
 - **Contact:** footer and `/contact` use `hi@zerodaily.in` (`CONTACT_EMAIL`); privacy requests use
   `hi@zerodaily.in`.
-- **NVIDIA Inception:** the footer shows a text badge "Member of NVIDIA Inception" (green dot, links to
-  nvidia.com/startups). The official badge artwork is still to be swapped in.
+- **Program badges (footer, since 2026-10-29):** two pill links, "Member of NVIDIA Inception" (→ nvidia.com/en-us/startups)
+  and "Member of AWS Activate" (→ aws.amazon.com/startups), each with the company mark as an inline single-colour
+  SVG (`fill="currentColor"`, paths from Simple Icons 13.21.0: `nvidia`, `amazonwebservices`), so they follow the theme and the
+  no-colour design rule. If the official program badge artwork from the NVIDIA Inception / AWS Activate portals is ever needed,
+  swap the SVGs in `src/components/footer.js`.
+- **No word-count claim:** the description no longer says "each in 60 words" (removed 2026-10-29). The footer bottom line
+  says "Seven desks · Updated every 15 minutes" (the scraper runs every 15 minutes since 2026-10-28).
 - **Android App Links:** `public/.well-known/assetlinks.json` (and a copy at `public/assetlinks.json`)
   for package `in.zerodaily.app` lists two SHA-256 fingerprints: the new release signing key and the
   old debug key (kept until sideload users migrate). Keep both files identical. `.gitignore` ignores

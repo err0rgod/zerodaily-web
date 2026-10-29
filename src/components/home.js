@@ -41,7 +41,7 @@ export function renderHome() {
           Zero fluff. Daily stop for Tech News.
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-ink-soft dark:text-paper-soft leading-relaxed max-w-xl">
-          The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance, each in 60 words.
+          The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance.
         </p>
 
         <div class="mt-9 flex flex-wrap items-center gap-3">
