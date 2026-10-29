@@ -5,7 +5,7 @@
 [![Edge](https://img.shields.io/badge/Edge-Cloudflare%20Pages-F38020)](https://pages.cloudflare.com)
 [![Latest APK](https://img.shields.io/badge/Android%20APK-Download-1b1a17)](https://zerodaily.in/download)
 
-The website for **ZeroDaily**, an Android app that delivers tech news in 60 words across seven
+The website for **ZeroDaily**, an Android app that delivers short tech news across seven
 desks: security, AI/ML, engineering, robotics, defense, VLSI and finance. The site introduces the app,
 shows the latest stories, links the APK download, and runs the waitlist and feedback forms.
 
