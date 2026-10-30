@@ -37,7 +37,9 @@ npm run preview    # serve dist/ locally (vite preview)
 Vite 8 needs Node `^20.19.0 || >=22.12.0`; CI uses Node 22.
 
 The Vite dev server does not run Pages Functions, so `/api/*` calls fall back to
-`https://api.zerodaily.in/api/v1` (see `src/webApi.js`), and `/a/*` gets no meta rewriting.
+`https://api.zerodaily.in/api/v1` (see `src/webApi.js`), and `/a/*` and the sitemaps don't work there.
+To try the functions locally: `npm run build && npx wrangler pages dev dist` (they call the live API).
+Tests: `npm test` (Node's built-in runner, `tests/*.test.js`, covers `lib/storyPage.js` and `lib/sitemap.js`).
 
 ### Routes
 
@@ -50,8 +52,10 @@ Client routing is a plain `if` chain in `src/main.js` on `location.pathname` (tr
 | `/join` | `renderJoinView()` | standalone centered page (no header/footer) |
 | `/feedback` | `renderFeedbackView()` | standalone centered page (no header/footer) |
 | `/contact` | `renderContactView()` | header + contact + footer |
-| `/a/<id>`, `/story/<id>`, `?id=` / `?article_id=` | home + shared-story modal | see "Shared story links" |
-| `/sitemap.xml` | Pages Function `functions/sitemap.xml.js` (not the SPA) | XML, see "Sitemap" in §4 |
+| `/a/<id>` | Pages Function `functions/a/[[catchall]].js` (server-rendered, not the SPA) | standalone story page, see "Story pages" in §4 |
+| `/story/<id>` | `_redirects` 301 to `/a/<id>` | |
+| `?id=` / `?article_id=` on `/` | home + shared-story modal (`sharedStoryModal.js`) | |
+| `/sitemap.xml`, `/sitemap-pages.xml`, `/sitemap-news.xml`, `/sitemaps/<YYYY-MM-DD>.xml` | Pages Functions (not the SPA) | XML, see "Sitemaps" in §4 |
 
 Static pages in `public/` (not part of the SPA), each present twice with identical content —
 `public/<name>.html` and `public/<name>/index.html` (the folder form avoids a Pages 308 loop). Keep both copies in sync:
@@ -163,30 +167,44 @@ That is: `/api/join`, `/api/join/save`, `/api/join/send`, `/api/join/verify`, `/
 - Responses are passed through with `Cache-Control: no-store`; an unreachable backend returns `502`.
 - To expose a new visitor endpoint, extend `ALLOWED` and document it here.
 
-### Shared story links — `functions/a/[[catchall]].js`
+### Story pages — `functions/a/[[catchall]].js` + `lib/storyPage.js`
 
-Handles `/a/<article-id>`: fetches the article from `https://api.zerodaily.in/api/v1/article?id=...`
-(2 s timeout) and rewrites the title and Open Graph/Twitter meta tags of `index.html` with
-`HTMLRewriter`, so link previews (WhatsApp, X, Discord, Telegram, Slack, ...) show the story.
-In the browser, `sharedStoryModal.js` shows a preview card, tries to open the Android app
-(`intent://` / `zerodaily://`). It does not touch the clipboard.
-(`/story/<id>` is recognized by the client but has no meta-rewriting function.)
-The article fetch sends `User-Agent: ZeroDaily-Web/1.0`: `api.zerodaily.in` has a Cloudflare rule that
-challenges unknown clients (Workers `fetch` sends no browser UA) and lets user agents containing
-`ZeroDaily-` through. Without it the lookup gets `403` and the page keeps the generic title.
+`/a/<short code or article id>` is a **server-rendered page** (added 2026-10-31 so Google can index every
+story; before, the SPA drew the story with JavaScript and the HTML only had the title):
 
-### Sitemap — `functions/sitemap.xml.js`
+- Fetches `GET /api/v1/article?id=<id>` (3 s timeout, edge-cached 1 h) and `GET /api/v1/feed?limit=15`
+  (2 s, edge-cached 5 min) in parallel, with `User-Agent: ZeroDaily-Web/1.0` (`api.zerodaily.in` challenges
+  unknown clients and lets `ZeroDaily-` user agents through).
+- Page: header (wordmark, "Get the app" → `/download`), hero image, heading (`<h1>`), published time (UTC),
+  the short summary as paragraphs (bullet markers stripped), "Read the original at <domain>", the satire/AI
+  note, "Open in the app" (`zerodaily://a/<code>`) and "Get the app", then **More stories** (10 links to
+  other `/a/<code>` pages, so crawlers find more stories) and a footer. Inline CSS, site fonts, light/dark via
+  `prefers-color-scheme`. No topic names, no category labels (design rules).
+- Head: `<title>`, meta description (≤ 155 chars), `robots: index, follow, max-image-preview:large`,
+  `<link rel="canonical" href="https://zerodaily.in/a/<short_code>">` (long-id URLs point to the code URL),
+  Open Graph + Twitter tags (link previews), `article:published_time`, and **`NewsArticle` JSON-LD**
+  (headline, description, image, dates, author/publisher ZeroDaily with `/icon-512.png`, `isBasedOn` = source).
+- Status: `200` (`Cache-Control: public, max-age=300`); unknown or expired story (API `404`; stories expire
+  after 90 days) → **`410`** "Story not found", `noindex`; API unreachable/timeout → **`503`** with
+  `Retry-After: 300`, `noindex`, so an outage is never indexed as an empty page.
+- On Android with the app installed, App Links (`assetlinks.json`) open `/a/<code>` in the app directly.
+- All HTML is escaped (`escapeHtml`), only `http(s)` URLs go into `href`/`src` (`safeUrl`), and `</` is
+  escaped inside the JSON-LD.
 
-`GET /sitemap.xml` returns `application/xml` (`Cache-Control: public, max-age=3600`):
+### Sitemaps — `functions/sitemap*.js`, `functions/sitemaps/[file].js`, `lib/sitemap.js`
 
-- Static pages: `/` (hourly, 1.0), `/wire` (hourly), `/join`, `/feedback`, `/contact`, `/privacy`,
-  `/terms` (monthly). `/delete-account` and `/api/*` are deliberately left out. Add new public
-  routes to `STATIC_PAGES`.
-- The latest 200 stories as `https://zerodaily.in/a/<short_code>` with `<lastmod>` = published time,
-  from `https://api.zerodaily.in/api/v1/search-index?days=7` (compact items `{s, h, c, p, b}`),
-  fetched with `User-Agent: ZeroDaily-Sitemap/1.0` (4 s timeout, edge-cached 15 min).
-- If the backend fetch fails, the static pages are still returned (never a 5xx).
-- Submitted in Google Search Console as `https://zerodaily.in/sitemap.xml`.
+One sitemap per day, because a single 30-day file (≈10,000 stories) took 10–20 ms of CPU to build, over the
+free Pages Functions limit of 10 ms.
+
+| URL | Content | Cache |
+| :--- | :--- | :--- |
+| `/sitemap.xml` | **sitemap index**: the three kinds below, 89 day files (stories expire after 90 days). No API call. | 1 h |
+| `/sitemap-pages.xml` | static pages `/`, `/wire`, `/join`, `/feedback`, `/contact`, `/privacy`, `/terms` (`STATIC_PAGES`; add new public routes there). `/delete-account` and `/api/*` are left out. | 1 day |
+| `/sitemap-news.xml` | Google News sitemap: stories of the last 48 h with heading (`news:title`), max 1000, from `/api/v1/search-index?days=2`. API failure → empty urlset. | 15 min |
+| `/sitemaps/<YYYY-MM-DD>.xml` | every story of that UTC day as `https://zerodaily.in/a/<code>` + `lastmod`, from backend `GET /api/v1/sitemap-day?date=` (backend AGENTS §4.15). Dates outside today … 88 days back → `404`; API failure → `503` (`Retry-After: 600`). | today 15 min, past days 1 day (API fetch edge-cached the same) |
+
+Sitemap fetches send `User-Agent: ZeroDaily-Sitemap/1.0`. `robots.txt` points to `/sitemap.xml`, which is
+submitted in Google Search Console; Search Console reads the index and finds the rest by itself.
 
 ---
 
