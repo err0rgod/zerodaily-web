@@ -1,94 +1,58 @@
 /**
- * Cloudflare Pages Function: /a/[[catchall]]
- * Intercepts shared article links to dynamically inject Open Graph & Twitter Card
- * meta tags for embeds on WhatsApp, Twitter/X, Discord, Telegram, Slack, iMessage, etc.
+ * Cloudflare Pages Function: /a/<short code or article id>
+ * Server-rendered story page (heading, summary, image, source link, more stories) with
+ * canonical URL, NewsArticle JSON-LD and Open Graph / Twitter tags, so search engines can index
+ * every story and link previews (WhatsApp, X, Telegram, ...) show it. HTML lives in lib/storyPage.js.
+ *
+ * Status codes: 200 story; 410 unknown/expired story (noindex); 503 backend unreachable (noindex,
+ * Retry-After) so a hiccup never gets indexed as an empty page.
  */
+import { moreStories, renderNotFoundPage, renderStoryPage, storyIdFromPath } from '../../lib/storyPage.js';
+
+const API = 'https://api.zerodaily.in/api/v1';
+// api.zerodaily.in challenges unknown clients; "ZeroDaily-" user agents are allowed.
+const API_HEADERS = { Accept: 'application/json', 'User-Agent': 'ZeroDaily-Web/1.0' };
+
+async function fetchJson(url, { timeoutMs, cacheTtl }) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      headers: API_HEADERS,
+      signal: controller.signal,
+      cf: { cacheTtl, cacheEverything: true },
+    });
+    return { status: res.status, json: res.ok ? await res.json() : null };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function html(body, status, extraHeaders = {}) {
+  return new Response(body, {
+    status,
+    headers: { 'Content-Type': 'text/html; charset=utf-8', ...extraHeaders },
+  });
+}
+
 export async function onRequest(context) {
-  const url = new URL(context.request.url);
-  const match = url.pathname.match(/^\/(?:a|story)\/(.+?)(?:[?#]|$)/i);
-  const articleId = match ? decodeURIComponent(match[1]) : null;
+  const id = storyIdFromPath(new URL(context.request.url).pathname);
+  if (!id) return html(renderNotFoundPage(), 410, { 'Cache-Control': 'public, max-age=3600' });
 
-  let heading = "ZeroDaily — Zero fluff. Daily stop for Tech News.";
-  let description = "Zero fluff. Daily stop for Tech News. The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance.";
-  let imageUrl = "https://zerodaily.in/og-image.png";
+  const [articleRes, feedRes] = await Promise.allSettled([
+    fetchJson(`${API}/article?id=${encodeURIComponent(id)}`, { timeoutMs: 3000, cacheTtl: 3600 }),
+    fetchJson(`${API}/feed?limit=15`, { timeoutMs: 2000, cacheTtl: 300 }),
+  ]);
 
-  if (articleId) {
-    try {
-      const apiUrl = `https://api.zerodaily.in/api/v1/article?id=${encodeURIComponent(articleId)}`;
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 2000);
-
-      const apiRes = await fetch(apiUrl, {
-        // api.zerodaily.in challenges unknown clients; "ZeroDaily-" user agents are allowed.
-        headers: { Accept: "application/json", "User-Agent": "ZeroDaily-Web/1.0" },
-        signal: controller.signal,
-        cf: { cacheTtl: 3600, cacheEverything: true }
-      });
-      clearTimeout(timeout);
-
-      if (apiRes.ok) {
-        const json = await apiRes.json();
-        if (json.data) {
-          heading = json.data.heading || heading;
-          const snippet = json.data.shortSummary || json.data.fullSummary || "";
-          description = snippet
-            ? `${snippet.slice(0, 160)}...`
-            : "Zero fluff. Daily stop for Tech News. The stories that matter across security, AI/ML, engineering, robotics, defense, VLSI and finance.";
-          imageUrl = json.data.image_url || imageUrl;
-        }
-      }
-    } catch {}
+  if (articleRes.status === 'fulfilled' && articleRes.value.status === 404) {
+    return html(renderNotFoundPage(), 410, { 'Cache-Control': 'public, max-age=3600' });
+  }
+  const article = articleRes.status === 'fulfilled' ? articleRes.value.json?.data : null;
+  if (!article) {
+    return html(renderNotFoundPage({ temporary: true }), 503, { 'Cache-Control': 'no-store', 'Retry-After': '300' });
   }
 
-  // Fetch the static SPA index.html from Cloudflare Pages assets
-  const response = await context.env.ASSETS.fetch(new URL("/", context.request.url));
-
-  // Dynamically rewrite meta tags using native Cloudflare HTMLRewriter
-  return new HTMLRewriter()
-    .on('title', {
-      element(e) {
-        e.setInnerContent(`${heading} — ZeroDaily`);
-      }
-    })
-    .on('meta[property="og:title"]', {
-      element(e) {
-        e.setAttribute('content', heading);
-      }
-    })
-    .on('meta[property="og:description"]', {
-      element(e) {
-        e.setAttribute('content', description);
-      }
-    })
-    .on('meta[property="og:image"]', {
-      element(e) {
-        e.setAttribute('content', imageUrl);
-      }
-    })
-    .on('meta[name="twitter:title"]', {
-      element(e) {
-        e.setAttribute('content', heading);
-      }
-    })
-    .on('meta[name="twitter:description"]', {
-      element(e) {
-        e.setAttribute('content', description);
-      }
-    })
-    .on('meta[name="twitter:image"]', {
-      element(e) {
-        e.setAttribute('content', imageUrl);
-      }
-    })
-    .on('head', {
-      element(e) {
-        // WhatsApp & Telegram rich card compliance tags
-        e.append(`<meta property="og:image:secure_url" content="${imageUrl}" />`, { html: true });
-        e.append(`<meta property="og:image:type" content="image/jpeg" />`, { html: true });
-        e.append(`<meta property="og:image:width" content="1200" />`, { html: true });
-        e.append(`<meta property="og:image:height" content="630" />`, { html: true });
-        e.append(`<meta name="twitter:image" content="${imageUrl}" />`, { html: true });
-      }
-    })
-    .transform(response);
+  const feedItems = feedRes.status === 'fulfilled' ? feedRes.value.json?.data : [];
+  const page = renderStoryPage(article, { requestedId: id, more: moreStories(feedItems, article.short_code) });
+  return html(page, 200, { 'Cache-Control': 'public, max-age=300' });
 }
